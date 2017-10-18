@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace ApiService
 {
@@ -10,6 +11,7 @@ namespace ApiService
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            config.EnableCors(new EnableCorsAttribute("http://localhost:4200", "*", "*"));
 
             // Web API routes
             config.MapHttpAttributeRoutes();
@@ -18,7 +20,7 @@ namespace ApiService
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
-            );
+            )
         }
     }
 }
