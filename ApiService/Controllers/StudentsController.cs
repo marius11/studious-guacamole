@@ -1,5 +1,6 @@
 ﻿using ApiService.Models;
 using DataAccess;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -24,19 +25,23 @@ namespace Service.Controllers
                 {
                     var students = await
                         (from s in db.Students
-                         select new StudentDTO
+                         select new StudentDetailDTO
                          {
-                             StudentId = s.Id,
-                             Name = s.Name
+                             Id = s.Id,
+                             Name = s.Name,
+                             Courses = (from c in s.Courses
+                                        select new CourseDTO
+                                        {
+                                            Id = c.Id,
+                                            Name = c.Name
+                                        }).ToList()
                          }).ToListAsync();
-
                     studentHttpResponseMessage = Request.CreateResponse(HttpStatusCode.OK, students);
                 }
             }
-            catch
+            catch (Exception e)
             {
-                studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    "An error occurred while retrieving students.");
+                studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return studentHttpResponseMessage;
         }
@@ -54,15 +59,22 @@ namespace Service.Controllers
                     var student = await
                         (from s in db.Students
                          where s.Id == id
-                         select new StudentDTO
+                         select new StudentDetailDTO
                          {
-                             StudentId = s.Id,
-                             Name = s.Name
+                             Id = s.Id,
+                             Name = s.Name,
+                             Courses = (from c in s.Courses
+                                        select new CourseDTO
+                                        {
+                                            Id = c.Id,
+                                            Name = c.Name
+                                        }).ToList()
                          }).FirstOrDefaultAsync();
 
                     studentHttpResponseMessage = student != null ?
                         Request.CreateResponse(HttpStatusCode.OK, student) :
-                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found.");
+                        Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                            $"The student with ID {id} has not been found.");
                 }
             }
             catch
@@ -89,7 +101,7 @@ namespace Service.Controllers
                          where s.Id == id
                          select new CourseDTO
                          {
-                             CourseId = c.Id,
+                             Id = c.Id,
                              Name = c.Name
                          }).ToListAsync();
 

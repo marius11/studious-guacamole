@@ -26,7 +26,7 @@ namespace Service.Controllers
                         (from c in db.Courses
                          select new CourseDTO
                          {
-                             CourseId = c.Id,
+                             Id = c.Id,
                              Name = c.Name
                          }).ToListAsync();
 
@@ -56,13 +56,14 @@ namespace Service.Controllers
                          where c.Id == id
                          select new CourseDTO
                          {
-                             CourseId = c.Id,
+                             Id = c.Id,
                              Name = c.Name
                          }).FirstOrDefaultAsync();
 
                     courseHttpResponseMessage = course != null ?
                         Request.CreateResponse(HttpStatusCode.OK, course) :
-                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} has not been found.");
+                        Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                            $"The course with ID {id} has not been found.");
                 }
             }
             catch
@@ -91,7 +92,8 @@ namespace Service.Controllers
 
                     courseHttpRequestMessage = students != null ?
                         Request.CreateResponse(HttpStatusCode.OK, students) :
-                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} doesn't have students assigned.");
+                        Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                            $"The course with ID {id} doesn't have students assigned.");
                 }
             }
             catch
