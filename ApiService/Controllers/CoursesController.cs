@@ -84,9 +84,9 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var students = await db.Courses.Where(c => c.Id == id).SelectMany(x => x.Students).Select(s => new
+                    var students = await db.Courses.Where(c => c.Id == id).SelectMany(x => x.Students).Select(s => new StudentDTO
                     {
-                        StudentId = s.Id,
+                        Id = s.Id,
                         Name = s.Name
                     }).ToListAsync();
 
