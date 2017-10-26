@@ -89,14 +89,15 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var courses = await (from s in db.Students
-                                         from c in s.Courses
-                                         where s.Id == id
-                                         select new CourseDTO
-                                         {
-                                             Id = c.Id,
-                                             Name = c.Name
-                                         }).ToListAsync();
+                    var courses = await
+                        (from s in db.Students
+                         from c in s.Courses
+                         where s.Id == id
+                         select new CourseDTO
+                         {
+                             Id = c.Id,
+                             Name = c.Name
+                         }).ToListAsync();
 
                     studentHttpResponseMessage = courses != null ?
                         Request.CreateResponse(HttpStatusCode.OK, courses) :
