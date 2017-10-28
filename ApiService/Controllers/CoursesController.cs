@@ -38,6 +38,7 @@ namespace Service.Controllers
                 courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     "An error occurred while retrieving courses.");
             }
+
             return courseHttpResponseMessage;
         }
 
@@ -71,6 +72,7 @@ namespace Service.Controllers
                 courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to retrieve the course with ID {id}.");
             }
+
             return courseHttpResponseMessage;
         }
 
@@ -101,12 +103,13 @@ namespace Service.Controllers
                 courseHttpRequestMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while retrieving the students of course with id {id}.");
             }
+
             return courseHttpRequestMessage;
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<HttpResponseMessage> AddCourse(CourseDTO course)
+        public async Task<HttpResponseMessage> AddCourse([FromBody] CourseDTO courseDTO)
         {
             HttpResponseMessage courseHttpResponseMessage;
 
@@ -114,12 +117,12 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    Course newCourse = new Course
+                    var course = new Course
                     {
-                        Name = course.Name
+                        Name = courseDTO.Name
                     };
 
-                    db.Courses.Add(newCourse);
+                    db.Courses.Add(course);
                     await db.SaveChangesAsync();
 
                     courseHttpResponseMessage = Request.CreateResponse(HttpStatusCode.Created, course);
@@ -128,7 +131,7 @@ namespace Service.Controllers
             catch
             {
                 courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while adding the course with the name {course.Name}.");
+                    $"An error occurred while adding the course with the name {courseDTO.Name}.");
             }
 
             return courseHttpResponseMessage;
@@ -165,6 +168,7 @@ namespace Service.Controllers
                 courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to update the course with ID {id}.");
             }
+
             return courseHttpResponseMessage;
         }
 
@@ -199,6 +203,7 @@ namespace Service.Controllers
                 courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to delete the course with ID {id}.");
             }
+
             return courseHttpResponseMessage;
         }
     }

@@ -29,15 +29,6 @@
       140
     ],
     "member-access": false,
-    "member-ordering": [
-      true,
-      { 
-        "order": [
-        "static-before-instance",
-        "variables-before-functions" 
-        ]
-      }
-    ],
     "no-arg": true,
     "no-bitwise": true,
     "no-console": [
@@ -77,10 +68,10 @@
       "check-else",
       "check-whitespace"
     ],
-    "prefer-const": true,
+    "prefer-const": false,
     "quotemark": [
       true,
-      "single"
+      "double"
     ],
     "radix": true,
     "semicolon": [

@@ -37,6 +37,7 @@ namespace Service.Controllers
             {
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
+
             return studentHttpResponseMessage;
         }
 
@@ -53,16 +54,10 @@ namespace Service.Controllers
                     var student = await
                         (from s in db.Students
                          where s.Id == id
-                         select new StudentDetailDTO
+                         select new StudentDTO
                          {
                              Id = s.Id,
-                             Name = s.Name,
-                             Courses = (from c in s.Courses
-                                        select new CourseDTO
-                                        {
-                                            Id = c.Id,
-                                            Name = c.Name
-                                        }).ToList()
+                             Name = s.Name
                          }).FirstOrDefaultAsync();
 
                     studentHttpResponseMessage = student != null ?
@@ -76,6 +71,7 @@ namespace Service.Controllers
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to retrieve the student with ID {id}.");
             }
+
             return studentHttpResponseMessage;
         }
 
@@ -109,6 +105,37 @@ namespace Service.Controllers
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while retrieving the courses of student with ID {id}.");
             }
+
+            return studentHttpResponseMessage;
+        }
+
+        [HttpPost]
+        [Route("")]
+        public async Task<HttpResponseMessage> AddStudent([FromBody] StudentDTO studentDTO)
+        {
+            HttpResponseMessage studentHttpResponseMessage;
+
+            try
+            {
+                using (AppDbContext db = new AppDbContext())
+                {
+                    var student = new Student
+                    {
+                        Name = studentDTO.Name
+                    };
+
+                    db.Students.Add(student);
+                    await db.SaveChangesAsync();
+
+                    studentHttpResponseMessage = Request.CreateResponse(HttpStatusCode.Created, student);
+                }
+            }
+            catch
+            {
+                studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    $"An error occurred while trying to add the student with the name {studentDTO.Name}");
+            }
+
             return studentHttpResponseMessage;
         }
 
@@ -143,6 +170,7 @@ namespace Service.Controllers
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to update the student with ID {id}.");
             }
+
             return studentHttpResponseMessage;
         }
 
@@ -177,6 +205,7 @@ namespace Service.Controllers
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to remove the student with ID {id}.");
             }
+
             return studentHttpResponseMessage;
         }
     }
