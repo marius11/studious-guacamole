@@ -16,16 +16,16 @@ export class StudentService {
   getAllStudents(): Observable<Student[]> {
     return this.http.get(this.studentsApiUrl)
     .map((response: Response) => response.json())
-    .catch((error: any) => Observable.throw(error.json() || "Server error!"));
+    .catch((error: any) => Observable.throw(error.json()));
   }
   getStudentById(id: number): Observable<Student> {
     return this.http.get(`${this.studentsApiUrl}/${id}`)
     .map((response: Response) => response.json())
-    .catch((error: any) => Observable.throw(error.json() || "Server error!"));
+    .catch((error: any) => Observable.throw(error.json()));
   }
   getCoursesByStudentId(id: number): Observable<Course[]> {
     return this.http.get(`${this.studentsApiUrl}/${id}/courses`)
     .map((response: Response) => response.json())
-    .catch((error: any) => Observable.throw(error.json() || "Server error!"));
+    .catch((error: any) => Observable.throw(error.json()));
   }
 }

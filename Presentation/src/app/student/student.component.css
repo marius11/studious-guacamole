@@ -11,13 +11,11 @@
 .student-container {
     width: 300px;
     float: left;
-    background-color: gray;
 }
 
 .course-container {
-    width: 250px;
+    width: 450px;
     float: left;
-    background-color: greenyellow;
 }
 
 .notice {
@@ -43,7 +41,7 @@ ul li {
 }
 
 .student-name:hover {
-    color: greenyellow;
+    color: blue;
 }
 
 .class-id, .class-name {

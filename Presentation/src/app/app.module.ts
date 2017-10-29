@@ -1,4 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { HttpModule } from "@angular/http";
 
@@ -11,6 +12,8 @@ import { StudentComponent } from "./student/student.component";
 import { CourseService } from "./services/course.service";
 import { CourseComponent } from "./course/course.component";
 
+import { MatSnackBarModule } from "@angular/material";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +24,8 @@ import { CourseComponent } from "./course/course.component";
     BrowserModule,
     AppRoutingModule,
     HttpModule,
+    MatSnackBarModule,
+    BrowserAnimationsModule,
   ],
   providers: [StudentService, CourseService],
   bootstrap: [AppComponent]

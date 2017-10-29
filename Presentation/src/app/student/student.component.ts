@@ -6,6 +6,8 @@ import { StudentService } from "../services/student.service";
 
 import { Course } from "../models/course";
 
+import { MatSnackBar } from "@angular/material";
+
 @Component({
   selector: "app-student",
   templateUrl: "./student.component.html",
@@ -14,13 +16,12 @@ import { Course } from "../models/course";
 export class StudentComponent implements OnInit {
 
   students: Student[];
-  student: Student;
   courses: Course[];
   errorMessage: string;
   selectedStudent: Student;
 
-  constructor(private studentService: StudentService, private router: Router) {
-   }
+  constructor(private studentService: StudentService, private router: Router, private snackBar: MatSnackBar) {
+  }
 
   ngOnInit() {
     this.getAllStudents();
@@ -29,25 +30,15 @@ export class StudentComponent implements OnInit {
   getAllStudents(): void {
     this.studentService.getAllStudents()
       .subscribe(
-        s => this.students = s,
-        error => {
-          this.errorMessage = <any> error;
-        });
-  }
-  getStudentById(id: number): void {
-    this.studentService.getStudentById(id)
-      .subscribe(
-        s => this.student = s,
-        error => {
-          this.errorMessage = <any> error;
-        });
+        data => this.students = data,
+        error => this.snackBar.open("An unexpected error occurred.", "", { duration: 5000 })
+      );
   }
   getCoursesByStudentId(id: number): void {
     this.studentService.getCoursesByStudentId(id)
       .subscribe(
-        c => this.courses = c,
-        error => {
-          this.errorMessage = <any> error;
-        });
+        data => this.courses = data,
+        error => this.snackBar.open("An unexpected error occurred.", "", { duration: 5000 })
+      );
   }
 }
