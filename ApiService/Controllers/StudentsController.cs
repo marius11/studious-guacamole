@@ -28,7 +28,8 @@ namespace Service.Controllers
                          select new StudentDTO
                          {
                              Id = s.Id,
-                             Name = s.Name
+                             FirstName = s.FirstName,
+                             LastName = s.LastName
                          }).ToListAsync();
                     studentHttpResponseMessage = Request.CreateResponse(HttpStatusCode.OK, students);
                 }
@@ -57,7 +58,8 @@ namespace Service.Controllers
                          select new StudentDTO
                          {
                              Id = s.Id,
-                             Name = s.Name
+                             FirstName = s.FirstName,
+                             LastName = s.LastName
                          }).FirstOrDefaultAsync();
 
                     studentHttpResponseMessage = student != null ?
@@ -121,7 +123,8 @@ namespace Service.Controllers
                 {
                     var student = new Student
                     {
-                        Name = studentDTO.Name
+                        FirstName = studentDTO.FirstName,
+                        LastName = studentDTO.LastName
                     };
 
                     db.Students.Add(student);
@@ -133,7 +136,7 @@ namespace Service.Controllers
             catch
             {
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while trying to add the student with the name {studentDTO.Name}");
+                    $"An error occurred while trying to add the student with the name {studentDTO.FirstName}");
             }
 
             return studentHttpResponseMessage;
@@ -141,7 +144,7 @@ namespace Service.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<HttpResponseMessage> UpdateStudent(int id, StudentDTO student)
+        public async Task<HttpResponseMessage> UpdateStudent(int id, StudentDTO studentDTO)
         {
             HttpResponseMessage studentHttpResponseMessage;
 
@@ -149,14 +152,16 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var result = await db.Students.FirstOrDefaultAsync(i => i.Id == id);
+                    var student = await db.Students.FirstOrDefaultAsync(i => i.Id == id);
 
-                    if (result != null)
+                    if (student != null)
                     {
-                        result.Name = student.Name;
+                        student.FirstName = studentDTO.FirstName;
+                        student.LastName = studentDTO.LastName;
+
                         await db.SaveChangesAsync();
 
-                        studentHttpResponseMessage = Request.CreateResponse(HttpStatusCode.OK, result);
+                        studentHttpResponseMessage = Request.CreateResponse(HttpStatusCode.OK, student);
                     }
                     else
                     {

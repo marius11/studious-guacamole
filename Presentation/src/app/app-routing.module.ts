@@ -6,8 +6,8 @@ import { CourseComponent } from "./course/course.component";
 
 const routes: Routes = [
   { path: "*", redirectTo: "" },
-  { path: "students", component: StudentComponent },
-  { path: "courses", component: CourseComponent }
+  { path: "demo/students", component: StudentComponent },
+  { path: "demo/courses", component: CourseComponent }
 ];
 
 @NgModule({

@@ -2,5 +2,6 @@ import { Course } from "../models/course";
 
 export class Student {
     public Id: number;
-    public Name: string;
+    public FirstName: string;
+    public LastName: string;
 }

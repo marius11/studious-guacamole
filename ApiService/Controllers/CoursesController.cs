@@ -24,10 +24,16 @@ namespace Service.Controllers
                 {
                     var courses = await
                         (from c in db.Courses
-                         select new CourseDTO
+                         select new CourseDetailDTO
                          {
                              Id = c.Id,
-                             Name = c.Name
+                             Name = c.Name,
+                             Students = (from s in c.Students select new StudentDTO
+                             {
+                                 Id = s.Id,
+                                 FirstName = s.FirstName,
+                                 LastName = s.LastName
+                             }).ToList()
                          }).ToListAsync();
 
                     courseHttpResponseMessage = Request.CreateResponse(HttpStatusCode.OK, courses);
@@ -55,10 +61,16 @@ namespace Service.Controllers
                     var course = await
                         (from c in db.Courses
                          where c.Id == id
-                         select new CourseDTO
+                         select new CourseDetailDTO
                          {
                              Id = c.Id,
-                             Name = c.Name
+                             Name = c.Name,
+                             Students = (from s in c.Students select new StudentDTO
+                             {
+                                 Id = s.Id,
+                                 FirstName = s.FirstName,
+                                 LastName = s.LastName
+                             }).ToList()
                          }).FirstOrDefaultAsync();
 
                     courseHttpResponseMessage = course != null ?
@@ -89,7 +101,8 @@ namespace Service.Controllers
                     var students = await db.Courses.Where(c => c.Id == id).SelectMany(x => x.Students).Select(s => new StudentDTO
                     {
                         Id = s.Id,
-                        Name = s.Name
+                        FirstName = s.FirstName,
+                        LastName = s.LastName
                     }).ToListAsync();
 
                     courseHttpRequestMessage = students != null ?

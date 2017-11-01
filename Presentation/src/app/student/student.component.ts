@@ -6,8 +6,6 @@ import { StudentService } from "../services/student.service";
 
 import { Course } from "../models/course";
 
-import { MatSnackBar } from "@angular/material";
-
 @Component({
   selector: "app-student",
   templateUrl: "./student.component.html",
@@ -20,7 +18,7 @@ export class StudentComponent implements OnInit {
   errorMessage: string;
   selectedStudent: Student;
 
-  constructor(private studentService: StudentService, private router: Router, private snackBar: MatSnackBar) {
+  constructor(private studentService: StudentService, private router: Router) {
   }
 
   ngOnInit() {
@@ -31,14 +29,17 @@ export class StudentComponent implements OnInit {
     this.studentService.getAllStudents()
       .subscribe(
         data => this.students = data,
-        error => this.snackBar.open("An unexpected error occurred.", "", { duration: 5000 })
+        error => this.errorMessage = error
       );
   }
   getCoursesByStudentId(id: number): void {
     this.studentService.getCoursesByStudentId(id)
       .subscribe(
         data => this.courses = data,
-        error => this.snackBar.open("An unexpected error occurred.", "", { duration: 5000 })
+        error => this.errorMessage = error
       );
+  }
+  goToStudentsPage(): void {
+    this.router.navigate(["/demo/students"]);
   }
 }
