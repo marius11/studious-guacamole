@@ -11,7 +11,7 @@
     </ul>
   </div>
   <div class="course-container">
-      <span *ngIf="courses?.length == 0">
+      <span *ngIf="courses?.length === 0">
         <ul>
           <li>
             <span class="notice">{{selectedStudent.FirstName}} {{selectedStudent.LastName}} doesn't have any classes assigned!</span>

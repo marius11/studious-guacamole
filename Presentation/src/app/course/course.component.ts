@@ -28,7 +28,4 @@ export class CourseComponent implements OnInit {
         error => this.errorMessage
       );
   }
-  goToStudentsPage(): void {
-    this.router.navigate(["demo", "courses"]);
-  }
 }

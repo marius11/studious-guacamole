@@ -39,7 +39,4 @@ export class StudentComponent implements OnInit {
         error => this.errorMessage = error
       );
   }
-  goToStudentsPage(): void {
-    this.router.navigate(["/demo/students"]);
-  }
 }
