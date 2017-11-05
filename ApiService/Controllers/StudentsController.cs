@@ -31,6 +31,7 @@ namespace Service.Controllers
                              FirstName = s.FirstName,
                              LastName = s.LastName
                          }).ToListAsync();
+
                     studentHttpResponseMessage = Request.CreateResponse(HttpStatusCode.OK, students);
                 }
             }

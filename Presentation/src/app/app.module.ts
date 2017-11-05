@@ -2,7 +2,8 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpModule } from "@angular/http";
 import { AppRoutingModule } from "./app-routing.module";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
+import { SharedModule } from "./shared/shared.module";
 
 import { AppComponent } from "./app.component";
 
@@ -22,7 +23,7 @@ import { CourseComponent } from "./course/course.component";
     BrowserModule,
     AppRoutingModule,
     HttpModule,
-    NgbModule.forRoot(),
+    SharedModule,
   ],
   providers: [StudentService, CourseService],
   bootstrap: [AppComponent]

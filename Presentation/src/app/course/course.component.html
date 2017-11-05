@@ -1,12 +1,10 @@
-<h1>Courses</h1>
+<h2>Courses</h2>
 
-<div class="container">
-  <div class="course-container">
-    <ul>
-      <li *ngFor="let c of courses">
-        <span class="course-id">{{c.Id}}</span> 
-        <span class="course-name">{{c.Name}}</span>
-      </li>
-    </ul>
-  </div>
+<div class="course-container">
+  <ul>
+    <li *ngFor="let c of courses">
+      <span class="course-id">{{c.Id}}</span>
+      <span class="course-name">{{c.Name}}</span>
+    </li>
+  </ul>
 </div>

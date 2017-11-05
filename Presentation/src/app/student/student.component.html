@@ -1,28 +1,28 @@
-<h1>Students <span class="note">(click the name to see the courses associated to that student)</span></h1>
+<h2>
+  Students
+  <span class="note">(click the name to see the courses associated to that student)</span>
+</h2>
 
-<div class="container">
-  <div class="student-container">
+<div class="student-container">
+  <ul>
+    <li *ngFor="let s of students">
+      <span class="student-id">{{s.Id}}</span>
+      <span (click)="getCoursesByStudentId(s.Id); selectedStudent = s" class="student-name">{{s.FirstName}} {{s.LastName}}</span>
+    </li>
+  </ul>
+</div>
+<div class="course-container">
+  <span *ngIf="courses?.length === 0">
     <ul>
-      <li *ngFor="let s of students">
-        <span class="student-id">{{s.Id}}</span>
-        <span (click)="getCoursesByStudentId(s.Id); selectedStudent = s" 
-          class="student-name">{{s.FirstName}} {{s.LastName}}</span>
-      </li> 
+      <li>
+        <span class="notice">{{selectedStudent.FirstName}} {{selectedStudent.LastName}} doesn't have any classes assigned!</span>
+      </li>
     </ul>
-  </div>
-  <div class="course-container">
-      <span *ngIf="courses?.length === 0">
-        <ul>
-          <li>
-            <span class="notice">{{selectedStudent.FirstName}} {{selectedStudent.LastName}} doesn't have any classes assigned!</span>
-          </li>
-        </ul>
-      </span>
-      <ul *ngFor="let c of courses">
-        <li>
-          <span class="class-ids">{{c.Id}}</span>
-          <span class="class-names">{{c.Name}}</span>
-        </li>
-      </ul>   
-  </div>
+  </span>
+  <ul *ngFor="let c of courses">
+    <li>
+      <span class="class-ids">{{c.Id}}</span>
+      <span class="class-names">{{c.Name}}</span>
+    </li>
+  </ul>
 </div>
