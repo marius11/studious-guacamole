@@ -39,7 +39,6 @@ namespace Service.Controllers
             {
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-
             return studentHttpResponseMessage;
         }
 
@@ -74,7 +73,6 @@ namespace Service.Controllers
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to retrieve the student with ID {id}.");
             }
-
             return studentHttpResponseMessage;
         }
 
@@ -108,7 +106,6 @@ namespace Service.Controllers
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while retrieving the courses of student with ID {id}.");
             }
-
             return studentHttpResponseMessage;
         }
 
@@ -139,7 +136,6 @@ namespace Service.Controllers
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to add the student with the name {studentDTO.FirstName}");
             }
-
             return studentHttpResponseMessage;
         }
 
@@ -176,7 +172,6 @@ namespace Service.Controllers
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to update the student with ID {id}.");
             }
-
             return studentHttpResponseMessage;
         }
 
@@ -211,7 +206,6 @@ namespace Service.Controllers
                 studentHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to remove the student with ID {id}.");
             }
-
             return studentHttpResponseMessage;
         }
     }
