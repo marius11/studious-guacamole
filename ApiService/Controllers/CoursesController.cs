@@ -16,7 +16,7 @@ namespace Service.Controllers
         [Route("")]
         public async Task<HttpResponseMessage> GetAllCourses()
         {
-            HttpResponseMessage courseHttpResponseMessage;
+            HttpResponseMessage httpResponse;
 
             try
             {
@@ -36,22 +36,22 @@ namespace Service.Controllers
                              }).ToList()
                          }).ToListAsync();
 
-                    courseHttpResponseMessage = Request.CreateResponse(HttpStatusCode.OK, courses);
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK, courses);
                 }
             }
             catch
             {
-                courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     "An error occurred while retrieving courses.");
             }
-            return courseHttpResponseMessage;
+            return httpResponse;
         }
 
         [HttpGet]
         [Route("{id:int}")]
         public async Task<HttpResponseMessage> GetCourseById(int id)
         {
-            HttpResponseMessage courseHttpResponseMessage;
+            HttpResponseMessage httpResponse;
 
             try
             {
@@ -72,7 +72,7 @@ namespace Service.Controllers
                              }).ToList()
                          }).FirstOrDefaultAsync();
 
-                    courseHttpResponseMessage = course != null ?
+                    httpResponse = course != null ?
                         Request.CreateResponse(HttpStatusCode.OK, course) :
                         Request.CreateErrorResponse(HttpStatusCode.NotFound,
                             $"The course with ID {id} has not been found.");
@@ -80,17 +80,17 @@ namespace Service.Controllers
             }
             catch
             {
-                courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to retrieve the course with ID {id}.");
             }
-            return courseHttpResponseMessage;
+            return httpResponse;
         }
 
         [HttpGet]
         [Route("{id:int}/students")]
         public async Task<HttpResponseMessage> GetStudentsByCourses(int id)
         {
-            HttpResponseMessage courseHttpRequestMessage;
+            HttpResponseMessage httpResponse;
 
             try
             {
@@ -103,7 +103,7 @@ namespace Service.Controllers
                         LastName = s.LastName
                     }).ToListAsync();
 
-                    courseHttpRequestMessage = students != null ?
+                    httpResponse = students.Any() ?
                         Request.CreateResponse(HttpStatusCode.OK, students) :
                         Request.CreateErrorResponse(HttpStatusCode.NotFound,
                             $"The course with ID {id} doesn't have students assigned.");
@@ -111,17 +111,17 @@ namespace Service.Controllers
             }
             catch
             {
-                courseHttpRequestMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while retrieving the students of course with id {id}.");
             }
-            return courseHttpRequestMessage;
+            return httpResponse;
         }
 
         [HttpPost]
         [Route("")]
         public async Task<HttpResponseMessage> AddCourse([FromBody] CourseDTO courseDTO)
         {
-            HttpResponseMessage courseHttpResponseMessage;
+            HttpResponseMessage httpResponse;
 
             try
             {
@@ -135,22 +135,22 @@ namespace Service.Controllers
                     db.Courses.Add(course);
                     await db.SaveChangesAsync();
 
-                    courseHttpResponseMessage = Request.CreateResponse(HttpStatusCode.Created, course);
+                    httpResponse = Request.CreateResponse(HttpStatusCode.Created, course);
                 }
             }
             catch
             {
-                courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while adding the course with the name {courseDTO.Name}.");
             }
-            return courseHttpResponseMessage;
+            return httpResponse;
         }
 
         [HttpPut]
         [Route("{id:int}")]
         public async Task<HttpResponseMessage> UpdateCourse(int id, CourseDTO course)
         {
-            HttpResponseMessage courseHttpResponseMessage;
+            HttpResponseMessage httpResponse;
 
             try
             {
@@ -163,28 +163,28 @@ namespace Service.Controllers
                         result.Name = course.Name;
                         await db.SaveChangesAsync();
 
-                        courseHttpResponseMessage = Request.CreateResponse(HttpStatusCode.OK, result);
+                        httpResponse = Request.CreateResponse(HttpStatusCode.OK, result);
                     }
                     else
                     {
-                        courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound,
                             $"The course with ID {id} has not been found.");
                     }
                 }
             }
             catch
             {
-                courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to update the course with ID {id}.");
             }
-            return courseHttpResponseMessage;
+            return httpResponse;
         }
 
         [HttpDelete]
         [Route("{id:int}")]
         public async Task<HttpResponseMessage> DeleteCourse(int id)
         {
-            HttpResponseMessage courseHttpResponseMessage;
+            HttpResponseMessage httpResponse;
 
             try
             {
@@ -197,21 +197,21 @@ namespace Service.Controllers
                         db.Courses.Remove(course);
                         await db.SaveChangesAsync();
 
-                        courseHttpResponseMessage = Request.CreateResponse(HttpStatusCode.OK);
+                        httpResponse = Request.CreateResponse(HttpStatusCode.OK);
                     }
                     else
                     {
-                        courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.NotFound,
+                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound,
                             $"The course with ID {id} has not been found.");
                     }
                 }
             }
             catch
             {
-                courseHttpResponseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     $"An error occurred while trying to delete the course with ID {id}.");
             }
-            return courseHttpResponseMessage;
+            return httpResponse;
         }
     }
 }

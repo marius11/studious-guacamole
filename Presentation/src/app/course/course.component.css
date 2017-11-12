@@ -1,4 +1,4 @@
-.course-container {
+/* .course-container {
     width: 450px;
 }
 
@@ -12,4 +12,15 @@ ul li {
 
 .course-id {
     padding-right: 6px;
+} */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0px auto;    
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;    
 }

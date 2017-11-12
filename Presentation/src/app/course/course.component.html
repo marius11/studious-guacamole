@@ -1,4 +1,4 @@
-<h2>Courses</h2>
+<!-- <h2>Courses</h2>
 
 <div class="course-container">
   <ul>
@@ -7,4 +7,15 @@
       <span class="course-name">{{c.Name}}</span>
     </li>
   </ul>
-</div>
+</div> -->
+
+<table>
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+  </tr>
+  <tr *ngFor="let course of courses">
+    <td>{{course.Id}}</td>
+    <td>{{course.Name}}</td>
+  </tr>
+</table>

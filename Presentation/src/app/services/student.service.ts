@@ -11,6 +11,7 @@ import "rxjs/add/operator/catch";
 export class StudentService {
 
   constructor(private http: Http) { }
+
   private studentsApiUrl = "http://localhost:54617/api/students";
 
   getAllStudents(): Observable<Student[]> {
