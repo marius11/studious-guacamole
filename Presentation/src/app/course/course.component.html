@@ -1,13 +1,4 @@
-<!-- <h2>Courses</h2>
-
-<div class="course-container">
-  <ul>
-    <li *ngFor="let c of courses">
-      <span class="course-id">{{c.Id}}</span>
-      <span class="course-name">{{c.Name}}</span>
-    </li>
-  </ul>
-</div> -->
+<h2>Courses</h2>
 
 <table>
   <tr>
@@ -16,6 +7,6 @@
   </tr>
   <tr *ngFor="let course of courses">
     <td>{{course.Id}}</td>
-    <td>{{course.Name}}</td>
+    <td><a routerLink="{{course.Id}}">{{course.Name}}</a></td>
   </tr>
 </table>

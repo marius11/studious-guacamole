@@ -73,6 +73,14 @@
     <Compile Include="Migrations\201711010945239_studentmodel.Designer.cs">
       <DependentUpon>201711010945239_studentmodel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711131127438_coursecode.cs" />
+    <Compile Include="Migrations\201711131127438_coursecode.Designer.cs">
+      <DependentUpon>201711131127438_coursecode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711131254477_ReverseCourseCode.cs" />
+    <Compile Include="Migrations\201711131254477_ReverseCourseCode.Designer.cs">
+      <DependentUpon>201711131254477_ReverseCourseCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Course.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,6 +108,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711010945239_studentmodel.resx">
       <DependentUpon>201711010945239_studentmodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711131127438_coursecode.resx">
+      <DependentUpon>201711131127438_coursecode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711131254477_ReverseCourseCode.resx">
+      <DependentUpon>201711131254477_ReverseCourseCode.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

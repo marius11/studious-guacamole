@@ -12,12 +12,14 @@ import { StudentComponent } from "./student/student.component";
 
 import { CourseService } from "./services/course.service";
 import { CourseComponent } from "./course/course.component";
+import { CourseDetailComponent } from "./course-detail/course-detail.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     StudentComponent,
     CourseComponent,
+    CourseDetailComponent,
   ],
   imports: [
     BrowserModule,

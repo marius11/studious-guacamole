@@ -3,11 +3,13 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { StudentComponent } from "./student/student.component";
 import { CourseComponent } from "./course/course.component";
+import { CourseDetailComponent } from "./course-detail/course-detail.component";
 
 const routes: Routes = [
   { path: "*", redirectTo: "" },
   { path: "demo/students", component: StudentComponent },
-  { path: "demo/courses", component: CourseComponent }
+  { path: "demo/courses", component: CourseComponent },
+  { path: "demo/courses/:id", component: CourseDetailComponent }
 ];
 
 @NgModule({

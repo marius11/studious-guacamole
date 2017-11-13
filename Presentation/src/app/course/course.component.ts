@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { Course } from "../models/course";
@@ -9,12 +9,15 @@ import { CourseService } from "../services/course.service";
   templateUrl: "./course.component.html",
   styleUrls: ["./course.component.css"]
 })
+
 export class CourseComponent implements OnInit {
 
-  courses: Course[];
-  errorMessage: string;
+  private courses: Course[];
+  private errorMessage: string;
 
-  constructor(private courseService: CourseService, private router: Router) {
+  constructor(
+    private courseService: CourseService,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -24,8 +27,8 @@ export class CourseComponent implements OnInit {
   getAllCourses(): void {
     this.courseService.getAllCourses()
       .subscribe(
-        data => this.courses = data,
-        error => this.errorMessage
+      data => this.courses = data,
+      error => this.errorMessage
       );
   }
 }
