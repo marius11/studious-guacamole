@@ -75,10 +75,9 @@ namespace Service.Controllers
                             $"The student with ID {id} has not been found.");
                 }
             }
-            catch
+            catch (Exception e)
             {
-                responseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while trying to retrieve the student with ID {id}.");
+                responseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return responseMessage;
         }
@@ -108,10 +107,9 @@ namespace Service.Controllers
                         Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} doesn't have courses.");
                 }
             }
-            catch
+            catch (Exception e)
             {
-                responseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while retrieving the courses of student with ID {id}.");
+                responseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return responseMessage;
         }
@@ -138,10 +136,9 @@ namespace Service.Controllers
                     responseMessage = Request.CreateResponse(HttpStatusCode.Created, student);
                 }
             }
-            catch
+            catch (Exception e)
             {
-                responseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while trying to add the student with the name {studentDTO.FirstName}");
+                responseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return responseMessage;
         }
@@ -174,10 +171,9 @@ namespace Service.Controllers
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
-                responseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while trying to update the student with ID {id}.");
+                responseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return responseMessage;
         }
@@ -208,10 +204,9 @@ namespace Service.Controllers
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
-                responseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while trying to remove the student with ID {id}.");
+                responseMessage = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return responseMessage;
         }

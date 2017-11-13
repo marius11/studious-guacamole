@@ -1,5 +1,6 @@
 ﻿using ApiService.Models;
 using DataAccess;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -27,22 +28,15 @@ namespace Service.Controllers
                          select new CourseDetailDTO
                          {
                              Id = c.Id,
-                             Name = c.Name,
-                             Students = (from s in c.Students select new StudentDTO
-                             {
-                                 Id = s.Id,
-                                 FirstName = s.FirstName,
-                                 LastName = s.LastName
-                             }).ToList()
+                             Name = c.Name
                          }).ToListAsync();
 
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK, courses);
                 }
             }
-            catch
+            catch (Exception e)
             {
-                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    "An error occurred while retrieving courses.");
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return httpResponse;
         }
@@ -63,13 +57,7 @@ namespace Service.Controllers
                          select new CourseDetailDTO
                          {
                              Id = c.Id,
-                             Name = c.Name,
-                             Students = (from s in c.Students select new StudentDTO
-                             {
-                                 Id = s.Id,
-                                 FirstName = s.FirstName,
-                                 LastName = s.LastName
-                             }).ToList()
+                             Name = c.Name
                          }).FirstOrDefaultAsync();
 
                     httpResponse = course != null ?
@@ -78,10 +66,9 @@ namespace Service.Controllers
                             $"The course with ID {id} has not been found.");
                 }
             }
-            catch
+            catch (Exception e)
             {
-                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while trying to retrieve the course with ID {id}.");
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return httpResponse;
         }
@@ -109,10 +96,9 @@ namespace Service.Controllers
                             $"The course with ID {id} doesn't have students assigned.");
                 }
             }
-            catch
+            catch (Exception e)
             {
-                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while retrieving the students of course with id {id}.");
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return httpResponse;
         }
@@ -138,10 +124,9 @@ namespace Service.Controllers
                     httpResponse = Request.CreateResponse(HttpStatusCode.Created, course);
                 }
             }
-            catch
+            catch (Exception e)
             {
-                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while adding the course with the name {courseDTO.Name}.");
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return httpResponse;
         }
@@ -172,10 +157,9 @@ namespace Service.Controllers
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
-                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while trying to update the course with ID {id}.");
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return httpResponse;
         }
@@ -206,10 +190,9 @@ namespace Service.Controllers
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
-                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                    $"An error occurred while trying to delete the course with ID {id}.");
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
             return httpResponse;
         }
