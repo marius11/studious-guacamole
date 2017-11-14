@@ -6,13 +6,11 @@
 .student-container {
     width: 300px;
     float: left;
-    /* background-color: rebeccapurple; */
 }
 
 .course-container {
     width: 450px;
     float: left;
-    /* background-color: royalblue; */
 }
 
 .notice {

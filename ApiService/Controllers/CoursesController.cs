@@ -90,7 +90,7 @@ namespace Service.Controllers
                         LastName = s.LastName
                     }).ToListAsync();
 
-                    httpResponse = students.Any() ?
+                    httpResponse = students != null ?
                         Request.CreateResponse(HttpStatusCode.OK, students) :
                         Request.CreateErrorResponse(HttpStatusCode.NotFound,
                             $"The course with ID {id} doesn't have students assigned.");

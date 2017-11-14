@@ -31,6 +31,12 @@ export class CourseDetailComponent implements OnInit {
       .subscribe(data => this.course = data);
   }
 
+  callMe() {
+  }
+
+  saveCourseName() {
+  }
+
   goBack() {
     this.location.back();
   }

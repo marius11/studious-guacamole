@@ -102,7 +102,7 @@ namespace Service.Controllers
                              Name = c.Name
                          }).ToListAsync();
 
-                    responseMessage = courses.Any() ?
+                    responseMessage = courses != null ?
                         Request.CreateResponse(HttpStatusCode.OK, courses) :
                         Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} doesn't have courses.");
                 }

@@ -1,0 +1,16 @@
+h2 {
+  display: inline-block;
+}
+
+h2:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+span > i {
+  visibility: hidden;
+}
+
+span:hover > i {
+  visibility: visible;
+}
