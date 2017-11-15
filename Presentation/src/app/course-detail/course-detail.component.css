@@ -5,6 +5,7 @@ h2 {
 h2:hover {
   text-decoration: underline;
   text-decoration-style: dotted;
+  cursor: pointer;
 }
 
 span > i {
@@ -13,4 +14,25 @@ span > i {
 
 span:hover > i {
   visibility: visible;
+}
+
+.table-heading-notice {
+  margin-top: 15px; 
+  margin-bottom: 5px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0px auto;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;    
+}
+
+.btn-goto-previous-page {
+  margin-top: 10px;
 }

@@ -25,7 +25,7 @@ namespace Service.Controllers
                 {
                     var courses = await
                         (from c in db.Courses
-                         select new CourseDetailDTO
+                         select new CourseDTO
                          {
                              Id = c.Id,
                              Name = c.Name
@@ -54,7 +54,7 @@ namespace Service.Controllers
                     var course = await
                         (from c in db.Courses
                          where c.Id == id
-                         select new CourseDetailDTO
+                         select new CourseDTO
                          {
                              Id = c.Id,
                              Name = c.Name

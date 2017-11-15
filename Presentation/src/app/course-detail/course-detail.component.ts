@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Location } from "@angular/common";
 
+import { Student } from "../models/student";
 import { Course } from "../models/course";
 import { CourseService } from "../services/course.service";
 
@@ -14,6 +15,7 @@ import { CourseService } from "../services/course.service";
 export class CourseDetailComponent implements OnInit {
 
   private course: Course;
+  private students: Student[];
 
   constructor(
     private courseService: CourseService,
@@ -23,6 +25,7 @@ export class CourseDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getCourseDetails();
+    this.getCourseStudents();
   }
 
   getCourseDetails() {
@@ -31,10 +34,10 @@ export class CourseDetailComponent implements OnInit {
       .subscribe(data => this.course = data);
   }
 
-  callMe() {
-  }
-
-  saveCourseName() {
+  getCourseStudents() {
+    this.route.params
+      .switchMap((params: Params) => this.courseService.getStudentsByCourseId(params["id"]))
+      .subscribe(data => this.students = data);
   }
 
   goBack() {
