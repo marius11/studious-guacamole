@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Location } from "@angular/common";
 
@@ -23,24 +23,24 @@ export class CourseDetailComponent implements OnInit {
     private location: Location
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getCourseDetails();
     this.getCourseStudents();
   }
 
-  getCourseDetails() {
+  getCourseDetails(): void {
     this.route.params
       .switchMap((params: Params) => this.courseService.getCourseById(params["id"]))
       .subscribe(data => this.course = data);
   }
 
-  getCourseStudents() {
+  getCourseStudents(): void {
     this.route.params
       .switchMap((params: Params) => this.courseService.getStudentsByCourseId(params["id"]))
       .subscribe(data => this.students = data);
   }
 
-  goBack() {
+  goBack(): void {
     this.location.back();
   }
 }

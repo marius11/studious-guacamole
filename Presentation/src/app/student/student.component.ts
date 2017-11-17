@@ -17,12 +17,10 @@ export class StudentComponent implements OnInit {
   private selectedStudent: Student;
   private errorMessage: string;
 
-  constructor(
-    private studentService: StudentService,
-    private router: Router) {
+  constructor(private studentService: StudentService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getAllStudents();
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { Course } from "../models/course";
@@ -15,12 +15,10 @@ export class CourseComponent implements OnInit {
   private courses: Course[];
   private errorMessage: string;
 
-  constructor(
-    private courseService: CourseService,
-    private router: Router) {
+  constructor(private courseService: CourseService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getAllCourses();
   }
 
@@ -28,7 +26,7 @@ export class CourseComponent implements OnInit {
     this.courseService.getAllCourses()
       .subscribe(
       data => this.courses = data,
-      error => this.errorMessage
+      error => this.errorMessage = error
       );
   }
 }
