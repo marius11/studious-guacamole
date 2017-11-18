@@ -2,7 +2,7 @@ h2 {
   display: inline-block;
 }
 
-h2:hover {
+span:hover {
   text-decoration: underline;
   text-decoration-style: dotted;
   cursor: pointer;
@@ -17,8 +17,8 @@ span:hover > i {
 }
 
 .table-heading-notice {
-  margin-top: 15px; 
-  margin-bottom: 5px;
+  margin-top: 15px;
+  margin-bottom: 10px;
 }
 
 table {

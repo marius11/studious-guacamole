@@ -1,6 +1,8 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpModule } from "@angular/http";
+import { FormsModule } from "@angular/forms";
+
 import { AppRoutingModule } from "./app-routing.module";
 
 import { SharedModule } from "./shared/shared.module";
@@ -26,6 +28,7 @@ import { CourseDetailComponent } from "./course-detail/course-detail.component";
     AppRoutingModule,
     HttpModule,
     SharedModule,
+    FormsModule,
   ],
   providers: [StudentService, CourseService],
   bootstrap: [AppComponent]

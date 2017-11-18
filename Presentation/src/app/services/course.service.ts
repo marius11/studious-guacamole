@@ -31,4 +31,14 @@ export class CourseService {
       .map((response: Response) => response.json())
       .catch((error: any) => Observable.throw(error.json()));
   }
+
+  updateCourseName(course: Course): Observable<Course[]> {
+    let body = JSON.stringify(course);
+    let headers = new Headers({ "Content-Type": "application/json" });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.put(`${this.coursesApiUrl}/${course["Id"]}`, body, options)
+      .map((response: Response) => response.json())
+      .catch((error: any) => Observable.throw(error.json()));
+  }
 }

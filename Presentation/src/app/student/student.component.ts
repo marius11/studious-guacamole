@@ -15,7 +15,6 @@ export class StudentComponent implements OnInit {
   private students: Student[];
   private courses: Course[];
   private selectedStudent: Student;
-  private errorMessage: string;
 
   constructor(private studentService: StudentService) {
   }
@@ -28,14 +27,15 @@ export class StudentComponent implements OnInit {
     this.studentService.getAllStudents()
       .subscribe(
       data => this.students = data,
-      error => this.errorMessage = error
+      error => console.log(error)
       );
   }
+
   getCoursesByStudentId(id: number): void {
     this.studentService.getCoursesByStudentId(id)
       .subscribe(
       data => this.courses = data,
-      error => this.errorMessage = error
+      error => console.log(error)
       );
   }
 }

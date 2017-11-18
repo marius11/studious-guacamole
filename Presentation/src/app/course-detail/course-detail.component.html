@@ -1,6 +1,8 @@
-<div>
+<div class="heading">
   <h2>
-    <span class="course-name">{{course?.Name}}
+    <input id="course-name" type="text" class="form-control input-lg" (focusout)="saveChanges(course)" [(ngModel)]="course.Name"
+      *ngIf="courseNameEditing" />
+    <span (click)="enableCourseNameEditing()" *ngIf="!courseNameEditing">{{course?.Name}}
       <i class="fa fa-pencil"></i>
     </span>
   </h2>

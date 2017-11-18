@@ -13,7 +13,6 @@ import { CourseService } from "../services/course.service";
 export class CourseComponent implements OnInit {
 
   private courses: Course[];
-  private errorMessage: string;
 
   constructor(private courseService: CourseService) {
   }
@@ -26,7 +25,7 @@ export class CourseComponent implements OnInit {
     this.courseService.getAllCourses()
       .subscribe(
       data => this.courses = data,
-      error => this.errorMessage = error
+      error => console.log(error)
       );
   }
 }

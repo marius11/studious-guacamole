@@ -133,7 +133,7 @@ namespace Service.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<HttpResponseMessage> UpdateCourse(int id, CourseDTO course)
+        public async Task<HttpResponseMessage> UpdateCourse(int id, CourseDetailDTO courseDTO)
         {
             HttpResponseMessage httpResponse;
 
@@ -141,20 +141,13 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var result = await db.Courses.FirstOrDefaultAsync(i => i.Id == id);
+                    var course = new Course() { Id = courseDTO.Id, Name = courseDTO.Name };
 
-                    if (result != null)
-                    {
-                        result.Name = course.Name;
-                        await db.SaveChangesAsync();
+                    db.Courses.Attach(course);
+                    db.Entry(course).Property(p => p.Name).IsModified = true;
+                    await db.SaveChangesAsync();
 
-                        httpResponse = Request.CreateResponse(HttpStatusCode.OK, result);
-                    }
-                    else
-                    {
-                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound,
-                            $"The course with ID {id} has not been found.");
-                    }
+                    httpResponse = Request.CreateResponse(HttpStatusCode.NoContent);
                 }
             }
             catch (Exception e)
