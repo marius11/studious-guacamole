@@ -153,7 +153,7 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var student = await db.Students.FirstOrDefaultAsync(i => i.Id == id);
+                    var student = await db.Students.SingleAsync(i => i.Id == id);
 
                     if (student != null)
                     {
@@ -188,7 +188,7 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var student = await db.Students.FirstOrDefaultAsync(s => s.Id == id);
+                    var student = await db.Students.SingleAsync(s => s.Id == id);
 
                     if (student != null)
                     {

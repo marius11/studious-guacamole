@@ -17,7 +17,7 @@ export class CourseDetailComponent implements OnInit {
   private course: Course;
   private students: Student[];
   private courseNameEditing: boolean;
-
+  private disabled: boolean;
   private oldCourseName: string;
 
   constructor(
@@ -31,6 +31,7 @@ export class CourseDetailComponent implements OnInit {
     this.getCourseStudents();
 
     this.courseNameEditing = false;
+    this.disabled = false;
   }
 
   getCourseDetails(): void {
@@ -66,8 +67,13 @@ export class CourseDetailComponent implements OnInit {
     console.log(`The old value is ${this.oldCourseName}`);
 
     setTimeout(function () {
-      document.getElementById("course-name").focus();
-    }, 50);
+      document.getElementById("course-name-input").focus();
+    }, 10);
+  }
+
+  disableCourseNameEditing(): void {
+    this.courseNameEditing = false;
+    this.course.Name = this.oldCourseName;
   }
 
   saveChanges(course: Course): void {
@@ -78,6 +84,10 @@ export class CourseDetailComponent implements OnInit {
     } else {
       console.log("Update not necessary.");
     }
+  }
+
+  onInputChange(event) {
+    this.disabled = event.Name.length === 0 ? true : false;
   }
 
   goBack(): void {

@@ -167,7 +167,7 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var course = await db.Courses.FirstOrDefaultAsync(c => c.Id == id);
+                    var course = await db.Courses.SingleAsync(c => c.Id == id);
 
                     if (course != null)
                     {
