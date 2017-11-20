@@ -14,8 +14,9 @@ export class CourseComponent implements OnInit {
 
   private courses: Course[];
 
-  constructor(private courseService: CourseService) {
-  }
+  constructor(
+    private courseService: CourseService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getAllCourses();
@@ -27,5 +28,9 @@ export class CourseComponent implements OnInit {
       data => this.courses = data,
       error => console.log(error)
       );
+  }
+
+  goToCourseDetails(course: Course) {
+    this.router.navigate(["demo/courses", course.Id]);
   }
 }

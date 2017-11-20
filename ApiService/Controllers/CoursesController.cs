@@ -58,7 +58,7 @@ namespace Service.Controllers
                          {
                              Id = c.Id,
                              Name = c.Name
-                         }).FirstOrDefaultAsync();
+                         }).SingleAsync();
 
                     httpResponse = course != null ?
                         Request.CreateResponse(HttpStatusCode.OK, course) :

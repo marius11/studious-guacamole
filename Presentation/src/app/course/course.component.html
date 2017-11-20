@@ -5,8 +5,8 @@
     <th>#</th>
     <th>Name</th>
   </tr>
-  <tr *ngFor="let course of courses">
+  <tr *ngFor="let course of courses" class="clickable-row" (click)="goToCourseDetails(course)">
     <td>{{course.Id}}</td>
-    <td><a routerLink="{{course.Id}}">{{course.Name}}</a></td>
+    <td>{{course.Name}}</td>
   </tr>
 </table>

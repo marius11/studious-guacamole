@@ -67,7 +67,7 @@ namespace Service.Controllers
                              Id = s.Id,
                              FirstName = s.FirstName,
                              LastName = s.LastName
-                         }).FirstOrDefaultAsync();
+                         }).SingleAsync();
 
                     responseMessage = student != null ?
                         Request.CreateResponse(HttpStatusCode.OK, student) :
