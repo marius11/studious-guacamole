@@ -10,11 +10,12 @@ h2 {
 }
 
 .course-name-title > i {
-  visibility: hidden;
+  opacity: 0.5;
 }
 
 .course-name-title:hover > i {
   visibility: visible;
+  opacity: 1.0;
 }
 
 .table-heading-notice {
