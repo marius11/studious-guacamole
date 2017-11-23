@@ -71,8 +71,7 @@ namespace Service.Controllers
 
                     responseMessage = student != null ?
                         Request.CreateResponse(HttpStatusCode.OK, student) :
-                        Request.CreateErrorResponse(HttpStatusCode.NotFound,
-                            $"The student with ID {id} has not been found.");
+                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found.");
                 }
             }
             catch (Exception e)
@@ -166,8 +165,7 @@ namespace Service.Controllers
                     }
                     else
                     {
-                        responseMessage = Request.CreateErrorResponse(HttpStatusCode.NotFound,
-                            $"The student with ID {id} has not been found.");
+                        responseMessage = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found.");
                     }
                 }
             }
@@ -199,8 +197,7 @@ namespace Service.Controllers
                     }
                     else
                     {
-                        responseMessage = Request.CreateErrorResponse(HttpStatusCode.NotFound,
-                            $"The student with ID {id} has not been found.");
+                        responseMessage = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found.");
                     }
                 }
             }

@@ -62,8 +62,7 @@ namespace Service.Controllers
 
                     httpResponse = course != null ?
                         Request.CreateResponse(HttpStatusCode.OK, course) :
-                        Request.CreateErrorResponse(HttpStatusCode.NotFound,
-                            $"The course with ID {id} has not been found.");
+                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} has not been found.");
                 }
             }
             catch (Exception e)
@@ -92,8 +91,7 @@ namespace Service.Controllers
 
                     httpResponse = students != null ?
                         Request.CreateResponse(HttpStatusCode.OK, students) :
-                        Request.CreateErrorResponse(HttpStatusCode.NotFound,
-                            $"The course with ID {id} doesn't have students assigned.");
+                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} doesn't have students assigned.");
                 }
             }
             catch (Exception e)
@@ -178,8 +176,7 @@ namespace Service.Controllers
                     }
                     else
                     {
-                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound,
-                            $"The course with ID {id} has not been found.");
+                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} has not been found.");
                     }
                 }
             }
