@@ -131,7 +131,7 @@ namespace Service.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<HttpResponseMessage> UpdateCourse(int id, CourseDetailDTO courseDTO)
+        public async Task<HttpResponseMessage> UpdateCourse(int id, CourseDTO courseDTO)
         {
             HttpResponseMessage httpResponse;
 
