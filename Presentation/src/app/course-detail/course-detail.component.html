@@ -18,7 +18,7 @@
       </span>
     </h2>
   </div>
-  <div class="content" *ngIf="students.length !== 0">
+  <div class="content" *ngIf="students?.length !== 0">
     <div class="table-heading-notice">
       Students assigned to this course:
     </div>
@@ -35,7 +35,7 @@
       </tr>
     </table>
   </div>
-  <div class="alert alert-warning text-center" role="alert" *ngIf="students.length === 0">
+  <div class="alert alert-warning text-center" role="alert" *ngIf="students?.length === 0">
     <span><strong>There are no students assigned to this course!</strong></span>
   </div>
   <div class="btn-goto-previous-page">
