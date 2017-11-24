@@ -1,24 +1,24 @@
 <div class="container-fluid">
-  <div class="heading">
+  <div class="page-header">
     <h2>
-      <div class="input-group col-xs-4" *ngIf="courseNameEditing">
-        <input id="course-name-input" type="text" class="form-control" (input)="onInputChange(course)" [(ngModel)]="course.Name"
-        />
-        <span class="input-group-btn">
-          <button [disabled]="disabled" class="btn btn-success" type="button" (click)="saveChanges(course)">
-            <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-          </button>
-          <button class="btn btn-danger" type="button" (click)="disableCourseNameEditing()">
-            <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-          </button>
-        </span>
-      </div>
       <span class="course-name-title" (click)="enableCourseNameEditing()" *ngIf="!courseNameEditing">{{course?.Name}}
         <i class="fa fa-pencil"></i>
       </span>
     </h2>
+    <div class="input-group col-xs-4" *ngIf="courseNameEditing">
+      <input id="course-name-input" type="text" class="form-control" (input)="onInputChange(course)" [(ngModel)]="course.Name"
+      />
+      <span class="input-group-btn">
+        <button [disabled]="disabled" class="btn btn-success" type="button" (click)="saveChanges(course)">
+          <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-danger" type="button" (click)="disableCourseNameEditing()">
+          <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </button>
+      </span>
+    </div>
   </div>
-  <div class="content" *ngIf="students?.length !== 0">
+  <div class="content" *ngIf="students?.length > 0">
     <div class="table-heading-notice">
       Students assigned to this course:
     </div>
@@ -36,7 +36,9 @@
     </table>
   </div>
   <div class="alert alert-warning text-center" role="alert" *ngIf="students?.length === 0">
-    <span><strong>There are no students assigned to this course!</strong></span>
+    <span>
+      <strong>There are no students assigned to this course!</strong>
+    </span>
   </div>
   <div class="btn-goto-previous-page">
     <button class="btn btn-default" (click)="goBack()">Back</button>

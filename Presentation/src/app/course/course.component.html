@@ -1,13 +1,22 @@
 <div class="container-fluid">
-  <h2>Courses</h2>
+  <div class="page-header">
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="btn btn-success" data-toggle="modal" data-target="#modal-add-course">
+          <span class="glyphicon glyphicon-plus"></span> ADD COURSE
+        </button>
+      </div>
+    </div>
+    <h2>Courses</h2>
+  </div>
   <table>
-  <tr>
-    <th>#</th>
-    <th>Name</th>
-  </tr>
-  <tr *ngFor="let course of courses" class="clickable-row" (click)="goToCourseDetails(course)">
-    <td>{{course.Id}}</td>
-    <td>{{course.Name}}</td>
-  </tr>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+    </tr>
+    <tr *ngFor="let course of courses" class="clickable-row" (click)="goToCourseDetails(course)">
+      <td>{{course.Id}}</td>
+      <td>{{course.Name}}</td>
+    </tr>
   </table>
 </div>
