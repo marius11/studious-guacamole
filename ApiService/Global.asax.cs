@@ -15,8 +15,8 @@ namespace ApiService
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            GlobalConfiguration.Configuration.MessageHandlers.Insert(
-                0, new ServerCompressionHandler(new GZipCompressor(), new DeflateCompressor())
+            GlobalConfiguration.Configuration.MessageHandlers.Insert(0, 
+                new ServerCompressionHandler(new GZipCompressor(), new DeflateCompressor())
             );
         }
     }

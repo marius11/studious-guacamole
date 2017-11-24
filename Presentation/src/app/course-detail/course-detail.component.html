@@ -2,7 +2,8 @@
   <div class="heading">
     <h2>
       <div class="input-group col-xs-4" *ngIf="courseNameEditing">
-        <input id="course-name-input" type="text" class="form-control" (input)="onInputChange(course)" [(ngModel)]="course.Name" />
+        <input id="course-name-input" type="text" class="form-control" (input)="onInputChange(course)" [(ngModel)]="course.Name"
+        />
         <span class="input-group-btn">
           <button [disabled]="disabled" class="btn btn-success" type="button" (click)="saveChanges(course)">
             <i class="fa fa-check fa-lg" aria-hidden="true"></i>
@@ -17,7 +18,7 @@
       </span>
     </h2>
   </div>
-  <div class="content">
+  <div class="content" *ngIf="students.length !== 0">
     <div class="table-heading-notice">
       Students assigned to this course:
     </div>
@@ -33,8 +34,11 @@
         <td>{{student.LastName}}</td>
       </tr>
     </table>
-    <div class="btn-goto-previous-page">
-      <button class="btn btn-default" (click)="goBack()">Back</button>
-    </div>
+  </div>
+  <div class="alert alert-warning text-center" role="alert" *ngIf="students.length === 0">
+    <span><strong>There are no students assigned to this course!</strong></span>
+  </div>
+  <div class="btn-goto-previous-page">
+    <button class="btn btn-default" (click)="goBack()">Back</button>
   </div>
 </div>
