@@ -9,14 +9,17 @@
     </div>
     <h2>Courses</h2>
   </div>
-  <table>
-    <tr>
-      <th>#</th>
-      <th>Name</th>
-    </tr>
-    <tr *ngFor="let course of courses" class="clickable-row" (click)="goToCourseDetails(course)">
-      <td>{{course.Id}}</td>
-      <td>{{course.Name}}</td>
-    </tr>
+  <table class="table table-responsive table-hover">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let column of columns">{{column.title}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let course of courses" class="clickable-row" (click)="goToCourseDetails(course)">
+        <td>{{course.Id}}</td>
+        <td>{{course.Name}}</td>
+      </tr>
+    </tbody>
   </table>
 </div>

@@ -13,20 +13,9 @@
   opacity: 1.0;
 }
 
-.table-heading-notice {
-  margin-top: 15px;
-  margin-bottom: 10px;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;    
+caption {
+  white-space: nowrap;
+  color: black;
 }
 
 .btn-goto-previous-page {

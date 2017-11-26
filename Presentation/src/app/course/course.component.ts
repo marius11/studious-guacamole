@@ -14,6 +14,11 @@ export class CourseComponent implements OnInit {
 
   private courses: Course[];
 
+  private columns = [
+    { title: "#" },
+    { title: "Name" }
+  ];
+
   constructor(
     private courseService: CourseService,
     private router: Router) { }

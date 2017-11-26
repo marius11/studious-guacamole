@@ -13,8 +13,7 @@
       </span>
     </h2>
     <div class="input-group col-xs-4" *ngIf="courseNameEditing">
-      <input id="course-name-input" type="text" class="form-control" [(ngModel)]="course.Name"
-      />
+      <input id="course-name-input" type="text" class="form-control" [(ngModel)]="course.Name" />
       <span class="input-group-btn">
         <button [disabled]="!course.Name" class="btn btn-success" type="button" (click)="saveChanges(course)">
           <i class="fa fa-check fa-lg" aria-hidden="true"></i>
@@ -26,20 +25,20 @@
     </div>
   </div>
   <div class="content" *ngIf="students?.length > 0">
-    <div class="table-heading-notice">
-      Students assigned to this course:
-    </div>
-    <table>
-      <tr>
-        <th>#</th>
-        <th>First name</th>
-        <th>Last name</th>
-      </tr>
-      <tr *ngFor="let student of students">
-        <td>{{student.Id}}</td>
-        <td>{{student.FirstName}}</td>
-        <td>{{student.LastName}}</td>
-      </tr>
+    <caption>Students assigned to this course:</caption>
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th scope="col" *ngFor="let column of studentTableColumns">{{column.title}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students">
+          <td>{{student.Id}}</td>
+          <td>{{student.FirstName}}</td>
+          <td>{{student.LastName}}</td>
+        </tr>
+      </tbody>
     </table>
   </div>
   <div class="alert alert-warning text-center" role="alert" *ngIf="students?.length === 0">

@@ -1,29 +1,19 @@
 <div class="container-fluid">
-  <h2>
-    Students
-    <span class="note">(click the name to see the courses associated to that student)</span>
-  </h2>
-  <div class="student-container">
-    <ul>
-      <li *ngFor="let student of students">
-        <span class="student-id">{{student.Id}}</span>
-        <span (click)="getCoursesByStudentId(student.Id); selectedStudent = student" class="student-name">{{student.FirstName}} {{student.LastName}}</span>
-      </li>
-    </ul>
+  <div class="page-header">
+    <h2>Students</h2>
   </div>
-  <div class="course-container">
-    <span *ngIf="courses?.length === 0">
-      <ul>
-        <li>
-          <span class="notice">{{selectedStudent.FirstName}} {{selectedStudent.LastName}} doesn't have any classes assigned!</span>
-        </li>
-      </ul>
-    </span>
-    <ul *ngFor="let course of courses">
-      <li>
-        <span class="class-ids">{{course.Id}}</span>
-        <span class="class-names">{{course.Name}}</span>
-      </li>
-    </ul>
-  </div>
+  <table class="table table-responsible">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let column of columns">{{column.title}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{student.Id}}</td>
+        <td>{{student.FirstName}}</td>
+        <td>{{student.LastName}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>

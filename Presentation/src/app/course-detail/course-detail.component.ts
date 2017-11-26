@@ -21,6 +21,12 @@ export class CourseDetailComponent implements OnInit {
   private courseNameEditing: boolean;
   private oldCourseName: string;
 
+  private studentTableColumns = [
+    { title: "#" },
+    { title: "First name" },
+    { title: "Last name" }
+  ];
+
   constructor(
     private courseService: CourseService,
     private route: ActivatedRoute,
