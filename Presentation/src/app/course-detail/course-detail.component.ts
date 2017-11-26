@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Location } from "@angular/common";
 
 import { Student } from "../models/student";
 import { Course } from "../models/course";
 import { CourseService } from "../services/course.service";
+
+import "rxjs/add/operator/switchMap";
 
 @Component({
   selector: "app-course-detail",
@@ -17,21 +19,18 @@ export class CourseDetailComponent implements OnInit {
   private course: Course;
   private students: Student[];
   private courseNameEditing: boolean;
-  private disabled: boolean;
   private oldCourseName: string;
 
   constructor(
     private courseService: CourseService,
     private route: ActivatedRoute,
     private location: Location,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.getCourseDetails();
     this.getCourseStudents();
-
-    this.courseNameEditing = false;
-    this.disabled = false;
   }
 
   getCourseDetails(): void {
@@ -72,12 +71,12 @@ export class CourseDetailComponent implements OnInit {
   }
 
   disableCourseNameEditing(): void {
-    this.courseNameEditing = false;
+    this.courseNameEditing = !this.courseNameEditing;
     this.course.Name = this.oldCourseName;
   }
 
   saveChanges(course: Course): void {
-    this.courseNameEditing = false;
+    this.courseNameEditing = !this.courseNameEditing;
 
     if (this.oldCourseName !== course.Name) {
       this.updateCourseName(course);
@@ -86,8 +85,25 @@ export class CourseDetailComponent implements OnInit {
     }
   }
 
-  onInputChange(event) {
-    this.disabled = event.Name.length === 0 ? true : false;
+  deleteCourse(id: number): void {
+
+    let confirmation = window.confirm("Are you sure you want to delete this course?");
+
+    if (confirmation === true) {
+      this.courseService.deleteCourse(id)
+        .subscribe(
+        data => console.log(data),
+        error => {
+          console.log(error);
+        }
+        );
+
+      setTimeout(() => {
+        this.router.navigate(["demo/courses"]);
+      }, 100);
+    } else {
+      console.log(`Deletion for course ID ${id} has been cancelled`);
+    }
   }
 
   goBack(): void {

@@ -1,15 +1,22 @@
 <div class="container-fluid">
   <div class="page-header">
+    <div class="pull-right">
+      <div class="btn-group">
+        <button class="btn btn-danger" (click)="deleteCourse(course.Id)">
+          <span class="glyphicon glyphicon-trash"></span> DELETE THIS COURSE
+        </button>
+      </div>
+    </div>
     <h2>
       <span class="course-name-title" (click)="enableCourseNameEditing()" *ngIf="!courseNameEditing">{{course?.Name}}
         <i class="fa fa-pencil"></i>
       </span>
     </h2>
     <div class="input-group col-xs-4" *ngIf="courseNameEditing">
-      <input id="course-name-input" type="text" class="form-control" (input)="onInputChange(course)" [(ngModel)]="course.Name"
+      <input id="course-name-input" type="text" class="form-control" [(ngModel)]="course.Name"
       />
       <span class="input-group-btn">
-        <button [disabled]="disabled" class="btn btn-success" type="button" (click)="saveChanges(course)">
+        <button [disabled]="!course.Name" class="btn btn-success" type="button" (click)="saveChanges(course)">
           <i class="fa fa-check fa-lg" aria-hidden="true"></i>
         </button>
         <button class="btn btn-danger" type="button" (click)="disableCourseNameEditing()">

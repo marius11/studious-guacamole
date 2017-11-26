@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
 
 import { Course } from "../models/course";
 import { Student } from "../models/student";
@@ -10,6 +9,7 @@ import { StudentService } from "../services/student.service";
   templateUrl: "./student.component.html",
   styleUrls: ["./student.component.css"]
 })
+
 export class StudentComponent implements OnInit {
 
   private students: Student[];

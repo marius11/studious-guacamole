@@ -30,7 +30,7 @@ export class CourseComponent implements OnInit {
       );
   }
 
-  goToCourseDetails(course: Course) {
+  goToCourseDetails(course: Course): void {
     this.router.navigate(["demo/courses", course.Id]);
   }
 }
