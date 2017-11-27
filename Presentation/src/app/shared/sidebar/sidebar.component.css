@@ -8,7 +8,7 @@
 #sidebar {
   position: relative;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 #sidebar .list-group-item {
@@ -26,28 +26,4 @@
     max-height: 300px;
     border-right: 0;
   }
-}
-
-@media (min-height: 50px) {
-  #sidebar {
-    overflow-y: auto;
-  }
-}
-
-#sidebar::-webkit-scrollbar-track
-{
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-	background-color: #F5F5F5;
-}
-
-#sidebar::-webkit-scrollbar
-{
-	width: 5px;
-	background-color: #F5F5F5;
-}
-
-#sidebar::-webkit-scrollbar-thumb
-{
-	background-color: #000000;
 }

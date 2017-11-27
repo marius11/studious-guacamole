@@ -193,7 +193,8 @@ namespace Service.Controllers
                         db.Students.Remove(student);
                         await db.SaveChangesAsync();
 
-                        httpResponse = Request.CreateResponse(HttpStatusCode.OK);
+                        var message = new { Message = "The students has been successfully deleted" };
+                        httpResponse = Request.CreateResponse(HttpStatusCode.OK, message);
                     }
                     else
                     {

@@ -172,7 +172,8 @@ namespace Service.Controllers
                         db.Courses.Remove(course);
                         await db.SaveChangesAsync();
 
-                        httpResponse = Request.CreateResponse(HttpStatusCode.OK);
+                        var message = new { Message = "The course has been successfully deleted" };
+                        httpResponse = Request.CreateResponse(HttpStatusCode.OK, message);
                     }
                     else
                     {

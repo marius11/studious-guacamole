@@ -47,6 +47,6 @@ export class CourseService {
 
   deleteCourse(id: number): Observable<Course> {
     return this.http.delete(`${this.API_COURSE_URL}/${id}`)
-    .map((response: Response) => response.text() ? response.json() : {});
+    .map((response: Response) => response.json());
   }
 }
