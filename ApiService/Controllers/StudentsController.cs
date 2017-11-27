@@ -44,9 +44,34 @@ namespace Service.Controllers
 
         [HttpGet]
         [Route("~/api/v2/students")]
-        public HttpResponseMessage GetAllStudents([FromUri] int? page, [FromUri] int? items)
+        public async Task<HttpResponseMessage> GetStudentsPaged([FromUri] int? page, [FromUri] int? per_page)
         {
-            return Request.CreateErrorResponse(HttpStatusCode.NotImplemented, "This method hasn't been implemented yet.");
+            int pageNumber = page - 1 ?? 0;
+            int pageSize = per_page ?? 5;
+
+            HttpResponseMessage httpResponse;
+
+            try
+            {
+                using (AppDbContext db = new AppDbContext())
+                {
+                    var students = await
+                        (from s in db.Students
+                         select new StudentDTO
+                         {
+                             Id = s.Id,
+                             FirstName = s.FirstName,
+                             LastName = s.LastName
+                         }).OrderBy(i => i.Id).Skip(pageNumber * pageSize).Take(pageSize).ToListAsync();
+
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK, students);
+                }
+            }
+            catch (Exception e)
+            {
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+            return httpResponse;
         }
 
         [HttpGet]
@@ -71,7 +96,7 @@ namespace Service.Controllers
 
                     httpResponse = student != null ?
                         Request.CreateResponse(HttpStatusCode.OK, student) :
-                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found.");
+                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found");
                 }
             }
             catch (Exception e)
@@ -103,7 +128,7 @@ namespace Service.Controllers
 
                     httpResponse = courses != null ?
                         Request.CreateResponse(HttpStatusCode.OK, courses) :
-                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} doesn't have courses.");
+                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} doesn't have courses");
                 }
             }
             catch (Exception e)
@@ -165,7 +190,7 @@ namespace Service.Controllers
                     }
                     else
                     {
-                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found.");
+                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found");
                     }
                 }
             }
@@ -193,12 +218,12 @@ namespace Service.Controllers
                         db.Students.Remove(student);
                         await db.SaveChangesAsync();
 
-                        var message = new { Message = "The students has been successfully deleted" };
+                        var message = new { message = "The students has been successfully deleted" };
                         httpResponse = Request.CreateResponse(HttpStatusCode.OK, message);
                     }
                     else
                     {
-                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found.");
+                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found");
                     }
                 }
             }

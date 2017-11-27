@@ -92,7 +92,6 @@ export class CourseDetailComponent implements OnInit {
   }
 
   deleteCourse(id: number): void {
-
     let confirmation = window.confirm("Are you sure you want to delete this course?");
 
     if (confirmation === true) {

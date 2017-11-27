@@ -13,7 +13,6 @@ import { CourseService } from "../services/course.service";
 export class CourseComponent implements OnInit {
 
   private courses: Course[];
-
   private columns = [
     { title: "#" },
     { title: "Name" }

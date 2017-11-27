@@ -62,7 +62,7 @@ namespace Service.Controllers
 
                     httpResponse = course != null ?
                         Request.CreateResponse(HttpStatusCode.OK, course) :
-                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} has not been found.");
+                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} has not been found");
                 }
             }
             catch (Exception e)
@@ -91,7 +91,7 @@ namespace Service.Controllers
 
                     httpResponse = students != null ?
                         Request.CreateResponse(HttpStatusCode.OK, students) :
-                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} doesn't have students assigned.");
+                        Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} doesn't have students assigned");
                 }
             }
             catch (Exception e)
@@ -145,7 +145,7 @@ namespace Service.Controllers
                     db.Entry(course).Property(p => p.Name).IsModified = true;
                     await db.SaveChangesAsync();
 
-                    httpResponse = Request.CreateResponse(HttpStatusCode.NoContent);
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK, course);
                 }
             }
             catch (Exception e)
@@ -172,12 +172,12 @@ namespace Service.Controllers
                         db.Courses.Remove(course);
                         await db.SaveChangesAsync();
 
-                        var message = new { Message = "The course has been successfully deleted" };
+                        var message = new { message = "The course has been successfully deleted" };
                         httpResponse = Request.CreateResponse(HttpStatusCode.OK, message);
                     }
                     else
                     {
-                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} has not been found.");
+                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} has not been found");
                     }
                 }
             }
