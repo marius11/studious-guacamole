@@ -25,6 +25,11 @@ export class CourseService {
       .map((response: Response) => response.json());
   }
 
+  getCoursesPaged(page: number, per_page: number): Observable<Course[]> {
+    return this.http.get(`${this.API_COURSE_URL}?page=${page}&per_page=${per_page}`)
+      .map((response: Response) => response.json());
+  }
+
   getCourseById(id: number): Observable<Course> {
     return this.http.get(`${this.API_COURSE_URL}/${id}`)
       .map((response: Response) => response.json());
@@ -47,6 +52,6 @@ export class CourseService {
 
   deleteCourse(id: number): Observable<Course> {
     return this.http.delete(`${this.API_COURSE_URL}/${id}`)
-    .map((response: Response) => response.json());
+      .map((response: Response) => response.json());
   }
 }

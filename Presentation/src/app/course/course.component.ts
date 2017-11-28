@@ -12,22 +12,32 @@ import { CourseService } from "../services/course.service";
 
 export class CourseComponent implements OnInit {
 
-  private courses: Course[];
+  private courses: Course[] = [];
   private columns = [
     { title: "#" },
     { title: "Name" }
   ];
+  private page = 1;
+  private perPage = 10;
 
   constructor(
     private courseService: CourseService,
     private router: Router) { }
 
   ngOnInit(): void {
-    this.getAllCourses();
+    this.getCoursesPaged(this.page, this.perPage);
   }
 
   getAllCourses(): void {
     this.courseService.getAllCourses()
+      .subscribe(
+      data => this.courses = data,
+      error => console.log(error)
+      );
+  }
+
+  getCoursesPaged(page: number, per_page: number): void {
+    this.courseService.getCoursesPaged(page, per_page)
       .subscribe(
       data => this.courses = data,
       error => console.log(error)

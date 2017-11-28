@@ -42,6 +42,43 @@ namespace Service.Controllers
         }
 
         [HttpGet]
+        [Route("")]
+        public async Task<HttpResponseMessage> GetCoursesPaged([FromUri] int? page, [FromUri] int? per_page)
+        {
+            int pageNumber = page - 1 ?? 0;
+            int pageSize = per_page ?? 5;
+
+            HttpResponseMessage httpResponse;
+
+            try
+            {
+                using (AppDbContext db = new AppDbContext())
+                {
+                    var courses = await
+                        (from c in db.Courses
+                         select new CourseDTO
+                         {
+                             Id = c.Id,
+                             Name = c.Name
+                         }).OrderBy(i => i.Id).Skip(pageNumber * pageSize).Take(pageSize).ToListAsync();
+
+                    var pagedResponse = new PagingModel<CourseDTO>
+                    {
+                        Data = courses,
+                        Count = await db.Courses.CountAsync()
+                    };
+
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK, pagedResponse);
+                }
+            }
+            catch (Exception e)
+            {
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadGateway, e);
+            }
+            return httpResponse;
+        }
+
+        [HttpGet]
         [Route("{id:int}")]
         public async Task<HttpResponseMessage> GetCourseById(int id)
         {

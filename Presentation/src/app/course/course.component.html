@@ -16,10 +16,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let course of courses" class="clickable-row" (click)="goToCourseDetails(course)">
+      <tr *ngFor="let course of courses.Data" class="clickable-row" (click)="goToCourseDetails(course)">
         <td>{{course.Id}}</td>
         <td>{{course.Name}}</td>
       </tr>
     </tbody>
   </table>
+  <ngb-pagination [collectionSize]="courses.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getCoursesPaged(page, perPage)"></ngb-pagination>
 </div>

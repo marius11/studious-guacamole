@@ -26,7 +26,7 @@ export class StudentService {
   }
 
   getStudentsPaged(page: number, per_page: number): Observable<Student[]> {
-    return this.http.get(`http://localhost:54617/api/v2/students?page=${page}&per_page=${per_page}`)
+    return this.http.get(`${this.API_STUDENT_URL}?page=${page}&per_page=${per_page}`)
       .map((response: Response) => response.json());
   }
 

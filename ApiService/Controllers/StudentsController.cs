@@ -43,7 +43,7 @@ namespace Service.Controllers
         }
 
         [HttpGet]
-        [Route("~/api/v2/students")]
+        [Route("")]
         public async Task<HttpResponseMessage> GetStudentsPaged([FromUri] int? page, [FromUri] int? per_page)
         {
             int pageNumber = page - 1 ?? 0;
