@@ -2,11 +2,10 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpModule } from "@angular/http";
 import { FormsModule } from "@angular/forms";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AppRoutingModule } from "./app-routing.module";
-
 import { SharedModule } from "./shared/shared.module";
-
 import { AppComponent } from "./app.component";
 
 import { StudentService } from "./services/student.service";
@@ -26,6 +25,7 @@ import { InlineEditDirective } from "./directives/inline-edit.directive";
     InlineEditDirective,
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     HttpModule,

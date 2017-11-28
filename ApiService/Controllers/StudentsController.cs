@@ -64,7 +64,13 @@ namespace Service.Controllers
                              LastName = s.LastName
                          }).OrderBy(i => i.Id).Skip(pageNumber * pageSize).Take(pageSize).ToListAsync();
 
-                    httpResponse = Request.CreateResponse(HttpStatusCode.OK, students);
+                    var pagedResponse = new PagingModel<StudentDTO>
+                    {
+                        Data = students,
+                        Count = await db.Students.CountAsync()
+                    };
+
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK, pagedResponse);
                 }
             }
             catch (Exception e)

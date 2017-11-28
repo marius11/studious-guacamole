@@ -11,23 +11,32 @@ import { StudentService } from "../services/student.service";
 
 export class StudentComponent implements OnInit {
 
-  private students: Student[];
-
+  private students: Student[] = [];
   private columns = [
     { title: "#" },
     { title: "First name" },
     { title: "Last name" }
   ];
+  private page = 1;
+  private perPage = 10;
 
   constructor(private studentService: StudentService) {
   }
 
   ngOnInit(): void {
-    this.getAllStudents();
+    this.getStudentsPaged(this.page, this.perPage);
   }
 
   getAllStudents(): void {
     this.studentService.getAllStudents()
+      .subscribe(
+      data => this.students = data,
+      error => console.log(error)
+      );
+  }
+
+  getStudentsPaged(page: number, per_page: number): void {
+    this.studentService.getStudentsPaged(page, per_page)
       .subscribe(
       data => this.students = data,
       error => console.log(error)

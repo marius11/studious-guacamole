@@ -9,11 +9,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let student of students">
+      <tr *ngFor="let student of students.Data">
         <td>{{student.Id}}</td>
         <td>{{student.FirstName}}</td>
         <td>{{student.LastName}}</td>
       </tr>
     </tbody>
   </table>
+  <ngb-pagination [collectionSize]="students.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getStudentsPaged(page, perPage)"></ngb-pagination>
 </div>
