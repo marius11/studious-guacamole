@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+
 import { Course } from "../models/course";
 import { CourseService } from "../services/course.service";
 
@@ -22,7 +24,8 @@ export class CourseComponent implements OnInit {
 
   constructor(
     private courseService: CourseService,
-    private router: Router) { }
+    private router: Router,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.getCoursesPaged(this.page, this.perPage);
@@ -46,5 +49,9 @@ export class CourseComponent implements OnInit {
 
   goToCourseDetails(course: Course): void {
     this.router.navigate(["demo/courses", course.Id]);
+  }
+
+  openAddCourseModal(content) {
+    this.modalService.open(content);
   }
 }

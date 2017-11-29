@@ -3,7 +3,7 @@
     <div class="pull-right">
       <div class="btn-group">
         <button class="btn btn-danger" (click)="deleteCourse(course.Id)">
-          <span class="glyphicon glyphicon-trash"></span> DELETE THIS COURSE
+          <i class="fa fa-trash"></i> DELETE THIS COURSE
         </button>
       </div>
     </div>
@@ -12,7 +12,7 @@
         <i class="fa fa-pencil"></i>
       </span>
     </h2>
-    <div class="input-group col-xs-4" *ngIf="courseNameEditing">
+    <div class="input-group col-lg-4" *ngIf="courseNameEditing">
       <input id="course-name-input" type="text" class="form-control" [(ngModel)]="course.Name" />
       <span class="input-group-btn">
         <button [disabled]="!course.Name" class="btn btn-success" type="button" (click)="saveChanges(course)">
