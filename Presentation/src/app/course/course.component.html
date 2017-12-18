@@ -1,15 +1,14 @@
 <div class="container-fluid">
-  <div class="page-header">
-    <div class="pull-right">
-      <div class="btn-group">
-        <button type="button" class="btn btn-success" (click)="openAddCourseModal(content)">
-          <i class="fa fa-plus"></i> ADD COURSE
-        </button>
-      </div>
+  <div class="pull-right">
+    <div class="btn-group">
+      <button type="button" class="btn btn-success" (click)="openAddCourseModal(content)">
+        <i class="fa fa-plus"></i> ADD COURSE
+      </button>
     </div>
+  </div>
+  <div class="page-header">
     <h2>Courses</h2>
   </div>
-  
   <table class="table table-hover">
     <thead>
       <tr>
@@ -23,7 +22,8 @@
       </tr>
     </tbody>
   </table>
-  <ngb-pagination [collectionSize]="courses.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="getCoursesPaged(page, perPage)"></ngb-pagination>
+  <ngb-pagination [collectionSize]="courses.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true" [ellipses]="false"
+    [boundaryLinks]="true" (pageChange)="getCoursesPaged(page, perPage)"></ngb-pagination>
 
   <ng-template #content let-c="close">
     <div class="modal-header">
@@ -36,5 +36,4 @@
       <button type="button" class="btn btn-default" (click)="c()">Close</button>
     </div>
   </ng-template>
-
 </div>

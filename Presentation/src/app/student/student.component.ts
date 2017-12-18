@@ -11,14 +11,14 @@ import { StudentService } from "../services/student.service";
 
 export class StudentComponent implements OnInit {
 
-  private students: Student[] = [];
-  private columns = [
+  students: Student[] = [];
+  columns = [
     { title: "#" },
     { title: "First name" },
     { title: "Last name" }
   ];
-  private page = 1;
-  private perPage = 10;
+  page = 1;
+  perPage = 7;
 
   constructor(private studentService: StudentService) {
   }

@@ -1,30 +1,25 @@
 <div class="container-fluid">
-  <div class="page-header">
-    <div class="pull-right">
-      <div class="btn-group">
-        <button class="btn btn-danger" (click)="deleteCourse(course.Id)">
-          <i class="fa fa-trash"></i> DELETE THIS COURSE
-        </button>
-      </div>
-    </div>
-    <h2>
-      <span class="course-name-title" (click)="enableCourseNameEditing()" *ngIf="!courseNameEditing">{{course?.Name}}
-        <i class="fa fa-pencil"></i>
-      </span>
-    </h2>
-    <div class="input-group col-lg-4" *ngIf="courseNameEditing">
-      <input id="course-name-input" type="text" class="form-control" [(ngModel)]="course.Name" />
-      <span class="input-group-btn">
-        <button [disabled]="!course.Name" class="btn btn-success" type="button" (click)="saveChanges(course)">
-          <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-        </button>
-        <button class="btn btn-danger" type="button" (click)="disableCourseNameEditing()">
-          <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-        </button>
-      </span>
-    </div>
+  <div class="float-md-right" *ngIf="!courseNameEditing">
+    <button class="btn btn-danger"><i class="fa fa-trash fa-lg"></i> DELETE THIS COURSE</button>
   </div>
-  <div class="content" *ngIf="students?.length > 0">
+  <h2>
+    <span class="course-name-title" (click)="enableCourseNameEditing()" *ngIf="!courseNameEditing">{{course?.Name}}
+      <i class="fa fa-pencil"></i>
+    </span>
+  </h2>
+  <div class="input-group" *ngIf="courseNameEditing">
+    <input id="course-name-input" type="text" class="form-control col-lg-3" [(ngModel)]="course.Name" />
+    <span class="input-group-btn">
+      <button [disabled]="!course.Name" class="btn btn-success" type="button" (click)="saveChanges(course)">
+        <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-danger" type="button" (click)="disableCourseNameEditing()">
+        <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+      </button>
+    </span>
+  </div>
+
+  <div *ngIf="students?.length > 0">
     <caption>Students assigned to this course:</caption>
     <table class="table table-responsive">
       <thead>
@@ -47,6 +42,6 @@
     </span>
   </div>
   <div class="btn-goto-previous-page">
-    <button class="btn btn-default" (click)="goBack()">Back</button>
+    <button class="btn btn-default" (click)="goBack()">Back to courses</button>
   </div>
 </div>

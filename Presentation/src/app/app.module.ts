@@ -14,7 +14,6 @@ import { StudentComponent } from "./student/student.component";
 import { CourseService } from "./services/course.service";
 import { CourseComponent } from "./course/course.component";
 import { CourseDetailComponent } from "./course-detail/course-detail.component";
-import { InlineEditDirective } from "./directives/inline-edit.directive";
 
 @NgModule({
   declarations: [
@@ -22,7 +21,6 @@ import { InlineEditDirective } from "./directives/inline-edit.directive";
     StudentComponent,
     CourseComponent,
     CourseDetailComponent,
-    InlineEditDirective,
   ],
   imports: [
     NgbModule.forRoot(),

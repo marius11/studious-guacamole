@@ -16,12 +16,11 @@ import "rxjs/add/operator/switchMap";
 
 export class CourseDetailComponent implements OnInit {
 
-  private course: Course;
-  private students: Student[];
-  private courseNameEditing: boolean;
-  private oldCourseName: string;
-
-  private studentTableColumns = [
+  course: Course;
+  students: Student[];
+  courseNameEditing: boolean;
+  oldCourseName: string;
+  studentTableColumns = [
     { title: "#" },
     { title: "First name" },
     { title: "Last name" }
@@ -66,7 +65,7 @@ export class CourseDetailComponent implements OnInit {
   }
 
   enableCourseNameEditing(): void {
-    this.courseNameEditing = true;
+    this.courseNameEditing = !this.courseNameEditing;
     this.oldCourseName = this.course.Name;
 
     console.log(`The old value is ${this.oldCourseName}`);

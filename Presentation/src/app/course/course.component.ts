@@ -14,13 +14,13 @@ import { CourseService } from "../services/course.service";
 
 export class CourseComponent implements OnInit {
 
-  private courses: Course[] = [];
-  private columns = [
+  courses: Course[] = [];
+  columns = [
     { title: "#" },
     { title: "Name" }
   ];
-  private page = 1;
-  private perPage = 10;
+  page = 1;
+  perPage = 7;
 
   constructor(
     private courseService: CourseService,
