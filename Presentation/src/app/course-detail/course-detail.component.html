@@ -1,6 +1,7 @@
 <div class="container-fluid">
   <div class="float-md-right" *ngIf="!courseNameEditing">
-    <button class="btn btn-danger"><i class="fa fa-trash fa-lg"></i> DELETE THIS COURSE</button>
+    <button class="btn btn-danger">
+      <i class="fa fa-trash fa-lg"></i> DELETE THIS COURSE</button>
   </div>
   <h2>
     <span class="course-name-title" (click)="enableCourseNameEditing()" *ngIf="!courseNameEditing">{{course?.Name}}

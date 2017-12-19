@@ -1,29 +1,32 @@
-#sidebar-wrapper {
-  height: 100%;
-  padding: 50px 0 0px 0;
+.sidebar {
   position: fixed;
-  border-right: 1px solid gray;
-}
-
-#sidebar {
-  position: relative;
-  height: 100%;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px;
+  overflow-x: hidden;
   overflow-y: auto;
+  border-right: 1px solid #eeeeee;
 }
 
-#sidebar .list-group-item {
+.sidebar {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar .nav {
+  margin-bottom: 20px;
+}
+
+.sidebar .nav-item {
+  width: 100%;
+}
+
+.sidebar .nav-item + .nav-item {
+  margin-left: 0;
+}
+
+.sidebar .nav-link {
   border-radius: 0;
-  border-left: 0;
-  border-right: 0;
-  border-top: 0;
-  text-align: center;
-}
-
-@media (max-width: 992px) {
-  #sidebar-wrapper {
-    position: static;
-    height: auto;
-    max-height: 300px;
-    border-right: 0;
-  }
 }

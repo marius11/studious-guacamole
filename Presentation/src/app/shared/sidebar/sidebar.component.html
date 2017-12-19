@@ -1,9 +1,11 @@
-<div id="sidebar-wrapper" class="col-md-2">
-  <div id="sidebar">
-    <ul class="nav list-group">
-      <li *ngFor="let item of items" routerLinkActive="active">
-        <a class="list-group-item" routerLink="{{item.path}}">{{item.title}}</a>
-      </li>
-    </ul>
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-sm-3 col-md-2 hidden-xs-down bg-light sidebar">
+      <ul class="nav flex-column">
+        <li class="nav-item" *ngFor="let item of items">
+          <a class="nav-link" routerLink="{{item.path}}">{{item.title}}</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>
