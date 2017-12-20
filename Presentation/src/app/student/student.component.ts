@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 
 import { Student } from "../models/student";
 import { StudentService } from "../services/student.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-student",
@@ -18,10 +19,11 @@ export class StudentComponent implements OnInit {
     { title: "Last name" }
   ];
   page = 1;
-  perPage = 7;
+  perPage = 8;
 
-  constructor(private studentService: StudentService) {
-  }
+  constructor(
+    private studentService: StudentService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getStudentsPaged(this.page, this.perPage);
@@ -41,5 +43,9 @@ export class StudentComponent implements OnInit {
       data => this.students = data,
       error => console.log(error)
       );
+  }
+
+  goToStudentDetails(student: Student): void {
+    this.router.navigate(["demo/students", student.Id]);
   }
 }

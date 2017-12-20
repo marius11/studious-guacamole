@@ -19,10 +19,8 @@
       </button>
     </span>
   </div>
-
   <div *ngIf="students?.length > 0">
-    <caption>Students assigned to this course:</caption>
-    <table class="table table-responsive">
+    <table class="table">
       <thead>
         <tr>
           <th scope="col" *ngFor="let column of studentTableColumns">{{column.title}}</th>

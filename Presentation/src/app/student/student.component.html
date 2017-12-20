@@ -7,7 +7,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let student of students.Data">
+      <tr class="clickable-row" *ngFor="let student of students.Data" (click)="goToStudentDetails(student)">
         <td>{{student.Id}}</td>
         <td>{{student.FirstName}}</td>
         <td>{{student.LastName}}</td>

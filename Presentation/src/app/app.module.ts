@@ -10,6 +10,7 @@ import { AppComponent } from "./app.component";
 
 import { StudentService } from "./services/student.service";
 import { StudentComponent } from "./student/student.component";
+import { StudentDetailComponent } from "./student-detail/student-detail.component";
 
 import { CourseService } from "./services/course.service";
 import { CourseComponent } from "./course/course.component";
@@ -21,6 +22,7 @@ import { CourseDetailComponent } from "./course-detail/course-detail.component";
     StudentComponent,
     CourseComponent,
     CourseDetailComponent,
+    StudentDetailComponent,
   ],
   imports: [
     NgbModule.forRoot(),

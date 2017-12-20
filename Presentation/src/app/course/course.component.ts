@@ -20,7 +20,7 @@ export class CourseComponent implements OnInit {
     { title: "Name" }
   ];
   page = 1;
-  perPage = 7;
+  perPage = 8;
 
   constructor(
     private courseService: CourseService,

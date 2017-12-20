@@ -14,7 +14,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let course of courses.Data" class="clickable-row" (click)="goToCourseDetails(course)">
+      <tr class="clickable-row" *ngFor="let course of courses.Data" (click)="goToCourseDetails(course)">
         <td>{{course.Id}}</td>
         <td>{{course.Name}}</td>
       </tr>
