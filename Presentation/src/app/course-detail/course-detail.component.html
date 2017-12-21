@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="float-md-right" *ngIf="!courseNameEditing">
-    <button class="btn btn-danger">
+    <button class="btn btn-danger" (click)="deleteCourse(course.Id)">
       <i class="fa fa-trash fa-lg"></i> DELETE THIS COURSE</button>
   </div>
   <h2>

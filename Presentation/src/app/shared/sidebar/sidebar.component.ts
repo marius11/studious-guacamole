@@ -7,7 +7,7 @@ import { Component, OnInit } from "@angular/core";
 })
 export class SidebarComponent implements OnInit {
 
-  private items = [
+  items = [
     { title: "Students", path: "demo/students", icon: "" },
     { title: "Courses", path: "demo/courses", icon: "" }
   ];

@@ -28,10 +28,16 @@
       <h4 class="modal-title">New course</h4>
     </div>
     <div class="modal-body">
-      <p>hello, world!</p>
+      <div class="from-group row">
+        <label for="course-name-input" class="col-2 col-form-label">Name</label>
+        <div class="col-10">
+          <input class="form-control" type="text" id="course-name-input" [(ngModel)]="course.Name" />
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-default" (click)="c()">Close</button>
+      <button type="button" class="btn btn-success" (click)="addCourse(course)" [disabled]="!course.Name">ADD</button>
+      <button type="button" class="btn btn-default" (click)="c()">CLOSE</button>
     </div>
   </ng-template>
 </div>

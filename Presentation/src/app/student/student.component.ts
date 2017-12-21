@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
 
 import { Student } from "../models/student";
-import { StudentService } from "../services/student.service";
-import { Router } from "@angular/router";
+import { StudentService } from "app/services/student.service";
 
 @Component({
   selector: "app-student",
@@ -12,6 +13,7 @@ import { Router } from "@angular/router";
 
 export class StudentComponent implements OnInit {
 
+  student: Student = new Student("", "");
   students: Student[] = [];
   columns = [
     { title: "#" },
@@ -22,30 +24,27 @@ export class StudentComponent implements OnInit {
   perPage = 8;
 
   constructor(
-    private studentService: StudentService,
-    private router: Router) { }
+    private router: Router,
+    private studentService: StudentService) { }
 
   ngOnInit(): void {
     this.getStudentsPaged(this.page, this.perPage);
   }
 
-  getAllStudents(): void {
-    this.studentService.getAllStudents()
-      .subscribe(
-      data => this.students = data,
-      error => console.log(error)
-      );
-  }
-
   getStudentsPaged(page: number, per_page: number): void {
-    this.studentService.getStudentsPaged(page, per_page)
-      .subscribe(
-      data => this.students = data,
-      error => console.log(error)
-      );
+    this.studentService.getStudentsPaged(page, per_page).subscribe(result => {
+      this.students = result;
+    },
+      (e: HttpErrorResponse) => {
+        this.printErrorMessageToConsole(e);
+      });
   }
 
   goToStudentDetails(student: Student): void {
     this.router.navigate(["demo/students", student.Id]);
+  }
+
+  private printErrorMessageToConsole(e: HttpErrorResponse): void {
+    console.log(`${e.error} | ${e.name} | ${e.message} | ${e.status}`);
   }
 }

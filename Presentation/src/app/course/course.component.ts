@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
@@ -14,6 +15,7 @@ import { CourseService } from "../services/course.service";
 
 export class CourseComponent implements OnInit {
 
+  course: Course = new Course("");
   courses: Course[] = [];
   columns = [
     { title: "#" },
@@ -23,28 +25,28 @@ export class CourseComponent implements OnInit {
   perPage = 8;
 
   constructor(
-    private courseService: CourseService,
     private router: Router,
+    private courseService: CourseService,
     private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.getCoursesPaged(this.page, this.perPage);
   }
 
-  getAllCourses(): void {
-    this.courseService.getAllCourses()
-      .subscribe(
-      data => this.courses = data,
-      error => console.log(error)
-      );
+  getCoursesPaged(page: number, per_page: number): void {
+    this.courseService.getCoursesPaged(page, per_page).subscribe(result => {
+      this.courses = result;
+    },
+      (e: HttpErrorResponse) => {
+        this.printErrorMessageToConsole(e);
+      });
   }
 
-  getCoursesPaged(page: number, per_page: number): void {
-    this.courseService.getCoursesPaged(page, per_page)
-      .subscribe(
-      data => this.courses = data,
+  addCourse(course: Course): void {
+    this.courseService.createCourse(course).subscribe(
+      result => console.log(result),
       error => console.log(error)
-      );
+    );
   }
 
   goToCourseDetails(course: Course): void {
@@ -52,6 +54,10 @@ export class CourseComponent implements OnInit {
   }
 
   openAddCourseModal(content) {
-    this.modalService.open(content);
+    this.modalService.open(content, { size: "lg", backdrop: "static" });
+  }
+
+  private printErrorMessageToConsole(e: HttpErrorResponse): void {
+    console.log(`${e.error} | ${e.name} | ${e.message} | ${e.status}`);
   }
 }

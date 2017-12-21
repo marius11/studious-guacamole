@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Rx";
-import "rxjs/add/operator/map";
 
 import { Student } from "../models/student";
 import { Course } from "../models/course";
@@ -9,49 +8,38 @@ import { Course } from "../models/course";
 @Injectable()
 export class CourseService {
 
-  private headers: Headers;
-  private options: RequestOptions;
-
-  constructor(private http: Http) {
-    this.headers = new Headers({ "Content-Type": "application/json" });
-    this.options = new RequestOptions({ headers: this.headers });
-  }
+  constructor(private http: HttpClient) { }
 
   private API_BASE_URL = "http://localhost:54617/api";
   private API_COURSE_URL = `${this.API_BASE_URL}/courses`;
 
-  getAllCourses(): Observable<Course[]> {
-    return this.http.get(this.API_COURSE_URL)
-      .map((response: Response) => response.json());
-  }
-
   getCoursesPaged(page: number, per_page: number): Observable<Course[]> {
-    return this.http.get(`${this.API_COURSE_URL}?page=${page}&per_page=${per_page}`)
-      .map((response: Response) => response.json());
+    return this.http.get<Course[]>(`${this.API_COURSE_URL}`, {
+      params: new HttpParams().set("page", `${page}`).set("per_page", `${per_page}`)
+    });
   }
 
   getCourseById(id: number): Observable<Course> {
-    return this.http.get(`${this.API_COURSE_URL}/${id}`)
-      .map((response: Response) => response.json());
+    return this.http.get<Course>(`${this.API_COURSE_URL}/${id}`);
   }
 
   getStudentsByCourseId(id: number): Observable<Student[]> {
-    return this.http.get(`${this.API_COURSE_URL}/${id}/students`)
-      .map((response: Response) => response.json());
+    return this.http.get<Student[]>(`${this.API_COURSE_URL}/${id}/students`);
   }
 
-  createCourse(body: Course): Observable<Course> {
-    return this.http.post(`${this.API_COURSE_URL}`, JSON.stringify(body))
-      .map((response: Response) => response.json());
+  createCourse(course: Course): Observable<Course> {
+    return this.http.post<Course>(`${this.API_COURSE_URL}`, JSON.stringify(course), {
+      headers: new HttpHeaders().set("Content-Type", "application/json")
+    });
   }
 
   updateCourseName(course: Course): Observable<Course[]> {
-    return this.http.put(`${this.API_COURSE_URL}/${course["Id"]}`, JSON.stringify(course), this.options)
-      .map((response: Response) => response.json());
+    return this.http.put<Course[]>(`${this.API_COURSE_URL}/${course["Id"]}`, JSON.stringify(course), {
+      headers: new HttpHeaders().set("Content-Type", "application/json")
+    });
   }
 
   deleteCourse(id: number): Observable<Course> {
-    return this.http.delete(`${this.API_COURSE_URL}/${id}`)
-      .map((response: Response) => response.json());
+    return this.http.delete<Course>(`${this.API_COURSE_URL}/${id}`);
   }
 }

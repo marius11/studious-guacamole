@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Rx";
-import "rxjs/add/operator/map";
 
 import { Student } from "../models/student";
 import { Course } from "../models/course";
@@ -9,49 +8,38 @@ import { Course } from "../models/course";
 @Injectable()
 export class StudentService {
 
-  private headers: Headers;
-  private options: RequestOptions;
-
-  constructor(private http: Http) {
-    this.headers = new Headers({ "Content-Type": "application/json" });
-    this.options = new RequestOptions({ headers: this.headers });
-  }
+  constructor(private http: HttpClient) { }
 
   private API_BASE_URL = "http://localhost:54617/api";
   private API_STUDENT_URL = `${this.API_BASE_URL}/students`;
 
-  getAllStudents(): Observable<Student[]> {
-    return this.http.get(this.API_STUDENT_URL)
-      .map((response: Response) => response.json());
-  }
-
   getStudentsPaged(page: number, per_page: number): Observable<Student[]> {
-    return this.http.get(`${this.API_STUDENT_URL}?page=${page}&per_page=${per_page}`)
-      .map((response: Response) => response.json());
+    return this.http.get<Student[]>(`${this.API_STUDENT_URL}`, {
+      params: new HttpParams().set("page", `${page}`).set("per_page", `${per_page}`)
+    });
   }
 
   getStudentById(id: number): Observable<Student> {
-    return this.http.get(`${this.API_STUDENT_URL}/${id}`)
-      .map((response: Response) => response.json());
+    return this.http.get<Student>(`${this.API_STUDENT_URL}/${id}`);
   }
 
   getCoursesByStudentId(id: number): Observable<Course[]> {
-    return this.http.get(`${this.API_STUDENT_URL}/${id}/courses`)
-      .map((response: Response) => response.json());
+    return this.http.get<Course[]>(`${this.API_STUDENT_URL}/${id}/courses`);
   }
 
   createStudent(body: Student): Observable<Student> {
-    return this.http.post(this.API_STUDENT_URL, JSON.stringify(body))
-      .map((response: Response) => response.json());
+    return this.http.post<Student>(this.API_STUDENT_URL, JSON.stringify(body), {
+      headers: new HttpHeaders().set("Content-Type", "application/json")
+    });
   }
 
   updateStudent(id: number, body: any): Observable<Student> {
-    return this.http.put(`${this.API_STUDENT_URL}/${id}`, JSON.stringify(body), this.options)
-      .map((response: Response) => response.json());
+    return this.http.put<Student>(`${this.API_STUDENT_URL}/${id}`, JSON.stringify(body), {
+      headers: new HttpHeaders().set("Content-Type", "application/json")
+    });
   }
 
   deleteStudent(id: number): Observable<Student> {
-    return this.http.delete(`${this.API_STUDENT_URL}/${id}`)
-      .map((response: Response) => response.json());
+    return this.http.delete<Student>(`${this.API_STUDENT_URL}/${id}`);
   }
 }
