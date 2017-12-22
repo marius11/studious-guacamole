@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -38,6 +39,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
+            Thread.Sleep(3000);
             return httpResponse;
         }
 
@@ -75,6 +77,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadGateway, e);
             }
+            Thread.Sleep(3000);
             return httpResponse;
         }
 
@@ -106,6 +109,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
+            Thread.Sleep(3000);
             return httpResponse;
         }
 
@@ -135,6 +139,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
+            Thread.Sleep(3000);
             return httpResponse;
         }
 
@@ -163,6 +168,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
+            Thread.Sleep(3000);
             return httpResponse;
         }
 
@@ -189,6 +195,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
+            Thread.Sleep(3000);
             return httpResponse;
         }
 
@@ -222,6 +229,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
+            Thread.Sleep(3000);
             return httpResponse;
         }
     }
