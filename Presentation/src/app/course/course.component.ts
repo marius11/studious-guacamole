@@ -58,7 +58,7 @@ export class CourseComponent implements OnInit {
   }
 
   openAddCourseModal(content) {
-    this.modalRef = this.modalService.open(content, { size: "lg", backdrop: "static" });
+    this.modalService.open(content, { size: "lg", backdrop: "static" });
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
