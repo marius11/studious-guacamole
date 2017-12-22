@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
 
-import { Student } from "../models/student";
+import { Student } from "app/models/student";
 import { StudentService } from "app/services/student.service";
 
 @Component({
@@ -45,6 +45,6 @@ export class StudentComponent implements OnInit {
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
-    console.log(`${e.error} | ${e.name} | ${e.message} | ${e.status}`);
+    console.error(`Error: ${e.error} | Name: ${e.name} | Message: ${e.message} | Status: ${e.status}`);
   }
 }

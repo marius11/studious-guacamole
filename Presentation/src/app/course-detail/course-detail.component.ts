@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Location } from "@angular/common";
+import { HttpErrorResponse } from "@angular/common/http";
 
-import { Student } from "../models/student";
-import { Course } from "../models/course";
-import { CourseService } from "../services/course.service";
+import { Student } from "app/models/student";
+import { Course } from "app/models/course";
+import { CourseService } from "app/services/course.service";
 
 import "rxjs/add/operator/switchMap";
 
@@ -41,27 +42,33 @@ export class CourseDetailComponent implements OnInit {
   getCourseDetails(): void {
     this.route.params
       .switchMap((params: Params) => this.courseService.getCourseById(params["id"]))
-      .subscribe(
-      data => this.course = data,
-      error => console.log(error)
-      );
+      .subscribe(result => {
+        this.course = result;
+      },
+      (e: HttpErrorResponse) => {
+        this.printErrorMessageToConsole(e);
+      });
   }
 
   getCourseStudents(): void {
     this.route.params
       .switchMap((params: Params) => this.courseService.getStudentsByCourseId(params["id"]))
-      .subscribe(
-      data => this.students = data,
-      error => console.log(error)
-      );
+      .subscribe(result => {
+        this.students = result;
+      },
+      (e: HttpErrorResponse) => {
+        this.printErrorMessageToConsole(e);
+      });
   }
 
   updateCourseName(course: Course): void {
     this.courseService.updateCourseName(course)
-      .subscribe(
-      data => console.log(data),
-      error => console.log(error)
-      );
+      .subscribe(result => {
+        console.log(result);
+      },
+      (e: HttpErrorResponse) => {
+        this.printErrorMessageToConsole(e);
+      });
   }
 
   enableCourseNameEditing(): void {
@@ -112,5 +119,9 @@ export class CourseDetailComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  private printErrorMessageToConsole(e: HttpErrorResponse): void {
+    console.error(`Error: ${e.error} | Name: ${e.name} | Message: ${e.message} | Status: ${e.status}`);
   }
 }

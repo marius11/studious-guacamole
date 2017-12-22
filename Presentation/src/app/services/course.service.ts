@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Rx";
 
-import { Student } from "../models/student";
-import { Course } from "../models/course";
+import { Student } from "app/models/student";
+import { Course } from "app/models/course";
 
 @Injectable()
 export class CourseService {

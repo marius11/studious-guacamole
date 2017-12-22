@@ -4,8 +4,8 @@ import { HttpErrorResponse } from "@angular/common/http";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
-import { Course } from "../models/course";
-import { CourseService } from "../services/course.service";
+import { Course } from "app/models/course";
+import { CourseService } from "app/services/course.service";
 
 @Component({
   selector: "app-course",
@@ -34,19 +34,23 @@ export class CourseComponent implements OnInit {
   }
 
   getCoursesPaged(page: number, per_page: number): void {
-    this.courseService.getCoursesPaged(page, per_page).subscribe(result => {
-      this.courses = result;
-    },
+    this.courseService.getCoursesPaged(page, per_page)
+      .subscribe(result => {
+        this.courses = result;
+      },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
       });
   }
 
   addCourse(course: Course): void {
-    this.courseService.createCourse(course).subscribe(
-      result => console.log(result),
-      error => console.log(error)
-    );
+    this.courseService.createCourse(course)
+      .subscribe(result => {
+        console.log(result);
+      },
+      (e: HttpErrorResponse) => {
+        this.printErrorMessageToConsole(e);
+      });
   }
 
   goToCourseDetails(course: Course): void {
@@ -54,10 +58,10 @@ export class CourseComponent implements OnInit {
   }
 
   openAddCourseModal(content) {
-    this.modalService.open(content, { size: "lg", backdrop: "static" });
+    this.modalRef = this.modalService.open(content, { size: "lg", backdrop: "static" });
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
-    console.log(`${e.error} | ${e.name} | ${e.message} | ${e.status}`);
+    console.error(`Error: ${e.error} | Name: ${e.name} | Message: ${e.message} | Status: ${e.status}`);
   }
 }

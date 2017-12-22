@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Location } from "@angular/common";
+import { HttpErrorResponse } from "@angular/common/http";
 
-import { Course } from "../models/course";
-import { Student } from "../models/student";
-import { StudentService } from "../services/student.service";
+import { Course } from "app/models/course";
+import { Student } from "app/models/student";
+import { StudentService } from "app/services/student.service";
 
 @Component({
   selector: "app-student-detail",
@@ -34,22 +35,30 @@ export class StudentDetailComponent implements OnInit {
   getStudentDetails(): void {
     this.route.params
       .switchMap((params: Params) => this.studentService.getStudentById(params["id"]))
-      .subscribe(
-      data => this.student = data,
-      error => console.log(error)
-      );
+      .subscribe(result => {
+        this.student = result;
+      },
+      (e: HttpErrorResponse) => {
+        this.printErrorMessageToConsole(e);
+      });
   }
 
   getStudentCourses(): void {
     this.route.params
       .switchMap((params: Params) => this.studentService.getCoursesByStudentId(params["id"]))
-      .subscribe(
-      data => this.courses = data,
-      error => console.log(error)
-      );
+      .subscribe(result => {
+        this.courses = result;
+      },
+      (e: HttpErrorResponse) => {
+        this.printErrorMessageToConsole(e);
+      });
   }
 
   goBack() {
     this.location.back();
+  }
+
+  private printErrorMessageToConsole(e: HttpErrorResponse): void {
+    console.error(`Error: ${e.error} | Name: ${e.name} | Message: ${e.message} | Status: ${e.status}`);
   }
 }
