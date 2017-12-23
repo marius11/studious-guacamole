@@ -14,6 +14,8 @@ namespace Service.Controllers
     [RoutePrefix("api/courses")]
     public class CoursesController : ApiController
     {
+        private const int THREAD_DELAY = 2500;
+
         [HttpGet]
         [Route("")]
         public async Task<HttpResponseMessage> GetAllCourses()
@@ -39,7 +41,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(3000);
+            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -77,7 +79,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadGateway, e);
             }
-            Thread.Sleep(3000);
+            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -94,10 +96,16 @@ namespace Service.Controllers
                     var course = await
                         (from c in db.Courses
                          where c.Id == id
-                         select new CourseDTO
+                         select new CourseDetailDTO
                          {
                              Id = c.Id,
-                             Name = c.Name
+                             Name = c.Name,
+                             Students = (from s in c.Students select new StudentDTO
+                             {
+                                 Id = s.Id,
+                                 FirstName = s.FirstName,
+                                 LastName = s.LastName
+                             }).ToList()
                          }).SingleAsync();
 
                     httpResponse = course != null ?
@@ -109,7 +117,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(3000);
+            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -139,7 +147,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(3000);
+            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -168,7 +176,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(3000);
+            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -195,7 +203,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(3000);
+            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -229,7 +237,7 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(3000);
+            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
     }
