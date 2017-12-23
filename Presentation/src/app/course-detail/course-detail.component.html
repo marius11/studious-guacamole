@@ -3,10 +3,13 @@
     <button class="btn btn-danger" (click)="deleteCourse(course.Id)">
       <i class="fa fa-trash fa-lg"></i> DELETE THIS COURSE</button>
   </div>
-  <h2>
+  <h2 *ngIf="course?.Name">
     <span class="course-name-title" (click)="enableCourseNameEditing()" *ngIf="!courseNameEditing">{{course?.Name}}
       <i class="fa fa-pencil"></i>
     </span>
+  </h2>
+  <h2 *ngIf="!course?.Name">
+    Loading...
   </h2>
   <div class="input-group" *ngIf="courseNameEditing">
     <input id="course-name-input" type="text" class="form-control col-lg-3" [(ngModel)]="course.Name" />
