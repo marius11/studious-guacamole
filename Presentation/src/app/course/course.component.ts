@@ -62,6 +62,10 @@ export class CourseComponent implements OnInit {
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
-    console.error(`Error: ${e.error} | Name: ${e.name} | Message: ${e.message} | Status: ${e.status}`);
+    if (e.error instanceof Error) {
+      console.error("An error occurred: ", e.error.message);
+    } else {
+      console.error(`Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
+    }
   }
 }

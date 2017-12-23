@@ -36,7 +36,6 @@ export class CourseDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCourseDetails();
-    this.getCourseStudents();
   }
 
   getCourseDetails(): void {
@@ -44,17 +43,7 @@ export class CourseDetailComponent implements OnInit {
       .switchMap((params: Params) => this.courseService.getCourseById(params["id"]))
       .subscribe(result => {
         this.course = result;
-      },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-      });
-  }
-
-  getCourseStudents(): void {
-    this.route.params
-      .switchMap((params: Params) => this.courseService.getStudentsByCourseId(params["id"]))
-      .subscribe(result => {
-        this.students = result;
+        this.students = result.Students;
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
@@ -122,6 +111,10 @@ export class CourseDetailComponent implements OnInit {
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
-    console.error(`Error: ${e.error} | Name: ${e.name} | Message: ${e.message} | Status: ${e.status}`);
+    if (e.error instanceof Error) {
+      console.error("An error occurred: ", e.error.message);
+    } else {
+      console.error(`Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
+    }
   }
 }

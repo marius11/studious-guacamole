@@ -32,9 +32,10 @@ export class StudentComponent implements OnInit {
   }
 
   getStudentsPaged(page: number, per_page: number): void {
-    this.studentService.getStudentsPaged(page, per_page).subscribe(result => {
-      this.students = result;
-    },
+    this.studentService.getStudentsPaged(page, per_page)
+      .subscribe(result => {
+        this.students = result;
+      },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
       });
@@ -45,6 +46,10 @@ export class StudentComponent implements OnInit {
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
-    console.error(`Error: ${e.error} | Name: ${e.name} | Message: ${e.message} | Status: ${e.status}`);
+    if (e.error instanceof Error) {
+      console.error("An error occurred: ", e.error.message);
+    } else {
+      console.error(`Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
+    }
   }
 }

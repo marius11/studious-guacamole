@@ -1,17 +1,26 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
 import { Location } from "@angular/common";
+import { ActivatedRoute, Params } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
 
 import { Course } from "app/models/course";
 import { Student } from "app/models/student";
 import { StudentService } from "app/services/student.service";
 
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/forkJoin";
+
+enum DATA {
+  STUDENT,
+  COURSE
+}
+
 @Component({
   selector: "app-student-detail",
   templateUrl: "./student-detail.component.html",
   styleUrls: ["./student-detail.component.css"]
 })
+
 export class StudentDetailComponent implements OnInit {
 
   student: Student;
@@ -29,29 +38,22 @@ export class StudentDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getStudentDetails();
-    this.getStudentCourses();
   }
 
   getStudentDetails(): void {
-    this.route.params
-      .switchMap((params: Params) => this.studentService.getStudentById(params["id"]))
-      .subscribe(result => {
-        this.student = result;
-      },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-      });
-  }
+    this.route.params.subscribe(params => {
+      let studentApiCall = this.studentService.getStudentById(+params["id"]);
+      let studentCoursesApiCall = this.studentService.getCoursesByStudentId(+params["id"]);
 
-  getStudentCourses(): void {
-    this.route.params
-      .switchMap((params: Params) => this.studentService.getCoursesByStudentId(params["id"]))
-      .subscribe(result => {
-        this.courses = result;
-      },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-      });
+      Observable.forkJoin([studentApiCall, studentCoursesApiCall])
+        .subscribe(result => {
+          this.student = result[DATA.STUDENT];
+          this.courses = result[DATA.COURSE];
+        },
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+        });
+    });
   }
 
   goBack() {
@@ -59,6 +61,10 @@ export class StudentDetailComponent implements OnInit {
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
-    console.error(`Error: ${e.error} | Name: ${e.name} | Message: ${e.message} | Status: ${e.status}`);
+    if (e.error instanceof Error) {
+      console.error("An error occurred: ", e.error.message);
+    } else {
+      console.error(`Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
+    }
   }
 }
