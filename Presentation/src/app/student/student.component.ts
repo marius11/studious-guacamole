@@ -2,8 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
 
+import { DataModel } from "app/models/data-model";
+import { DataService } from "app/services/data.service";
+
 import { Student } from "app/models/student";
-import { StudentService } from "app/services/student.service";
+
+import "rxjs/add/operator/delay";
 
 @Component({
   selector: "app-student",
@@ -13,8 +17,11 @@ import { StudentService } from "app/services/student.service";
 
 export class StudentComponent implements OnInit {
 
+  private API_STUDENT_PATH = "students";
+  private RESPONSE_DELAY_TIMER = 1000;
+
   student: Student = new Student("", "");
-  students: Student[] = [];
+  students: DataModel<Student[]> = { Data: [], Count: 0 };
   columns = [
     { title: "#" },
     { title: "First name" },
@@ -25,14 +32,15 @@ export class StudentComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private studentService: StudentService) { }
+    private dataService: DataService) { }
 
   ngOnInit(): void {
     this.getStudentsPaged(this.page, this.perPage);
   }
 
   getStudentsPaged(page: number, per_page: number): void {
-    this.studentService.getStudentsPaged(page, per_page)
+    this.dataService.getItemsPaged<Student[]>(this.API_STUDENT_PATH, page, per_page)
+      .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
         this.students = result;
       },

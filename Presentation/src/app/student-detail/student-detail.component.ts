@@ -5,10 +5,11 @@ import { HttpErrorResponse } from "@angular/common/http";
 
 import { Course } from "app/models/course";
 import { Student } from "app/models/student";
-import { StudentService } from "app/services/student.service";
+import { DataService } from "app/services/data.service";
 
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/forkJoin";
+import "rxjs/add/operator/delay";
 
 enum DATA {
   STUDENT,
@@ -23,6 +24,10 @@ enum DATA {
 
 export class StudentDetailComponent implements OnInit {
 
+  private API_STUDENT_PATH = "students";
+  private API_STUDENT_SUB_PATH = "courses";
+  private RESPONSE_DELAY_TIMER = 1000;
+
   student: Student;
   courses: Course[] = [];
   courseTableColumns = [
@@ -31,7 +36,7 @@ export class StudentDetailComponent implements OnInit {
   ];
 
   constructor(
-    private studentService: StudentService,
+    private dataService: DataService,
     private route: ActivatedRoute,
     private location: Location
   ) { }
@@ -42,10 +47,12 @@ export class StudentDetailComponent implements OnInit {
 
   getStudentDetails(): void {
     this.route.params.subscribe(params => {
-      let studentApiCall = this.studentService.getStudentById(+params["id"]);
-      let studentCoursesApiCall = this.studentService.getCoursesByStudentId(+params["id"]);
+      let studentApiCall = this.dataService.getItemById<Student>(this.API_STUDENT_PATH, +params["id"]);
+      let studentCoursesApiCall = this.dataService.getSubItemByItemId<Course[]>(
+        this.API_STUDENT_PATH, +params["id"], this.API_STUDENT_SUB_PATH);
 
       Observable.forkJoin([studentApiCall, studentCoursesApiCall])
+        .delay(this.RESPONSE_DELAY_TIMER)
         .subscribe(result => {
           this.student = result[DATA.STUDENT];
           this.courses = result[DATA.COURSE];

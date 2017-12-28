@@ -4,8 +4,12 @@ import { HttpErrorResponse } from "@angular/common/http";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
+import { DataModel } from "app/models/data-model";
+import { DataService } from "app/services/data.service";
+
 import { Course } from "app/models/course";
-import { CourseService } from "app/services/course.service";
+
+import "rxjs/add/operator/delay";
 
 @Component({
   selector: "app-course",
@@ -15,8 +19,11 @@ import { CourseService } from "app/services/course.service";
 
 export class CourseComponent implements OnInit {
 
+  private API_COURSE_PATH = "courses";
+  private RESPONSE_DELAY_TIMER = 1000;
+
   course: Course = new Course("");
-  courses: Course[] = [];
+  courses: DataModel<Course[]> = { Data: [], Count: 0 };
   columns = [
     { title: "#" },
     { title: "Name" }
@@ -26,7 +33,7 @@ export class CourseComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private courseService: CourseService,
+    private dataService: DataService,
     private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -34,7 +41,8 @@ export class CourseComponent implements OnInit {
   }
 
   getCoursesPaged(page: number, per_page: number): void {
-    this.courseService.getCoursesPaged(page, per_page)
+    this.dataService.getItemsPaged<Course[]>(this.API_COURSE_PATH, page, per_page)
+      .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
         this.courses = result;
       },
@@ -44,7 +52,8 @@ export class CourseComponent implements OnInit {
   }
 
   addCourse(course: Course): void {
-    this.courseService.createCourse(course)
+    this.dataService.createItem<Course>(this.API_COURSE_PATH, course)
+      .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
         console.log(result);
       },

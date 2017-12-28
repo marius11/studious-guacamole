@@ -5,9 +5,10 @@ import { HttpErrorResponse } from "@angular/common/http";
 
 import { Student } from "app/models/student";
 import { Course } from "app/models/course";
-import { CourseService } from "app/services/course.service";
+import { DataService } from "app/services/data.service";
 
 import "rxjs/add/operator/switchMap";
+import "rxjs/add/operator/delay";
 
 @Component({
   selector: "app-course-detail",
@@ -16,6 +17,9 @@ import "rxjs/add/operator/switchMap";
 })
 
 export class CourseDetailComponent implements OnInit {
+
+  private API_COURSE_PATH = "courses";
+  private RESPONSE_DELAY_TIMER = 1000;
 
   course: Course;
   students: Student[];
@@ -26,9 +30,10 @@ export class CourseDetailComponent implements OnInit {
     { title: "First name" },
     { title: "Last name" }
   ];
+  isRequestProcessing = false;
 
   constructor(
-    private courseService: CourseService,
+    private dataService: DataService,
     private route: ActivatedRoute,
     private location: Location,
     private router: Router
@@ -39,8 +44,9 @@ export class CourseDetailComponent implements OnInit {
   }
 
   getCourseDetails(): void {
-    this.route.params
-      .switchMap((params: Params) => this.courseService.getCourseById(params["id"]))
+    this.route.params.
+      switchMap((params: Params) => this.dataService.getItemById<Course>(this.API_COURSE_PATH, +params["id"]))
+      .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
         this.course = result;
         this.students = result.Students;
@@ -51,12 +57,18 @@ export class CourseDetailComponent implements OnInit {
   }
 
   updateCourseName(course: Course): void {
-    this.courseService.updateCourseName(course)
+    this.isRequestProcessing = true;
+
+    this.dataService.updateItem<Course>(this.API_COURSE_PATH + "2s", course.Id, course)
+      .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
         console.log(result);
+        this.courseNameEditing = !this.courseNameEditing;
+        this.isRequestProcessing = false;
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
+        this.isRequestProcessing = false;
       });
   }
 
@@ -77,11 +89,10 @@ export class CourseDetailComponent implements OnInit {
   }
 
   saveChanges(course: Course): void {
-    this.courseNameEditing = !this.courseNameEditing;
-
     if (this.oldCourseName !== course.Name) {
       this.updateCourseName(course);
     } else {
+      this.courseNameEditing = !this.courseNameEditing;
       console.log("Update not necessary.");
     }
   }
@@ -90,17 +101,14 @@ export class CourseDetailComponent implements OnInit {
     let confirmation = window.confirm("Are you sure you want to delete this course?");
 
     if (confirmation === true) {
-      this.courseService.deleteCourse(id)
-        .subscribe(
-        data => console.log(data),
-        error => {
-          console.log(error);
-        }
-        );
-
-      setTimeout(() => {
-        this.router.navigate(["demo/courses"]);
-      }, 100);
+      this.dataService.deleteItem<Course>(this.API_COURSE_PATH, id)
+        .subscribe(data => {
+          console.log(data);
+          this.router.navigate(["demo/courses"]);
+        },
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+        });
     } else {
       console.log(`Deletion for course ID ${id} has been cancelled`);
     }
