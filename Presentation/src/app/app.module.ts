@@ -8,6 +8,8 @@ import { AppRoutingModule } from "./app-routing.module";
 import { SharedModule } from "./shared/shared.module";
 import { AppComponent } from "./app.component";
 
+import { AutofocusDirective } from "app/directives/autofocus.directive";
+
 import { DataService } from "app/services/data.service";
 
 import { StudentComponent } from "./student/student.component";
@@ -23,6 +25,7 @@ import { CourseDetailComponent } from "./course-detail/course-detail.component";
     CourseComponent,
     CourseDetailComponent,
     StudentDetailComponent,
+    AutofocusDirective,
   ],
   imports: [
     NgbModule.forRoot(),

@@ -59,7 +59,7 @@ export class CourseDetailComponent implements OnInit {
   updateCourseName(course: Course): void {
     this.isRequestProcessing = true;
 
-    this.dataService.updateItem<Course>(this.API_COURSE_PATH + "2s", course.Id, course)
+    this.dataService.updateItem<Course>(this.API_COURSE_PATH, course.Id, course)
       .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
         console.log(result);
@@ -75,12 +75,6 @@ export class CourseDetailComponent implements OnInit {
   enableCourseNameEditing(): void {
     this.courseNameEditing = !this.courseNameEditing;
     this.oldCourseName = this.course.Name;
-
-    console.log(`The old value is ${this.oldCourseName}`);
-
-    setTimeout(function () {
-      document.getElementById("course-name-input").focus();
-    }, 10);
   }
 
   disableCourseNameEditing(): void {
