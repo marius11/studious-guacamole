@@ -14,7 +14,7 @@ namespace Service.Controllers
     [RoutePrefix("api/students")]
     public class StudentsController : ApiController
     {
-        private const int THREAD_DELAY = 2500;
+        private const int THREAD_DELAY = 2000;
 
         [HttpGet]
         [Route("")]
