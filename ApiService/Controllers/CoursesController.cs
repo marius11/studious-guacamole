@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -14,8 +13,6 @@ namespace Service.Controllers
     [RoutePrefix("api/courses")]
     public class CoursesController : ApiController
     {
-        private const int THREAD_DELAY = 2000;
-
         [HttpGet]
         [Route("")]
         public async Task<HttpResponseMessage> GetAllCourses()
@@ -41,7 +38,6 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -79,7 +75,6 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadGateway, e);
             }
-            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -117,7 +112,6 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -147,7 +141,6 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -176,7 +169,6 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -203,7 +195,6 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
 
@@ -237,7 +228,6 @@ namespace Service.Controllers
             {
                 httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
-            Thread.Sleep(THREAD_DELAY);
             return httpResponse;
         }
     }
