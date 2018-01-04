@@ -11,6 +11,7 @@ import { AppComponent } from "./app.component";
 import { AutofocusDirective } from "app/directives/autofocus.directive";
 
 import { DataService } from "app/services/data.service";
+import { SearchService } from "app/services/search.service";
 
 import { StudentComponent } from "./student/student.component";
 import { StudentDetailComponent } from "./student-detail/student-detail.component";
@@ -35,7 +36,7 @@ import { CourseDetailComponent } from "./course-detail/course-detail.component";
     SharedModule,
     FormsModule,
   ],
-  providers: [DataService],
+  providers: [DataService, SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

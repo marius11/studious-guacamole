@@ -1,6 +1,7 @@
 ﻿using ApiService.Models;
 using DataAccess;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -95,12 +96,13 @@ namespace Service.Controllers
                          {
                              Id = c.Id,
                              Name = c.Name,
-                             Students = (from s in c.Students select new StudentDTO
-                             {
-                                 Id = s.Id,
-                                 FirstName = s.FirstName,
-                                 LastName = s.LastName
-                             }).ToList()
+                             Students = (from s in c.Students
+                                         select new StudentDTO
+                                         {
+                                             Id = s.Id,
+                                             FirstName = s.FirstName,
+                                             LastName = s.LastName
+                                         }).ToList()
                          }).SingleAsync();
 
                     httpResponse = course != null ?
@@ -135,6 +137,43 @@ namespace Service.Controllers
                     httpResponse = students != null ?
                         Request.CreateResponse(HttpStatusCode.OK, students) :
                         Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} doesn't have students assigned");
+                }
+            }
+            catch (Exception e)
+            {
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+            return httpResponse;
+        }
+
+        [HttpGet]
+        [Route("")]
+        public async Task<HttpResponseMessage> GetCoursesFiltered([FromUri] string search_term, [FromUri] int? per_page)
+        {
+            int pageSize = per_page ?? 5;
+
+            HttpResponseMessage httpResponse;
+
+            try
+            {
+                using (AppDbContext db = new AppDbContext())
+                {
+                    var courses = await
+                       (from c in db.Courses
+                        where c.Name.Contains(search_term)
+                        select new CourseDTO
+                        {
+                            Id = c.Id,
+                            Name = c.Name
+                        }).Take(pageSize).ToListAsync();
+
+                    var pagedResponse = new PagingModel<CourseDTO>
+                    {
+                        Data = courses,
+                        Count = courses.Count
+                    };
+
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK, pagedResponse);
                 }
             }
             catch (Exception e)

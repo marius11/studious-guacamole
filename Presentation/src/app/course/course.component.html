@@ -1,12 +1,15 @@
 <div class="container-fluid">
-  <div class="pull-right">
-    <div class="btn-group">
-      <button type="button" class="btn btn-success" (click)="openAddCourseModal(content)">
+  <nav class="navbar navbar-static-top navbar-light">
+    <h2>Courses</h2>
+    <form class="input-group col-lg-4">
+      <input class="form-control" type="text" (input)="searchTerm.next($event.target.value)">
+    </form>
+    <div class="pull-right">
+      <button class="btn btn-success" type="button" (click)="openAddCourseModal(content)">
         <i class="fa fa-plus"></i> ADD COURSE
       </button>
     </div>
-  </div>
-  <h2>Courses</h2>
+  </nav>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -29,15 +32,15 @@
     </div>
     <div class="modal-body">
       <div class="from-group row">
-        <label for="course-name-input" class="col-2 col-form-label">Name</label>
+        <label class="col-2 col-form-label" for="course-name-input">Name</label>
         <div class="col-10">
           <input class="form-control" type="text" id="course-name-input" [(ngModel)]="course.Name" />
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-success" (click)="addCourse(course)" [disabled]="!course.Name">ADD</button>
-      <button type="button" class="btn btn-default" (click)="c()">CLOSE</button>
+      <button class="btn btn-success" type="button" [disabled]="!course.Name || isRequestProcessing" (click)="addCourse(course)">ADD</button>
+      <button class="btn btn-default" type="button" [disabled]="isRequestProcessing" (click)="c()">CANCEL</button>
     </div>
   </ng-template>
 </div>
