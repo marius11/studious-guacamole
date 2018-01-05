@@ -50,7 +50,7 @@ export class StudentComponent implements OnInit {
   }
 
   goToStudentDetails(student: Student): void {
-    this.router.navigate(["demo/students", student.Id]);
+    this.router.navigate(["app/students", student.Id]);
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {

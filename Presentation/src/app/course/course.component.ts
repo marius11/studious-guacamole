@@ -97,7 +97,7 @@ export class CourseComponent implements OnInit {
   }
 
   goToCourseDetails(course: Course): void {
-    this.router.navigate(["demo/courses", course.Id]);
+    this.router.navigate(["app/courses", course.Id]);
   }
 
   openAddCourseModal(content): void {

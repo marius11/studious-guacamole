@@ -87,7 +87,6 @@ export class CourseDetailComponent implements OnInit {
       this.updateCourseName(course);
     } else {
       this.courseNameEditing = !this.courseNameEditing;
-      console.log("Update not necessary.");
     }
   }
 
@@ -98,7 +97,7 @@ export class CourseDetailComponent implements OnInit {
       this.dataService.deleteItem<Course>(this.API_COURSE_PATH, id)
         .subscribe(data => {
           console.log(data);
-          this.router.navigate(["demo/courses"]);
+          this.router.navigate(["app/courses"]);
         },
         (e: HttpErrorResponse) => {
           this.printErrorMessageToConsole(e);
