@@ -17,6 +17,9 @@ import "rxjs/add/operator/delay";
 
 export class StudentComponent implements OnInit {
 
+  private API_STUDENT_PATH = "students";
+  private RESPONSE_DELAY_TIMER = 1000;
+
   student: Student = new Student("", "");
   students: DataModel<Student[]> = { Data: [], Count: 0 };
   columns = [
@@ -26,9 +29,6 @@ export class StudentComponent implements OnInit {
   ];
   page = 1;
   perPage = 8;
-
-  private API_STUDENT_PATH = "students";
-  private RESPONSE_DELAY_TIMER = 1000;
 
   constructor(
     private router: Router,
@@ -40,7 +40,7 @@ export class StudentComponent implements OnInit {
 
   getStudentsPaged(page: number, per_page: number): void {
     this.dataService.getItemsPaged<Student[]>(this.API_STUDENT_PATH, page, per_page)
-      .delay(this.RESPONSE_DELAY_TIMER - 750)
+      .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
         this.students = result;
       },
@@ -50,7 +50,7 @@ export class StudentComponent implements OnInit {
   }
 
   goToStudentDetails(student: Student): void {
-    this.router.navigate(["app/students", student.Id]);
+    this.router.navigate(["demo/students", student.Id]);
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {

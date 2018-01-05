@@ -8,8 +8,8 @@ import { Component, OnInit } from "@angular/core";
 export class SidebarComponent implements OnInit {
 
   items = [
-    { title: "Students", path: "app/students", icon: "" },
-    { title: "Courses", path: "app/courses", icon: "" }
+    { title: "Students", path: "demo/students", icon: "" },
+    { title: "Courses", path: "demo/courses", icon: "" }
   ];
 
   constructor() { }

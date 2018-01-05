@@ -24,16 +24,16 @@ enum DATA {
 
 export class StudentDetailComponent implements OnInit {
 
+  private API_STUDENT_PATH = "students";
+  private API_STUDENT_SUB_PATH = "courses";
+  private RESPONSE_DELAY_TIMER = 1000;
+
   student: Student;
   courses: Course[] = [];
   courseTableColumns = [
     { title: "#" },
     { title: "Name" }
   ];
-
-  private API_STUDENT_PATH = "students";
-  private API_STUDENT_SUB_PATH = "courses";
-  private RESPONSE_DELAY_TIMER = 1000;
 
   constructor(
     private dataService: DataService,

@@ -18,6 +18,9 @@ import "rxjs/add/operator/delay";
 
 export class CourseDetailComponent implements OnInit {
 
+  private API_COURSE_PATH = "courses";
+  private RESPONSE_DELAY_TIMER = 1000;
+
   course: Course;
   students: Student[];
   courseNameEditing: boolean;
@@ -28,9 +31,6 @@ export class CourseDetailComponent implements OnInit {
     { title: "Last name" }
   ];
   isRequestProcessing = false;
-
-  private API_COURSE_PATH = "courses";
-  private RESPONSE_DELAY_TIMER = 1000;
 
   constructor(
     private dataService: DataService,
@@ -44,14 +44,12 @@ export class CourseDetailComponent implements OnInit {
   }
 
   getCourseDetails(): void {
-    this.isRequestProcessing = true;
     this.route.params.
       switchMap((params: Params) => this.dataService.getItemById<Course>(this.API_COURSE_PATH, +params["id"]))
       .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
         this.course = result;
         this.students = result.Students;
-        this.isRequestProcessing = false;
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
@@ -60,6 +58,7 @@ export class CourseDetailComponent implements OnInit {
 
   updateCourseName(course: Course): void {
     this.isRequestProcessing = true;
+
     this.dataService.updateItem<Course>(this.API_COURSE_PATH, course.Id, course)
       .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
@@ -96,17 +95,13 @@ export class CourseDetailComponent implements OnInit {
     let confirmation = window.confirm("Are you sure you want to delete this course?");
 
     if (confirmation === true) {
-      this.isRequestProcessing = true;
       this.dataService.deleteItem<Course>(this.API_COURSE_PATH, id)
-        .delay(this.RESPONSE_DELAY_TIMER)
         .subscribe(data => {
           console.log(data);
-          this.isRequestProcessing = false;
-          this.router.navigate(["app/courses"]);
+          this.router.navigate(["demo/courses"]);
         },
         (e: HttpErrorResponse) => {
           this.printErrorMessageToConsole(e);
-          this.isRequestProcessing = false;
         });
     } else {
       console.log(`Deletion for course ID ${id} has been cancelled`);
