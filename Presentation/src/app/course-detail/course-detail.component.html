@@ -1,10 +1,10 @@
 <div class="container-fluid">
   <div class="float-md-right" *ngIf="!courseNameEditing">
-    <button class="btn btn-danger" (click)="deleteCourse(course.Id)">
+    <button class="btn btn-danger" [disabled]="isRequestProcessing" (click)="deleteCourse(course.Id)">
       <i class="fa fa-trash fa-lg"></i> DELETE THIS COURSE</button>
   </div>
   <h2 *ngIf="course?.Name">
-    <span class="course-name-title" (click)="enableCourseNameEditing()" *ngIf="!courseNameEditing">{{course?.Name}}
+    <span class="course-name-title" *ngIf="!courseNameEditing" (click)="enableCourseNameEditing()">{{course?.Name}}
       <i class="fa fa-pencil"></i>
     </span>
   </h2>
@@ -15,7 +15,7 @@
     <input class="form-control col-lg-3" type="text" [disabled]="isRequestProcessing" [(ngModel)]="course.Name" appAutofocus
     />
     <span class="input-group-btn">
-      <button [disabled]="!course.Name || isRequestProcessing" class="btn btn-success" type="button" (click)="saveChanges(course)">
+      <button class="btn btn-success" type="button" [disabled]="!course.Name || isRequestProcessing" (click)="saveChanges(course)">
         <i class="fa fa-check fa-lg" aria-hidden="true"></i>
       </button>
       <button class="btn btn-danger" type="button" [disabled]="isRequestProcessing" (click)="disableCourseNameEditing()">
@@ -39,7 +39,7 @@
       </tbody>
     </table>
   </div>
-  <div class="alert alert-warning text-center" role="alert" *ngIf="students?.length === 0">
+  <div class="alert alert-warning text-center" *ngIf="students?.length === 0" role="alert">
     <span>
       <strong>There are no students assigned to this course!</strong>
     </span>
