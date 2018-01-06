@@ -35,11 +35,7 @@ export class StudentDetailComponent implements OnInit {
     { title: "Name" }
   ];
 
-  constructor(
-    private dataService: DataService,
-    private route: ActivatedRoute,
-    private location: Location
-  ) { }
+  constructor(private dataService: DataService, private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit() {
     this.getStudentDetails();

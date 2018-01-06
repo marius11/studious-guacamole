@@ -30,9 +30,7 @@ export class StudentComponent implements OnInit {
   page = 1;
   perPage = 8;
 
-  constructor(
-    private router: Router,
-    private dataService: DataService) { }
+  constructor(private router: Router, private dataService: DataService) { }
 
   ngOnInit(): void {
     this.getStudentsPaged(this.page, this.perPage);
