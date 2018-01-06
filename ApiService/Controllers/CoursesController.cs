@@ -1,7 +1,6 @@
 ﻿using ApiService.Models;
 using DataAccess;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -47,7 +46,7 @@ namespace Service.Controllers
         public async Task<HttpResponseMessage> GetCoursesPaged([FromUri] int? page, [FromUri] int? per_page)
         {
             int pageNumber = page - 1 ?? 0;
-            int pageSize = per_page ?? 5;
+            int pageSize = per_page ?? 10;
 
             HttpResponseMessage httpResponse;
 
@@ -150,7 +149,7 @@ namespace Service.Controllers
         [Route("")]
         public async Task<HttpResponseMessage> GetCoursesFiltered([FromUri] string search_term, [FromUri] int? per_page)
         {
-            int pageSize = per_page ?? 5;
+            int pageSize = per_page ?? 10;
 
             HttpResponseMessage httpResponse;
 
