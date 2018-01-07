@@ -2,12 +2,15 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
 
+import { Student } from "app/models/student";
 import { DataModel } from "app/models/data-model";
 import { DataService } from "app/services/data.service";
+import { SearchService } from "app/services/search.service";
 
-import { Student } from "app/models/student";
-
+import { Subject } from "rxjs/Subject";
 import "rxjs/add/operator/delay";
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/distinctUntilChanged";
 
 @Component({
   selector: "app-student",
@@ -22,6 +25,7 @@ export class StudentComponent implements OnInit {
 
   student: Student = new Student("", "");
   students: DataModel<Student[]> = { Data: [], Count: 0 };
+  searchTerm = new Subject<string>();
   columns = [
     { title: "#" },
     { title: "First name" },
@@ -30,7 +34,12 @@ export class StudentComponent implements OnInit {
   page = 1;
   perPage = 8;
 
-  constructor(private router: Router, private dataService: DataService) { }
+  constructor(private router: Router, private dataService: DataService, private searchService: SearchService) {
+    this.searchTerm
+      .debounceTime(500)
+      .distinctUntilChanged()
+      .subscribe(term => this.searchStudents(term));
+  }
 
   ngOnInit(): void {
     this.getStudentsPaged(this.page, this.perPage);
@@ -45,6 +54,20 @@ export class StudentComponent implements OnInit {
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
       });
+  }
+
+  searchStudents(term: string): void {
+    if (term.length !== 0) {
+      this.searchService.getItemsFiltered<Student[]>(this.API_STUDENT_PATH, term, this.perPage)
+        .subscribe(result => {
+          this.students = result;
+        },
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+        });
+    } else {
+      this.getStudentsPaged(this.page, this.perPage);
+    }
   }
 
   goToStudentDetails(student: Student): void {

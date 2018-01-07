@@ -47,7 +47,7 @@ namespace Service.Controllers
         public async Task<HttpResponseMessage> GetStudentsPaged([FromUri] int? page, [FromUri] int? per_page)
         {
             int pageNumber = page - 1 ?? 0;
-            int pageSize = per_page ?? 5;
+            int pageSize = per_page ?? 10;
 
             HttpResponseMessage httpResponse;
 
@@ -135,6 +135,44 @@ namespace Service.Controllers
                     httpResponse = courses != null ?
                         Request.CreateResponse(HttpStatusCode.OK, courses) :
                         Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} doesn't have courses");
+                }
+            }
+            catch (Exception e)
+            {
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+            return httpResponse;
+        }
+
+        [HttpGet]
+        [Route("")]
+        public async Task<HttpResponseMessage> GetStudentsFiltered([FromUri] string search_term, [FromUri] int? per_page)
+        {
+            int pageSize = per_page ?? 10;
+
+            HttpResponseMessage httpResponse;
+
+            try
+            {
+                using (AppDbContext db = new AppDbContext())
+                {
+                    var students = await
+                        (from s in db.Students
+                         where s.FirstName.Contains(search_term) || s.LastName.Contains(search_term)
+                         select new StudentDTO
+                         {
+                             Id = s.Id,
+                             FirstName = s.FirstName,
+                             LastName = s.LastName
+                         }).Take(pageSize).ToListAsync();
+
+                    var pagedResponse = new PagingModel<StudentDTO>
+                    {
+                        Data = students,
+                        Count = students.Count
+                    };
+
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK, pagedResponse);
                 }
             }
             catch (Exception e)
