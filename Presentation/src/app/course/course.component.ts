@@ -75,6 +75,7 @@ export class CourseComponent implements OnInit {
       .subscribe(result => {
         this.isRequestProcessing = false;
         this.closeAddCourseModal();
+        this.router.navigate(["app/courses", result.Id]);
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
