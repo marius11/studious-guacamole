@@ -8,7 +8,7 @@ import { DataService } from "app/services/data.service";
 import { SearchService } from "app/services/search.service";
 
 import { Subject } from "rxjs/Subject";
-import "rxjs/add/operator/delay";
+import { delay } from "rxjs/operators";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
 
@@ -21,7 +21,8 @@ import "rxjs/add/operator/distinctUntilChanged";
 export class StudentComponent implements OnInit {
 
   private API_STUDENT_PATH = "students";
-  private RESPONSE_DELAY_TIMER = 1000;
+  private RESPONSE_DELAY_TIMER = 0;
+  private DEBOUNCE_TIMER = 500;
 
   student: Student = new Student("", "");
   students: DataModel<Student[]> = { Data: [], Count: 0 };
@@ -36,7 +37,7 @@ export class StudentComponent implements OnInit {
 
   constructor(private router: Router, private dataService: DataService, private searchService: SearchService) {
     this.searchTerm
-      .debounceTime(500)
+      .debounceTime(this.DEBOUNCE_TIMER)
       .distinctUntilChanged()
       .subscribe(term => this.searchStudents(term));
   }
@@ -56,11 +57,12 @@ export class StudentComponent implements OnInit {
       });
   }
 
-  searchStudents(term: string): void {
+  private searchStudents(term: string): void {
     if (term.length !== 0) {
       this.searchService.getItemsFiltered<Student[]>(this.API_STUDENT_PATH, term, this.perPage)
         .subscribe(result => {
           this.students = result;
+          this.page = 1;
         },
         (e: HttpErrorResponse) => {
           this.printErrorMessageToConsole(e);
@@ -76,9 +78,9 @@ export class StudentComponent implements OnInit {
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
     if (e.error instanceof Error) {
-      console.error("An error occurred: ", e.error.message);
+      console.error(`App: An error occurred: ${e.error.message}`);
     } else {
-      console.error(`Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
+      console.error(`App: Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
     }
   }
 }

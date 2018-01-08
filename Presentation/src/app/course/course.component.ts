@@ -7,14 +7,11 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 import { Course } from "app/models/course";
 import { DataModel } from "app/models/data-model";
-
 import { DataService } from "app/services/data.service";
 import { SearchService } from "app/services/search.service";
 
-import { Observable, Subscribable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
-
-import "rxjs/add/operator/delay";
+import { delay } from "rxjs/operators";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
 
@@ -38,7 +35,8 @@ export class CourseComponent implements OnInit {
   isRequestProcessing = false;
 
   private API_COURSE_PATH = "courses";
-  private RESPONSE_DELAY_TIMER = 1000;
+  private RESPONSE_DELAY_TIMER = 0;
+  private DEBOUNCE_TIMER = 500;
   private addCourseModalInstance: any;
 
   constructor(
@@ -48,7 +46,7 @@ export class CourseComponent implements OnInit {
     private modalService: NgbModal) {
 
     this.searchTerm
-      .debounceTime(500)
+      .debounceTime(this.DEBOUNCE_TIMER)
       .distinctUntilChanged()
       .subscribe(term => this.searchCourses(term));
   }
@@ -59,7 +57,7 @@ export class CourseComponent implements OnInit {
 
   getCoursesPaged(page: number, per_page: number): void {
     this.dataService.getItemsPaged<Course[]>(this.API_COURSE_PATH, page, per_page)
-      .delay(this.RESPONSE_DELAY_TIMER - 750)
+      .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
         this.courses = result;
       },
@@ -83,11 +81,12 @@ export class CourseComponent implements OnInit {
       });
   }
 
-  searchCourses(term: string): void {
+  private searchCourses(term: string): void {
     if (term.length !== 0) {
       this.searchService.getItemsFiltered<Course[]>(this.API_COURSE_PATH, term, this.perPage)
         .subscribe(result => {
           this.courses = result;
+          this.page = 1;
         },
         (e: HttpErrorResponse) => {
           this.printErrorMessageToConsole(e);
@@ -111,9 +110,9 @@ export class CourseComponent implements OnInit {
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
     if (e.error instanceof Error) {
-      console.error("An error occurred: ", e.error.message);
+      console.error(`App: An error occurred: ${e.error.message}`);
     } else {
-      console.error(`Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
+      console.error(`App: Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
     }
   }
 }
