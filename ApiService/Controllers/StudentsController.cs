@@ -114,7 +114,7 @@ namespace Service.Controllers
 
         [HttpGet]
         [Route("{id:int}/courses")]
-        public async Task<HttpResponseMessage> GetCoursesByStudent(int id)
+        public async Task<HttpResponseMessage> GetCoursesByStudentId(int id)
         {
             HttpResponseMessage httpResponse;
 
@@ -262,7 +262,7 @@ namespace Service.Controllers
                         db.Students.Remove(student);
                         await db.SaveChangesAsync();
 
-                        var message = new { message = "The students has been successfully deleted" };
+                        var message = new { message = $"The student with ID {id} has been successfully deleted" };
                         httpResponse = Request.CreateResponse(HttpStatusCode.OK, message);
                     }
                     else
