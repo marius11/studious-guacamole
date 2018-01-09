@@ -8,8 +8,8 @@ import { Student } from "app/models/student";
 import { DataService } from "app/services/data.service";
 
 import { Observable } from "rxjs/Observable";
+import { delay } from "rxjs/operators";
 import "rxjs/add/observable/forkJoin";
-import "rxjs/add/operator/delay";
 
 enum DATA {
   STUDENT,
@@ -37,7 +37,7 @@ export class StudentDetailComponent implements OnInit {
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private location: Location) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getStudentDetails();
   }
 
@@ -59,15 +59,15 @@ export class StudentDetailComponent implements OnInit {
     });
   }
 
-  goBack() {
+  goBack(): void {
     this.location.back();
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
     if (e.error instanceof Error) {
-      console.error("An error occurred: ", e.error.message);
+      console.error(`App: An error occurred: ${e.error.message}`);
     } else {
-      console.error(`Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
+      console.error(`App: Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
     }
   }
 }

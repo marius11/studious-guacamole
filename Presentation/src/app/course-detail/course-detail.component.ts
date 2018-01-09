@@ -63,7 +63,6 @@ export class CourseDetailComponent implements OnInit {
     this.dataService.updateItem<Course>(this.API_COURSE_PATH, course.Id, course)
       .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
-        console.log(result);
         this.courseNameEditing = !this.courseNameEditing;
         this.isRequestProcessing = false;
       },
@@ -106,7 +105,7 @@ export class CourseDetailComponent implements OnInit {
           this.isRequestProcessing = false;
         });
     } else {
-      console.log(`Deletion for course ID ${id} has been cancelled`);
+      console.log(`Deletion for course with the ID ${id} has been cancelled.`);
     }
   }
 
@@ -116,9 +115,9 @@ export class CourseDetailComponent implements OnInit {
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
     if (e.error instanceof Error) {
-      console.error("An error occurred: ", e.error.message);
+      console.error(`App: An error occurred: ${e.error.message}`);
     } else {
-      console.error(`Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
+      console.error(`App: Backend returned status code ${e.status} and body: ${JSON.stringify(e.error)}`);
     }
   }
 }
