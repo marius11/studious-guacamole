@@ -5,7 +5,7 @@
       <input class="form-control" type="text" placeholder="Search courses..." (input)="searchTerm.next($event.target.value)">
     </form>
     <div class="pull-right">
-      <button class="btn btn-success" type="button" (click)="openAddCourseModal(content)">
+      <button class="btn btn-success" type="button" (click)="openAddCourseModal(addCourseModal)">
         <i class="fa fa-plus"></i> ADD COURSE
       </button>
     </div>
@@ -26,7 +26,7 @@
   <ngb-pagination [collectionSize]="courses.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true" [ellipses]="false"
     [boundaryLinks]="true" (pageChange)="getCoursesPaged(page, perPage)"></ngb-pagination>
 
-  <ng-template #content let-c="close">
+  <ng-template #addCourseModal let-c="close">
     <div class="modal-header">
       <h4 class="modal-title">New course</h4>
     </div>

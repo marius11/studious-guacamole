@@ -67,7 +67,6 @@ export class CourseComponent implements OnInit {
   }
 
   addCourse(course: Course): void {
-    this.isRequestProcessing = true;
     this.dataService.createItem<Course>(this.API_COURSE_PATH, course)
       .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
@@ -77,6 +76,8 @@ export class CourseComponent implements OnInit {
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
+      },
+      () => {
         this.isRequestProcessing = false;
       });
   }
@@ -100,8 +101,8 @@ export class CourseComponent implements OnInit {
     this.router.navigate(["app/courses", course.Id]);
   }
 
-  openAddCourseModal(content): void {
-    this.addCourseModalInstance = this.modalService.open(content, { size: "lg", backdrop: "static" });
+  openAddCourseModal(modal): void {
+    this.addCourseModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
   }
 
   private closeAddCourseModal(): void {
