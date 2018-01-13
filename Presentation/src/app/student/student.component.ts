@@ -1,6 +1,9 @@
-import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
+import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms";
+
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 import { Student } from "app/models/student";
 import { DataModel } from "app/models/data-model";
@@ -34,8 +37,15 @@ export class StudentComponent implements OnInit {
   ];
   page = 1;
   perPage = 8;
+  isRequestProcessing = false;
 
-  constructor(private router: Router, private dataService: DataService, private searchService: SearchService) {
+  private addStudentModalInstance: any;
+
+  addStudentFormGroup: FormGroup;
+
+  constructor(
+    private router: Router, private dataService: DataService, private searchService: SearchService,
+    private modalService: NgbModal, private formBuilder: FormBuilder) {
     this.searchTerm
       .debounceTime(this.DEBOUNCE_TIMER)
       .distinctUntilChanged()
@@ -44,6 +54,7 @@ export class StudentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStudentsPaged(this.page, this.perPage);
+    this.createAddStudentFormGroup();
   }
 
   getStudentsPaged(page: number, per_page: number): void {
@@ -55,6 +66,26 @@ export class StudentComponent implements OnInit {
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
       });
+  }
+
+  addStudent(student: Student): void {
+    this.isRequestProcessing = true;
+    this.dataService.createItem<Student>(this.API_STUDENT_PATH, student)
+      .delay(this.RESPONSE_DELAY_TIMER)
+      .subscribe(result => {
+        this.closeAddStudentModal();
+        this.router.navigate(["app/students", result.Id]);
+      },
+      (e: HttpErrorResponse) => {
+        this.printErrorMessageToConsole(e);
+      },
+      () => {
+        this.isRequestProcessing = false;
+      });
+  }
+
+  goToStudentDetails(student: Student): void {
+    this.router.navigate(["app/students", student.Id]);
   }
 
   private searchStudents(term: string): void {
@@ -72,8 +103,19 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  goToStudentDetails(student: Student): void {
-    this.router.navigate(["app/students", student.Id]);
+  openAddStudentModal(modal): void {
+    this.addStudentModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
+  }
+
+  private closeAddStudentModal(): void {
+    this.addStudentModalInstance.dismiss();
+  }
+
+  private createAddStudentFormGroup(): void {
+    this.addStudentFormGroup = this.formBuilder.group({
+      FirstName: new FormControl("", Validators.required),
+      LastName: new FormControl("", Validators.required)
+    });
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {

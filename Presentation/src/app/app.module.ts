@@ -1,12 +1,13 @@
-import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
-import { FormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { AppRoutingModule } from "./app-routing.module";
-import { SharedModule } from "./shared/shared.module";
 import { AppComponent } from "./app.component";
+import { SharedModule } from "./shared/shared.module";
+import { AppRoutingModule } from "./app-routing.module";
 
 import { AutofocusDirective } from "app/directives/autofocus.directive";
 
@@ -35,6 +36,7 @@ import { CourseDetailComponent } from "./course-detail/course-detail.component";
     HttpClientModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [DataService, SearchService],
   bootstrap: [AppComponent]

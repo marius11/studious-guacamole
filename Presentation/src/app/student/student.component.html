@@ -5,7 +5,7 @@
       <input class="form-control" type="text" placeholder="Search students..." (input)="searchTerm.next($event.target.value)">
     </form>
     <div class="pull-right">
-      <button class="btn btn-success" type="button">
+      <button class="btn btn-success" type="button" (click)="openAddStudentModal(addStudentModal)">
         <i class="fa fa-plus"></i> ADD STUDENT
       </button>
     </div>
@@ -26,4 +26,32 @@
   </table>
   <ngb-pagination [collectionSize]="students.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true" [ellipses]="false"
     [boundaryLinks]="true" (pageChange)="getStudentsPaged(page, perPage)"></ngb-pagination>
+
+  <ng-template #addStudentModal let-c="close">
+    <div class="modal-header">
+      <h4 class="modal-title text-center">New student</h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="addStudentFormGroup" novalidate>
+        <div class="form-group row">
+          <label for="student-firstname-input" class="col-2 col-form-label">First name</label>
+          <div class="col-10">
+            <input class="form-control" type="text" id="student-firstname-input" formControlName="FirstName" [(ngModel)]="student.FirstName"
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="student-lastname-input" class="col-2 col-form-label">Last name</label>
+          <div class="col-10">
+            <input class="form-control" type="text" id="student-lastname-input" formControlName="LastName" [(ngModel)]="student.LastName"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-success" type="button" [disabled]="!addStudentFormGroup.valid || isRequestProcessing" (click)="addStudent(student)">ADD</button>
+      <button class="btn btn-default" type="button" [disabled]="isRequestProcessing" (click)="c()">CANCEL</button>
+    </div>
+  </ng-template>
 </div>
