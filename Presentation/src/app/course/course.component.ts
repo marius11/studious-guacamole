@@ -67,10 +67,10 @@ export class CourseComponent implements OnInit {
   }
 
   addCourse(course: Course): void {
+    this.isRequestProcessing = true;
     this.dataService.createItem<Course>(this.API_COURSE_PATH, course)
       .delay(this.RESPONSE_DELAY_TIMER)
       .subscribe(result => {
-        this.isRequestProcessing = false;
         this.closeAddCourseModal();
         this.router.navigate(["app/courses", result.Id]);
       },
