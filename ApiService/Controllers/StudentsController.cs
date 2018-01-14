@@ -255,20 +255,13 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var student = await db.Students.SingleAsync(s => s.Id == id);
+                    var student = new Student() { Id = id };
 
-                    if (student != null)
-                    {
-                        db.Students.Remove(student);
-                        await db.SaveChangesAsync();
+                    db.Students.Attach(student);
+                    db.Entry(student).State = EntityState.Deleted;
+                    await db.SaveChangesAsync();
 
-                        var message = new { message = $"The student with ID {id} has been successfully deleted" };
-                        httpResponse = Request.CreateResponse(HttpStatusCode.OK, message);
-                    }
-                    else
-                    {
-                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found");
-                    }
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK);
                 }
             }
             catch (Exception e)

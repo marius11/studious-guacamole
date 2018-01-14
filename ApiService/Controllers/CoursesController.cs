@@ -246,20 +246,13 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var course = await db.Courses.SingleAsync(c => c.Id == id);
+                    var course = new Course() { Id = id };
 
-                    if (course != null)
-                    {
-                        db.Courses.Remove(course);
-                        await db.SaveChangesAsync();
+                    db.Courses.Attach(course);
+                    db.Entry(course).State = EntityState.Deleted;
+                    await db.SaveChangesAsync();
 
-                        var message = new { message = $"The course with ID {id} has been successfully deleted" };
-                        httpResponse = Request.CreateResponse(HttpStatusCode.OK, message);
-                    }
-                    else
-                    {
-                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The course with ID {id} has not been found");
-                    }
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK);
                 }
             }
             catch (Exception e)
