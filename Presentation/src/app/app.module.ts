@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AppComponent } from "./app.component";
-import { SharedModule } from "./shared/shared.module";
 import { AppRoutingModule } from "./app-routing.module";
 
 import { AutofocusDirective } from "app/directives/autofocus.directive";
@@ -34,7 +33,6 @@ import { CourseDetailComponent } from "./course-detail/course-detail.component";
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    SharedModule,
     FormsModule,
     ReactiveFormsModule,
   ],
