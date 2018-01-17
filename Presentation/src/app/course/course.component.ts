@@ -23,6 +23,11 @@ import "rxjs/add/operator/distinctUntilChanged";
 
 export class CourseComponent implements OnInit {
 
+  private API_COURSE_PATH = "courses";
+  private RESPONSE_DELAY_TIMER = 0;
+  private DEBOUNCE_TIMER = 500;
+  private addCourseModalInstance: any;
+
   course: Course = new Course("");
   courses: DataModel<Course[]> = { Data: [], Count: 0 };
   searchTerm = new Subject<string>();
@@ -33,11 +38,6 @@ export class CourseComponent implements OnInit {
   page = 1;
   perPage = 8;
   isRequestProcessing = false;
-
-  private API_COURSE_PATH = "courses";
-  private RESPONSE_DELAY_TIMER = 0;
-  private DEBOUNCE_TIMER = 500;
-  private addCourseModalInstance: any;
 
   constructor(
     private router: Router,

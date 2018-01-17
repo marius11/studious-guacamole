@@ -1,15 +1,15 @@
+<nav class="navbar navbar-static-top navbar-light">
+  <h3>Students</h3>
+  <form class="input-group col-lg-4">
+    <input class="form-control" type="text" placeholder="Search students..." (input)="searchTerm.next($event.target.value)">
+  </form>
+  <div class="pull-right">
+    <button class="btn btn-success" type="button" (click)="openAddStudentModal(addStudentModal)">
+      <i class="fa fa-plus"></i> ADD STUDENT
+    </button>
+  </div>
+</nav>
 <div class="container-fluid">
-  <nav class="navbar navbar-static-top navbar-light">
-    <h2>Students</h2>
-    <form class="input-group col-lg-4">
-      <input class="form-control" type="text" placeholder="Search students..." (input)="searchTerm.next($event.target.value)">
-    </form>
-    <div class="pull-right">
-      <button class="btn btn-success" type="button" (click)="openAddStudentModal(addStudentModal)">
-        <i class="fa fa-plus"></i> ADD STUDENT
-      </button>
-    </div>
-  </nav>
   <table class="table table-responsible table-hover">
     <thead>
       <tr>

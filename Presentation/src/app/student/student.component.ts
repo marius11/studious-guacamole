@@ -26,6 +26,7 @@ export class StudentComponent implements OnInit {
   private API_STUDENT_PATH = "students";
   private RESPONSE_DELAY_TIMER = 0;
   private DEBOUNCE_TIMER = 500;
+  private addStudentModalInstance: any;
 
   student: Student = new Student("", "");
   students: DataModel<Student[]> = { Data: [], Count: 0 };
@@ -38,8 +39,6 @@ export class StudentComponent implements OnInit {
   page = 1;
   perPage = 8;
   isRequestProcessing = false;
-
-  private addStudentModalInstance: any;
 
   addStudentFormGroup: FormGroup;
 
