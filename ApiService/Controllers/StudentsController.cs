@@ -221,21 +221,19 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var student = await db.Students.SingleAsync(i => i.Id == id);
-
-                    if (student != null)
+                    var student = new Student()
                     {
-                        student.FirstName = studentDTO.FirstName;
-                        student.LastName = studentDTO.LastName;
+                        Id = studentDTO.Id,
+                        FirstName = studentDTO.FirstName,
+                        LastName = studentDTO.LastName
+                    };
 
-                        await db.SaveChangesAsync();
+                    db.Students.Attach(student);
+                    db.Entry(student).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
 
-                        httpResponse = Request.CreateResponse(HttpStatusCode.OK, student);
-                    }
-                    else
-                    {
-                        httpResponse = Request.CreateErrorResponse(HttpStatusCode.NotFound, $"The student with ID {id} has not been found");
-                    }
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK, student);
+
                 }
             }
             catch (Exception e)

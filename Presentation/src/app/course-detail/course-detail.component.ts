@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Location } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 
-import { Student } from "app/models/student";
 import { Course } from "app/models/course";
+import { Student } from "app/models/student";
 import { DataService } from "app/services/data.service";
 
 import { delay, switchMap } from "rxjs/operators";
@@ -31,12 +31,8 @@ export class CourseDetailComponent implements OnInit {
   ];
   isRequestProcessing = false;
 
-  constructor(
-    private dataService: DataService,
-    private route: ActivatedRoute,
-    private location: Location,
-    private router: Router
-  ) { }
+  constructor(private dataService: DataService, private route: ActivatedRoute, private location: Location,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getCourseDetails();
@@ -64,10 +60,11 @@ export class CourseDetailComponent implements OnInit {
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.courseNameEditing = !this.courseNameEditing;
-        this.isRequestProcessing = false;
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
+      },
+      () => {
         this.isRequestProcessing = false;
       });
   }
@@ -98,10 +95,11 @@ export class CourseDetailComponent implements OnInit {
       this.dataService.deleteItem<Course>(this.API_COURSE_PATH, id)
         .subscribe(data => {
           this.router.navigate(["app/courses"]);
-          this.isRequestProcessing = false;
         },
         (e: HttpErrorResponse) => {
           this.printErrorMessageToConsole(e);
+        },
+        () => {
           this.isRequestProcessing = false;
         });
     } else {

@@ -1,10 +1,15 @@
-<div class="container-fluid">
-  <h2 *ngIf="student?.Id">
+<nav class="navbar navbar-static-top">
+  <h3 *ngIf="student?.Id">
     #{{student?.Id}} {{student?.FirstName}} {{student?.LastName}}
-  </h2>
-  <h2 *ngIf="!student?.Id">
+  </h3>
+  <h3 *ngIf="!student?.Id">
     Loading...
-  </h2>
+  </h3>
+  <button class="btn btn-primary" type="button" [disabled]="isRequestProcessing" (click)="openEditStudentModal(editStudentModal)">
+    <i class="fa fa-plus"></i> EDIT STUDENT
+  </button>
+</nav>
+<div class="container-fluid">
   <div *ngIf="courses?.length > 0">
     <table class="table">
       <thead>
@@ -27,3 +32,31 @@
   </div>
   <button class="btn btn-default" type="button" (click)="goBack()">Back to students</button>
 </div>
+
+<ng-template #editStudentModal let-c="close">
+  <div class="modal-header">
+    <h4>Editing student</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="editStudentFormGroup" novalidate>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="student-firstname-input">First name</label>
+          <span class="badge badge-success"></span>
+          <input class="form-control" type="text" id="student-firstname-input" formControlName="FirstName" [(ngModel)]="student.FirstName"
+          />
+        </div>
+        <div class="form-group col-md-6">
+          <label for="student-lastname-input">Last name</label>
+          <span class="badge badge-success"></span>
+          <input class="form-control" type="text" id="student-lastname-input" formControlName="LastName" [(ngModel)]="student.LastName"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" [disabled]="!editStudentFormGroup.valid || isSubmitDisabled || isRequestProcessing" (click)="updateStudent(student)">SUBMIT</button>
+    <button class="btn btn-default" type="button" [disabled]="isRequestProcessing" (click)="c()">CLOSE</button>
+  </div>
+</ng-template>
