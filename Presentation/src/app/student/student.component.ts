@@ -11,9 +11,7 @@ import { DataService } from "app/services/data.service";
 import { SearchService } from "app/services/search.service";
 
 import { Subject } from "rxjs/Subject";
-import { delay } from "rxjs/operators";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/distinctUntilChanged";
+import { delay, debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 @Component({
   selector: "app-student",
@@ -46,8 +44,7 @@ export class StudentComponent implements OnInit {
     private router: Router, private dataService: DataService, private searchService: SearchService,
     private modalService: NgbModal, private formBuilder: FormBuilder) {
     this.searchTerm
-      .debounceTime(this.DEBOUNCE_TIMER)
-      .distinctUntilChanged()
+      .pipe(debounceTime(this.DEBOUNCE_TIMER), distinctUntilChanged())
       .subscribe(term => this.searchStudents(term));
   }
 
@@ -58,7 +55,7 @@ export class StudentComponent implements OnInit {
 
   getStudentsPaged(page: number, per_page: number): void {
     this.dataService.getItemsPaged<Student[]>(this.API_STUDENT_PATH, page, per_page)
-      .delay(this.RESPONSE_DELAY_TIMER)
+      .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.students = result;
       },
@@ -70,7 +67,7 @@ export class StudentComponent implements OnInit {
   addStudent(student: Student): void {
     this.isRequestProcessing = true;
     this.dataService.createItem<Student>(this.API_STUDENT_PATH, student)
-      .delay(this.RESPONSE_DELAY_TIMER)
+      .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.closeAddStudentModal();
         this.router.navigate(["app/students", result.Id]);
@@ -112,10 +109,12 @@ export class StudentComponent implements OnInit {
 
   private createAddStudentFormGroup(): void {
     this.addStudentFormGroup = this.formBuilder.group({
-      FirstName: new FormControl("", Validators.required),
-      LastName: new FormControl("", Validators.required)
+      FirstName: new FormControl("", [Validators.required, Validators.minLength(2)]),
+      LastName: new FormControl("", [Validators.required, Validators.minLength(2)])
     });
   }
+  get FirstName() { return this.addStudentFormGroup.get("FirstName"); }
+  get LastName() { return this.addStudentFormGroup.get("LastName"); }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
     if (e.error instanceof Error) {

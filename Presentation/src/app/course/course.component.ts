@@ -11,9 +11,7 @@ import { DataService } from "app/services/data.service";
 import { SearchService } from "app/services/search.service";
 
 import { Subject } from "rxjs/Subject";
-import { delay } from "rxjs/operators";
-import "rxjs/add/operator/debounceTime";
-import "rxjs/add/operator/distinctUntilChanged";
+import { delay, debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 @Component({
   selector: "app-course",
@@ -46,8 +44,7 @@ export class CourseComponent implements OnInit {
     private modalService: NgbModal) {
 
     this.searchTerm
-      .debounceTime(this.DEBOUNCE_TIMER)
-      .distinctUntilChanged()
+      .pipe(debounceTime(this.DEBOUNCE_TIMER), distinctUntilChanged())
       .subscribe(term => this.searchCourses(term));
   }
 
@@ -57,7 +54,7 @@ export class CourseComponent implements OnInit {
 
   getCoursesPaged(page: number, per_page: number): void {
     this.dataService.getItemsPaged<Course[]>(this.API_COURSE_PATH, page, per_page)
-      .delay(this.RESPONSE_DELAY_TIMER)
+      .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.courses = result;
       },
@@ -69,7 +66,7 @@ export class CourseComponent implements OnInit {
   addCourse(course: Course): void {
     this.isRequestProcessing = true;
     this.dataService.createItem<Course>(this.API_COURSE_PATH, course)
-      .delay(this.RESPONSE_DELAY_TIMER)
+      .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.closeAddCourseModal();
         this.router.navigate(["app/courses", result.Id]);

@@ -1,20 +1,16 @@
-<div class="container-fluid">
-  <div class="float-md-right" *ngIf="!courseNameEditing">
-    <button class="btn btn-danger" type="button" [disabled]="isRequestProcessing" (click)="deleteCourse(course.Id)">
-      <i class="fa fa-trash fa-lg"></i> DELETE THIS COURSE</button>
-  </div>
-  <h2 *ngIf="course?.Name">
+<nav class="navbar navbar-static-top bg-light">
+  <h3 *ngIf="course?.Name">
     <span class="course-name-title" *ngIf="!courseNameEditing" (click)="enableCourseNameEditing()">{{course?.Name}}
       <i class="fa fa-pencil"></i>
     </span>
-  </h2>
-  <h2 *ngIf="!course?.Name">
+  </h3>
+  <h3 *ngIf="!course?.Name">
     Loading...
-  </h2>
+  </h3>
   <div class="input-group" *ngIf="courseNameEditing">
     <input class="form-control col-lg-3" type="text" [disabled]="isRequestProcessing" [(ngModel)]="course.Name" appAutofocus
     />
-    <span class="input-group-btn">
+    <span class="btn-group">
       <button class="btn btn-success" type="button" [disabled]="!course.Name || isRequestProcessing" (click)="saveChanges(course)">
         <i class="fa fa-check fa-lg" aria-hidden="true"></i>
       </button>
@@ -23,6 +19,12 @@
       </button>
     </span>
   </div>
+  <div *ngIf="!courseNameEditing">
+    <button class="btn btn-danger" type="button" [disabled]="isRequestProcessing" (click)="deleteCourse(course.Id)">
+      <i class="fa fa-trash fa-lg"></i> DELETE THIS COURSE</button>
+  </div>
+</nav>
+<div class="container-fluid">
   <div *ngIf="students?.length > 0">
     <table class="table">
       <thead>

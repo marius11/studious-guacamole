@@ -7,8 +7,7 @@ import { Student } from "app/models/student";
 import { Course } from "app/models/course";
 import { DataService } from "app/services/data.service";
 
-import "rxjs/add/operator/switchMap";
-import "rxjs/add/operator/delay";
+import { delay, switchMap } from "rxjs/operators";
 
 @Component({
   selector: "app-course-detail",
@@ -45,9 +44,10 @@ export class CourseDetailComponent implements OnInit {
 
   getCourseDetails(): void {
     this.isRequestProcessing = true;
-    this.route.params.
-      switchMap((params: Params) => this.dataService.getItemById<Course>(this.API_COURSE_PATH, +params["id"]))
-      .delay(this.RESPONSE_DELAY_TIMER)
+    this.route.params
+      .pipe(
+      switchMap((params: Params) => this.dataService.getItemById<Course>(this.API_COURSE_PATH, +params["id"])),
+      delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.course = result;
         this.students = result.Students;
@@ -61,7 +61,7 @@ export class CourseDetailComponent implements OnInit {
   updateCourseName(course: Course): void {
     this.isRequestProcessing = true;
     this.dataService.updateItem<Course>(this.API_COURSE_PATH, course.Id, course)
-      .delay(this.RESPONSE_DELAY_TIMER)
+      .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.courseNameEditing = !this.courseNameEditing;
         this.isRequestProcessing = false;
