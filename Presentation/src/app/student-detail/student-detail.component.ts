@@ -87,6 +87,7 @@ export class StudentDetailComponent implements OnInit {
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.closeEditStudentModal();
+        this.studentOldName = [student.FirstName, student.LastName];
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);

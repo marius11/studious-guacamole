@@ -1,46 +1,46 @@
-<nav class="navbar navbar-static-top navbar-light">
-  <h3>Courses</h3>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2">
+  <h1 class="h2">Courses</h1>
   <form class="input-group col-lg-4">
     <input class="form-control" type="text" placeholder="Search courses..." (input)="searchTerm.next($event.target.value)">
   </form>
-  <div class="pull-right">
-    <button class="btn btn-success" type="button" (click)="openAddCourseModal(addCourseModal)">
-      <i class="fa fa-plus"></i> ADD COURSE
-    </button>
-  </div>
-</nav>
-<div class="container-fluid">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col" *ngFor="let column of columns">{{column.title}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="clickable-row" *ngFor="let course of courses.Data" (click)="goToCourseDetails(course)">
-        <td>{{course.Id}}</td>
-        <td>{{course.Name}}</td>
-      </tr>
-    </tbody>
-  </table>
-  <ngb-pagination [collectionSize]="courses.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true" [ellipses]="false"
-    [boundaryLinks]="true" (pageChange)="getCoursesPaged(page, perPage)"></ngb-pagination>
-
-  <ng-template #addCourseModal let-c="close">
-    <div class="modal-header">
-      <h4 class="modal-title">New course</h4>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      <button class="btn btn-success" type="button" (click)="openAddCourseModal(addCourseModal)">
+        <i class="fa fa-plus"></i> ADD COURSE
+      </button>
     </div>
-    <div class="modal-body">
-      <div class="from-group row">
-        <label class="col-2 col-form-label" for="course-name-input">Name</label>
-        <div class="col-10">
-          <input class="form-control" type="text" id="course-name-input" [(ngModel)]="course.Name" />
-        </div>
+  </div>
+</div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col" *ngFor="let column of columns">{{column.title}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="clickable-row" *ngFor="let course of courses.Data" (click)="goToCourseDetails(course)">
+      <td>{{course.Id}}</td>
+      <td>{{course.Name}}</td>
+    </tr>
+  </tbody>
+</table>
+<ngb-pagination [collectionSize]="courses.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true" [ellipses]="false"
+  [boundaryLinks]="true" (pageChange)="getCoursesPaged(page, perPage)"></ngb-pagination>
+
+<ng-template #addCourseModal let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">New course</h4>
+  </div>
+  <div class="modal-body">
+    <div class="from-group row">
+      <label class="col-2 col-form-label" for="course-name-input">Name</label>
+      <div class="col-10">
+        <input class="form-control" type="text" id="course-name-input" [(ngModel)]="course.Name" />
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-success" type="button" [disabled]="!course.Name || isRequestProcessing" (click)="addCourse(course)">ADD</button>
-      <button class="btn btn-default" type="button" [disabled]="isRequestProcessing" (click)="c()">CANCEL</button>
-    </div>
-  </ng-template>
-</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" [disabled]="!course.Name || isRequestProcessing" (click)="addCourse(course)">ADD</button>
+    <button class="btn btn-default" type="button" [disabled]="isRequestProcessing" (click)="c()">CANCEL</button>
+  </div>
+</ng-template>

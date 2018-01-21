@@ -1,15 +1,15 @@
-<nav class="navbar navbar-static-top bg-light">
-  <h3 *ngIf="course?.Name">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2">
+  <span class="h2" *ngIf="course?.Name">
     <span class="course-name-title" *ngIf="!courseNameEditing" (click)="enableCourseNameEditing()">{{course?.Name}}
       <i class="fa fa-pencil"></i>
     </span>
-  </h3>
-  <h3 *ngIf="!course?.Name">
+  </span>
+  <span class="h2" *ngIf="!course?.Name">
     Loading...
-  </h3>
+  </span>
   <div class="input-group" *ngIf="courseNameEditing">
-    <input class="form-control col-lg-3" type="text" [disabled]="isRequestProcessing" [(ngModel)]="course.Name" appAutofocus
-    />
+    <input class="form-control form-control-lg col-lg-3" type="text" [disabled]="isRequestProcessing" [(ngModel)]="course.Name"
+      appAutofocus />
     <span class="btn-group">
       <button class="btn btn-success" type="button" [disabled]="!course.Name || isRequestProcessing" (click)="saveChanges(course)">
         <i class="fa fa-check fa-lg" aria-hidden="true"></i>
@@ -19,34 +19,38 @@
       </button>
     </span>
   </div>
-  <div *ngIf="!courseNameEditing">
-    <button class="btn btn-danger" type="button" [disabled]="isRequestProcessing" (click)="deleteCourse(course.Id)">
-      <i class="fa fa-trash fa-lg"></i> DELETE THIS COURSE</button>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      <div *ngIf="!courseNameEditing">
+        <button class="btn btn-primary" type="button" [disabled]="isRequestProcessing || true" (click)="deleteCourse(course.Id)">
+          <i class="fa fa-plus fa-lg"></i> ASSIGN A STUDENT</button>
+        <button class="btn btn-danger" type="button" [disabled]="isRequestProcessing" (click)="deleteCourse(course.Id)">
+          <i class="fa fa-trash fa-lg"></i> DELETE</button>
+      </div>
+    </div>
   </div>
-</nav>
-<div class="container-fluid">
-  <div *ngIf="students?.length > 0">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col" *ngFor="let column of studentTableColumns">{{column.title}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let student of students">
-          <td>{{student.Id}}</td>
-          <td>{{student.FirstName}}</td>
-          <td>{{student.LastName}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="alert alert-warning text-center" *ngIf="students?.length === 0">
-    <span>
-      <strong>There are no students assigned to this course!</strong>
-    </span>
-  </div>
-  <div class="btn-goto-previous-page">
-    <button class="btn btn-default" type="button" (click)="goBack()">Back to courses</button>
-  </div>
+</div>
+<div *ngIf="students?.length > 0">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let column of studentTableColumns">{{column.title}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{student.Id}}</td>
+        <td>{{student.FirstName}}</td>
+        <td>{{student.LastName}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="alert alert-warning text-center" *ngIf="students?.length === 0">
+  <span>
+    <strong>There are no students assigned to this course!</strong>
+  </span>
+</div>
+<div class="btn-goto-previous-page">
+  <button class="btn btn-default" type="button" (click)="goBack()">Back to courses</button>
 </div>

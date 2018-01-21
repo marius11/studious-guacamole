@@ -1,18 +1,22 @@
-<nav class="navbar fixed-top bg-dark">
-  <a class="navbar-brand" routerLink="/">App</a>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0" routerLink="/">App</a>
 </nav>
 <div class="container-fluid">
   <div class="row">
-    <nav class="col-sm-3 col-md-2 hidden-xs-down bg-dark sidebar">
-      <ul class="nav nav-pills flex-column">
-        <li class="nav-item">
-          <a class="nav-link text-center" routerLinkActive="active" routerLink="app/students">Students</a>
-          <a class="nav-link text-center" routerLinkActive="active" routerLink="app/courses">Courses</a>
-        </li>
-      </ul>
+    <nav class="col-md-1 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="app/students">Students</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" routerLink="app/courses">Courses</a>
+          </li>
+        </ul>
+      </div>
     </nav>
-    <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2" style="padding-top: 5px;">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-11 pt-3 px-4">
       <router-outlet></router-outlet>
-    </div>
+    </main>
   </div>
 </div>

@@ -1,30 +1,32 @@
-<nav class="navbar navbar-static-top bg-light">
-  <h3>Students</h3>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2">
+  <h1 class="h2">Students</h1>
   <form class="input-group col-lg-4">
     <input class="form-control" type="text" placeholder="Search students..." (input)="searchTerm.next($event.target.value)">
   </form>
-  <button class="btn btn-success" type="button" (click)="openAddStudentModal(addStudentModal)">
-    <i class="fa fa-plus"></i> ADD STUDENT
-  </button>
-</nav>
-<div class="container-fluid">
-  <table class="table table-responsible table-hover">
-    <thead>
-      <tr>
-        <th scope="col" *ngFor="let column of columns">{{column.title}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="clickable-row" *ngFor="let student of students.Data" (click)="goToStudentDetails(student)">
-        <td>{{student.Id}}</td>
-        <td>{{student.FirstName}}</td>
-        <td>{{student.LastName}}</td>
-      </tr>
-    </tbody>
-  </table>
-  <ngb-pagination [collectionSize]="students.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true" [ellipses]="false"
-    [boundaryLinks]="true" (pageChange)="getStudentsPaged(page, perPage)"></ngb-pagination>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      <button class="btn btn-success" type="button" (click)="openAddStudentModal(addStudentModal)">
+        <i class="fa fa-plus"></i> ADD STUDENT
+      </button>
+    </div>
+  </div>
 </div>
+<table class="table table-responsible table-hover">
+  <thead>
+    <tr>
+      <th scope="col" *ngFor="let column of columns">{{column.title}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="clickable-row" *ngFor="let student of students.Data" (click)="goToStudentDetails(student)">
+      <td>{{student.Id}}</td>
+      <td>{{student.FirstName}}</td>
+      <td>{{student.LastName}}</td>
+    </tr>
+  </tbody>
+</table>
+<ngb-pagination [collectionSize]="students.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true" [ellipses]="false"
+  [boundaryLinks]="true" (pageChange)="getStudentsPaged(page, perPage)"></ngb-pagination>
 
 <ng-template #addStudentModal let-c="close">
   <div class="modal-header">
