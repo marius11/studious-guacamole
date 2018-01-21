@@ -32,7 +32,7 @@ export class StudentComponent implements OnInit {
   columns = [
     { title: "#" },
     { title: "First name" },
-    { title: "Last name" }
+    { title: "Last name" },
   ];
   page = 1;
   perPage = 8;
@@ -54,6 +54,7 @@ export class StudentComponent implements OnInit {
   }
 
   getStudentsPaged(page: number, per_page: number): void {
+    this.isRequestProcessing = true;
     this.dataService.getItemsPaged<Student[]>(this.API_STUDENT_PATH, page, per_page)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
@@ -61,6 +62,9 @@ export class StudentComponent implements OnInit {
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
+      },
+      () => {
+        this.isRequestProcessing = false;
       });
   }
 

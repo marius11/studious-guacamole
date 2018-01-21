@@ -53,6 +53,7 @@ export class CourseComponent implements OnInit {
   }
 
   getCoursesPaged(page: number, per_page: number): void {
+    this.isRequestProcessing = true;
     this.dataService.getItemsPaged<Course[]>(this.API_COURSE_PATH, page, per_page)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
@@ -60,6 +61,9 @@ export class CourseComponent implements OnInit {
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
+      },
+      () => {
+        this.isRequestProcessing = false;
       });
   }
 

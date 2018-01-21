@@ -24,8 +24,8 @@
     </tr>
   </tbody>
 </table>
-<ngb-pagination [collectionSize]="courses.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true" [ellipses]="false"
-  [boundaryLinks]="true" (pageChange)="getCoursesPaged(page, perPage)"></ngb-pagination>
+<ngb-pagination [disabled]="isRequestProcessing" [collectionSize]="courses.Count" [(page)]="page" [pageSize]="perPage" [rotate]="true"
+  [ellipses]="false" [boundaryLinks]="true" (pageChange)="getCoursesPaged(page, perPage)"></ngb-pagination>
 
 <ng-template #addCourseModal let-c="close">
   <div class="modal-header">
