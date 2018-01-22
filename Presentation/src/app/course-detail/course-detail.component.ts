@@ -51,6 +51,7 @@ export class CourseDetailComponent implements OnInit {
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
+        this.isRequestProcessing = false;
       });
   }
 

@@ -32,7 +32,7 @@ export class StudentComponent implements OnInit {
   columns = [
     { title: "#" },
     { title: "First name" },
-    { title: "Last name" },
+    { title: "Last name" }
   ];
   page = 1;
   perPage = 8;
