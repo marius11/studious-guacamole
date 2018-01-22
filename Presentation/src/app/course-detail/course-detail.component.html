@@ -4,7 +4,7 @@
       <i class="fa fa-pencil"></i>
     </span>
   </span>
-  <span class="h2" *ngIf="!course?.Name">
+  <span class="h2" *ngIf="!course?.Name && !courseNameEditing">
     Loading...
   </span>
   <div class="input-group" *ngIf="courseNameEditing">
