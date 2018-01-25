@@ -6,6 +6,7 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Course } from "app/models/course";
 import { Student } from "app/models/student";
 import { DataService } from "app/services/data.service";
+import { InlineEditComponent } from "app/inline-edit/inline-edit.component";
 
 import { delay, switchMap } from "rxjs/operators";
 
@@ -20,10 +21,8 @@ export class CourseDetailComponent implements OnInit {
   private API_COURSE_PATH = "courses";
   private RESPONSE_DELAY_TIMER = 1000;
 
-  course: Course;
+  course: Course = new Course("");
   students: Student[];
-  courseNameEditing: boolean;
-  oldCourseName: string;
   studentTableColumns = [
     { title: "#" },
     { title: "First name" },
@@ -60,7 +59,6 @@ export class CourseDetailComponent implements OnInit {
     this.dataService.updateItem<Course>(this.API_COURSE_PATH, course.Id, course)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
-        this.courseNameEditing = !this.courseNameEditing;
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
@@ -68,24 +66,6 @@ export class CourseDetailComponent implements OnInit {
       () => {
         this.isRequestProcessing = false;
       });
-  }
-
-  enableCourseNameEditing(): void {
-    this.courseNameEditing = !this.courseNameEditing;
-    this.oldCourseName = this.course.Name;
-  }
-
-  disableCourseNameEditing(): void {
-    this.courseNameEditing = !this.courseNameEditing;
-    this.course.Name = this.oldCourseName;
-  }
-
-  saveChanges(course: Course): void {
-    if (this.oldCourseName !== course.Name) {
-      this.updateCourseName(course);
-    } else {
-      this.courseNameEditing = !this.courseNameEditing;
-    }
   }
 
   deleteCourse(id: number): void {

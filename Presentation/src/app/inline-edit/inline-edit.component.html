@@ -1,0 +1,20 @@
+<div class="input-group" *ngIf="editing">
+  <input class="form-control" type="text" [disabled]="disabled" #inlineEditControl [(ngModel)]="value" appAutofocus />
+  <div class="input-group-append">
+    <button class="btn btn-success" type="button" [disabled]="disabled" (click)="saveChanges()">
+      <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+    </button>
+    <button class="btn btn-danger" type="button" [disabled]="disabled" (click)="disableEdit()">
+      <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+<div *ngIf="!editing && value">
+  <span class="h2 text-title" (click)="enableEdit(value)">{{value}}
+    <i class="fa fa-pencil"></i>
+  </span>
+</div>
+
+<span class="h2" *ngIf="!value && !editing">
+  Loading...
+</span>

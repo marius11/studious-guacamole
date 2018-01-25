@@ -1,24 +1,6 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2">
-  <span class="h2" *ngIf="course?.Name">
-    <span class="course-name-title" *ngIf="!courseNameEditing" (click)="enableCourseNameEditing()">{{course?.Name}}
-      <i class="fa fa-pencil"></i>
-    </span>
-  </span>
-  <span class="h2" *ngIf="!course?.Name && !courseNameEditing">
-    Loading...
-  </span>
-  <div class="input-group" *ngIf="courseNameEditing">
-    <input class="form-control form-control-lg col-lg-3" type="text" [disabled]="isRequestProcessing" [(ngModel)]="course.Name"
-      appAutofocus />
-    <span class="btn-group">
-      <button class="btn btn-success" type="button" [disabled]="!course.Name || isRequestProcessing" (click)="saveChanges(course)">
-        <i class="fa fa-check fa-lg" aria-hidden="true"></i>
-      </button>
-      <button class="btn btn-danger" type="button" [disabled]="isRequestProcessing" (click)="disableCourseNameEditing()">
-        <i class="fa fa-times fa-lg" aria-hidden="true"></i>
-      </button>
-    </span>
-  </div>
+  <app-inline-edit [(ngModel)]="course.Name" (onSave)="updateCourseName(course)" [disabled]="isRequestProcessing">
+  </app-inline-edit>
   <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
       <div *ngIf="!courseNameEditing">

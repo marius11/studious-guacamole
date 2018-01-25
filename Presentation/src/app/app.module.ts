@@ -9,6 +9,7 @@ import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 
 import { AutofocusDirective } from "app/directives/autofocus.directive";
+import { InlineEditComponent } from "app/inline-edit/inline-edit.component";
 
 import { DataService } from "app/services/data.service";
 import { SearchService } from "app/services/search.service";
@@ -27,6 +28,7 @@ import { CourseDetailComponent } from "./course-detail/course-detail.component";
     CourseDetailComponent,
     StudentDetailComponent,
     AutofocusDirective,
+    InlineEditComponent,
   ],
   imports: [
     NgbModule.forRoot(),

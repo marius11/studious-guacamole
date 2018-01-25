@@ -1,0 +1,18 @@
+.bold {
+  font-weight: 700;
+}
+
+.text-title:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  cursor: pointer;
+}
+
+.text-title > i {
+  opacity: 0.5;
+}
+
+.text-title:hover > i {
+  visibility: visible;
+  opacity: 1.0;
+}
