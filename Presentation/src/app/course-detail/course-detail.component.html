@@ -4,7 +4,7 @@
   <div class="btn-toolbar mb-2 mb-md-0">
     <div class="btn-group mr-2">
       <div *ngIf="!courseNameEditing">
-        <button class="btn btn-primary" type="button" [disabled]="isRequestProcessing || true" (click)="deleteCourse(course.Id)">
+        <button class="btn btn-primary" type="button" [disabled]="isRequestProcessing || true">
           <i class="fa fa-plus fa-lg"></i> ASSIGN A STUDENT</button>
         <button class="btn btn-danger" type="button" [disabled]="isRequestProcessing" (click)="deleteCourse(course.Id)">
           <i class="fa fa-trash fa-lg"></i> DELETE</button>
