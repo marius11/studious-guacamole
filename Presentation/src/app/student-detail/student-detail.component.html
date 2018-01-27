@@ -42,19 +42,19 @@
           <label for="student-firstname-input">First name</label>
           <span class="badge badge-success"></span>
           <input class="form-control" type="text" id="student-firstname-input" formControlName="FirstName" [(ngModel)]="student.FirstName"
-          />
+            required />
         </div>
         <div class="form-group col-md-6">
           <label for="student-lastname-input">Last name</label>
           <span class="badge badge-success"></span>
           <input class="form-control" type="text" id="student-lastname-input" formControlName="LastName" [(ngModel)]="student.LastName"
-          />
+            required />
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" type="button" [disabled]="!editStudentFormGroup.valid || isSubmitDisabled || isRequestProcessing"
+    <button class="btn btn-primary" type="button" [disabled]="!editStudentFormGroup.valid || isInputRedundant || isRequestProcessing"
       (click)="updateStudent(student)">SUBMIT</button>
     <button class="btn btn-default" type="button" [disabled]="isRequestProcessing" (click)="c()">CLOSE</button>
   </div>

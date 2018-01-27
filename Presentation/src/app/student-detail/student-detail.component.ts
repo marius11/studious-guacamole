@@ -45,7 +45,7 @@ export class StudentDetailComponent implements OnInit {
     { title: "Name" }
   ];
   studentOldName = ["", ""];
-  isSubmitDisabled = false;
+  isInputRedundant = false;
   isRequestProcessing = false;
 
   constructor(
@@ -111,12 +111,12 @@ export class StudentDetailComponent implements OnInit {
 
   private createEditStudentFormGroup(): void {
     this.editStudentFormGroup = this.formBuilder.group({
-      FirstName: new FormControl("", Validators.required),
-      LastName: new FormControl("", Validators.required)
+      FirstName: new FormControl("", [Validators.required, Validators.minLength(2)]),
+      LastName: new FormControl("", [Validators.required, Validators.minLength(2)])
     });
 
     this.editStudentFormGroup.valueChanges.subscribe(data => {
-      this.isSubmitDisabled =
+      this.isInputRedundant =
         this.studentOldName[STUDENT_DATA.FIRST_NAME] === data.FirstName
           && this.studentOldName[STUDENT_DATA.LAST_NAME] === data.LastName ? true : false;
     });
