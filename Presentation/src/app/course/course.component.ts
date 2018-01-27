@@ -1,7 +1,7 @@
 import { Router } from "@angular/router";
-import { FormControl } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
+import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
@@ -37,12 +37,11 @@ export class CourseComponent implements OnInit {
   perPage = 8;
   isRequestProcessing = false;
 
-  constructor(
-    private router: Router,
-    private dataService: DataService,
-    private searchService: SearchService,
-    private modalService: NgbModal) {
+  addCourseFormGroup: FormGroup;
 
+  constructor(
+    private router: Router, private dataService: DataService, private searchService: SearchService,
+    private modalService: NgbModal, private formBuilder: FormBuilder) {
     this.searchTerm
       .pipe(debounceTime(this.DEBOUNCE_TIMER), distinctUntilChanged())
       .subscribe(term => this.searchCourses(term));
@@ -50,6 +49,7 @@ export class CourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCoursesPaged(this.page, this.perPage);
+    this.createAddCourseFormGroup();
   }
 
   getCoursesPaged(page: number, per_page: number): void {
@@ -108,6 +108,12 @@ export class CourseComponent implements OnInit {
 
   private closeAddCourseModal(): void {
     this.addCourseModalInstance.dismiss();
+  }
+
+  private createAddCourseFormGroup(): void {
+    this.addCourseFormGroup = this.formBuilder.group({
+      Name: new FormControl("", [Validators.required, Validators.minLength(3)])
+    });
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {

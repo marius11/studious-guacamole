@@ -32,15 +32,18 @@
     <h4 class="modal-title">New course</h4>
   </div>
   <div class="modal-body">
-    <div class="from-group row">
-      <label class="col-2 col-form-label" for="course-name-input">Name</label>
-      <div class="col-10">
-        <input class="form-control" type="text" id="course-name-input" [(ngModel)]="course.Name" />
+    <form [formGroup]="addCourseFormGroup" novalidate>
+      <div class="from-group row">
+        <label class="col-2 col-form-label" for="course-name-input">Name</label>
+        <div class="col-10">
+          <input class="form-control" type="text" id="course-name-input" formControlName="Name" [(ngModel)]="course.Name" required
+          />
+        </div>
       </div>
-    </div>
+    </form>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" type="button" [disabled]="!course.Name || isRequestProcessing" (click)="addCourse(course)">SUBMIT</button>
+    <button class="btn btn-primary" type="button" [disabled]="!addCourseFormGroup.valid || isRequestProcessing" (click)="addCourse(course)">SUBMIT</button>
     <button class="btn btn-default" type="button" [disabled]="isRequestProcessing" (click)="c()">CANCEL</button>
   </div>
 </ng-template>
