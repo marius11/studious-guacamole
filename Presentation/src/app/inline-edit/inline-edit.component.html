@@ -9,12 +9,13 @@
     </button>
   </div>
 </div>
+
 <div *ngIf="!editing && value">
   <span class="h2 text-title" (click)="enableEdit(value)">{{value}}
     <i class="fa fa-pencil"></i>
   </span>
 </div>
 
-<span class="h2" *ngIf="!value && !editing">
+<span class="h2" *ngIf="!editing && !value">
   Loading...
 </span>
