@@ -56,6 +56,6 @@
   <div class="modal-footer">
     <button class="btn btn-primary" type="button" [disabled]="!editStudentFormGroup.valid || isInputRedundant || isRequestProcessing"
       (click)="updateStudent(student)">SUBMIT</button>
-    <button class="btn btn-default" type="button" [disabled]="isRequestProcessing" (click)="c()">CLOSE</button>
+    <button class="btn btn-default" type="button" [disabled]="isRequestProcessing" (click)="closeEditStudentModal()">CLOSE</button>
   </div>
 </ng-template>

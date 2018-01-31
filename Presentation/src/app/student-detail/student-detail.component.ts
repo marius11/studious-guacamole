@@ -86,8 +86,8 @@ export class StudentDetailComponent implements OnInit {
     this.dataService.updateItem<Student>(this.API_STUDENT_PATH, student.Id, student)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
-        this.closeEditStudentModal();
         this.studentOldName = [student.FirstName, student.LastName];
+        this.closeEditStudentModal();
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
@@ -103,10 +103,12 @@ export class StudentDetailComponent implements OnInit {
 
   openEditStudentModal(modal): void {
     this.editStudentModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
+    this.studentOldName = [this.student.FirstName, this.student.LastName];
   }
 
-  private closeEditStudentModal(): void {
+  closeEditStudentModal(): void {
     this.editStudentModalInstance.dismiss();
+    [this.student.FirstName, this.student.LastName] = this.studentOldName;
   }
 
   private createEditStudentFormGroup(): void {
