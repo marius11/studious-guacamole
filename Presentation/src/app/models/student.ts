@@ -3,9 +3,7 @@ export class Student {
     public FirstName: string;
     public LastName: string;
 
-    constructor(firstName: string, lastName: string)
-    // tslint:disable-next-line:one-line
-    {
+    constructor(firstName: string, lastName: string) {
         this.FirstName = firstName;
         this.LastName = lastName;
     }

@@ -5,9 +5,7 @@ export class Course {
     public Name: string;
     public Students: Student[];
 
-    constructor(name: string)
-    // tslint:disable-next-line:one-line
-    {
+    constructor(name: string) {
         this.Name = name;
     }
 }
