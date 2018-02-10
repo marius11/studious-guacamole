@@ -44,6 +44,7 @@ export class CourseDetailComponent implements OnInit {
   ];
   isRequestProcessing = false;
   savingInfo: SAVING_INFORMATION = { status: SAVING_STATE.NOT_STARTED, text: "" };
+  previousCourseName: string = "";
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private location: Location,
     private router: Router) { }
@@ -62,6 +63,7 @@ export class CourseDetailComponent implements OnInit {
         this.course = result;
         this.students = result.Students;
         this.isRequestProcessing = false;
+        this.previousCourseName = this.course.Name;
       },
         (e: HttpErrorResponse) => {
           this.printErrorMessageToConsole(e);
@@ -76,10 +78,12 @@ export class CourseDetailComponent implements OnInit {
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.savingInfo = { status: SAVING_STATE.SUCCESSFUL, text: "SAVED!" };
+        this.previousCourseName = this.course.Name;
       },
         (e: HttpErrorResponse) => {
           this.isRequestProcessing = false;
           this.printErrorMessageToConsole(e);
+          this.course.Name = this.previousCourseName;
           this.savingInfo = { status: SAVING_STATE.FAILURE, text: "ERROR!" };
           setTimeout(() => {
             this.savingInfo = { status: SAVING_STATE.FINISHED, text: "" };
