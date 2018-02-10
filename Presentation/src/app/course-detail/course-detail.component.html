@@ -1,6 +1,9 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2">
-  <app-inline-edit [(ngModel)]="course.Name" (onSave)="updateCourseName(course)" [disabled]="isRequestProcessing">
-  </app-inline-edit>
+  <div>
+    <app-inline-edit style="display: inline-block" [(ngModel)]="course.Name" (onSave)="updateCourseName(course)" [disabled]="isRequestProcessing">
+    </app-inline-edit>
+    <span [ngClass]="getBadgeCssClass()" style="display: inline-block" >{{savingInfo.text}}</span>
+  </div>
   <div class="btn-toolbar mb-2 mb-md-0">
     <button class="btn btn-danger" type="button" [disabled]="isRequestProcessing" (click)="deleteCourse(course.Id)">
       <i class="fa fa-trash fa-lg"></i> DELETE

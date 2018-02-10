@@ -10,6 +10,19 @@ import { InlineEditComponent } from "app/inline-edit/inline-edit.component";
 
 import { delay, switchMap } from "rxjs/operators";
 
+enum SAVING_STATE {
+  NOT_STARTED,
+  PENDING,
+  SUCCESSFUL,
+  FAILURE,
+  FINISHED
+}
+
+type SAVING_INFORMATION = {
+  status: SAVING_STATE,
+  text: string
+};
+
 @Component({
   selector: "app-course-detail",
   templateUrl: "./course-detail.component.html",
@@ -20,6 +33,7 @@ export class CourseDetailComponent implements OnInit {
 
   private API_COURSE_PATH = "courses";
   private RESPONSE_DELAY_TIMER = 1000;
+  private BADGE_DELAY_TIMER = 2000;
 
   course: Course = new Course("");
   students: Student[];
@@ -29,6 +43,7 @@ export class CourseDetailComponent implements OnInit {
     { title: "Last name" }
   ];
   isRequestProcessing = false;
+  savingInfo: SAVING_INFORMATION = { status: SAVING_STATE.NOT_STARTED, text: "" };
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private location: Location,
     private router: Router) { }
@@ -41,31 +56,41 @@ export class CourseDetailComponent implements OnInit {
     this.isRequestProcessing = true;
     this.route.params
       .pipe(
-      switchMap((params: Params) => this.dataService.getItemById<Course>(this.API_COURSE_PATH, +params["id"])),
-      delay(this.RESPONSE_DELAY_TIMER))
+        switchMap((params: Params) => this.dataService.getItemById<Course>(this.API_COURSE_PATH, +params["id"])),
+        delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.course = result;
         this.students = result.Students;
         this.isRequestProcessing = false;
       },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-        this.isRequestProcessing = false;
-      });
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+          this.isRequestProcessing = false;
+        });
   }
 
   updateCourseName(course: Course): void {
+    this.savingInfo = { status: SAVING_STATE.PENDING, text: "SAVING..." };
     this.isRequestProcessing = true;
     this.dataService.updateItem<Course>(this.API_COURSE_PATH, course.Id, course)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
+        this.savingInfo = { status: SAVING_STATE.SUCCESSFUL, text: "SAVED!" };
       },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-      },
-      () => {
-        this.isRequestProcessing = false;
-      });
+        (e: HttpErrorResponse) => {
+          this.isRequestProcessing = false;
+          this.printErrorMessageToConsole(e);
+          this.savingInfo = { status: SAVING_STATE.FAILURE, text: "ERROR!" };
+          setTimeout(() => {
+            this.savingInfo = { status: SAVING_STATE.FINISHED, text: "" };
+          }, this.BADGE_DELAY_TIMER);
+        },
+        () => {
+          this.isRequestProcessing = false;
+          setTimeout(() => {
+            this.savingInfo = { status: SAVING_STATE.FINISHED, text: "" };
+          }, this.BADGE_DELAY_TIMER);
+        });
   }
 
   deleteCourse(id: number): void {
@@ -77,12 +102,12 @@ export class CourseDetailComponent implements OnInit {
         .subscribe(data => {
           this.router.navigate(["app/courses"]);
         },
-        (e: HttpErrorResponse) => {
-          this.printErrorMessageToConsole(e);
-        },
-        () => {
-          this.isRequestProcessing = false;
-        });
+          (e: HttpErrorResponse) => {
+            this.printErrorMessageToConsole(e);
+          },
+          () => {
+            this.isRequestProcessing = false;
+          });
     } else {
       console.log(`Deletion for course with the ID ${id} has been cancelled.`);
     }
@@ -90,6 +115,18 @@ export class CourseDetailComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  getBadgeCssClass(): string {
+    if (this.savingInfo.status === SAVING_STATE.PENDING) {
+      return "badge badge-primary";
+    } else if (this.savingInfo.status === SAVING_STATE.SUCCESSFUL) {
+      return "badge badge-success";
+    } else if (this.savingInfo.status === SAVING_STATE.FAILURE) {
+      return "badge badge-danger";
+    } else if (this.savingInfo.status === SAVING_STATE.NOT_STARTED || this.savingInfo.status === SAVING_STATE.FINISHED) {
+      return "";
+    }
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
