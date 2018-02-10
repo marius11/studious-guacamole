@@ -72,12 +72,12 @@ export class StudentDetailComponent implements OnInit {
           this.courses = result[MODEL_DATA.COURSE];
           this.studentOldName = [this.student.FirstName, this.student.LastName];
         },
-        (e: HttpErrorResponse) => {
-          this.printErrorMessageToConsole(e);
-        },
-        () => {
-          this.isRequestProcessing = false;
-        });
+          (e: HttpErrorResponse) => {
+            this.printErrorMessageToConsole(e);
+          },
+          () => {
+            this.isRequestProcessing = false;
+          });
     });
   }
 
@@ -89,12 +89,12 @@ export class StudentDetailComponent implements OnInit {
         this.studentOldName = [student.FirstName, student.LastName];
         this.closeEditStudentModal();
       },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-      },
-      () => {
-        this.isRequestProcessing = false;
-      });
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+        },
+        () => {
+          this.isRequestProcessing = false;
+        });
   }
 
   goBack(): void {
