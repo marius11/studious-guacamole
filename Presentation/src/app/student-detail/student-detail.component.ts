@@ -1,7 +1,7 @@
 import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -42,15 +42,16 @@ export class StudentDetailComponent implements OnInit {
   courses: Course[] = [];
   courseTableColumns = [
     { title: "#" },
-    { title: "Name" }
+    { title: "Name" },
+    { title: "Actions" }
   ];
   studentOldName = ["", ""];
-  isInputRedundant = false;
+  private isInputRedundant = false;
   isRequestProcessing = false;
 
   constructor(
-    private dataService: DataService, private route: ActivatedRoute, private location: Location,
-    private modalService: NgbModal, private formBuilder: FormBuilder) {
+    private dataService: DataService, private route: ActivatedRoute, private modalService: NgbModal,
+    private formBuilder: FormBuilder, private router: Router, private location: Location) {
     this.createEditStudentFormGroup();
   }
 
@@ -82,23 +83,23 @@ export class StudentDetailComponent implements OnInit {
   }
 
   updateStudent(student: Student): void {
-    this.isRequestProcessing = true;
-    this.dataService.updateItem<Student>(this.API_STUDENT_PATH, student.Id, student)
-      .pipe(delay(this.RESPONSE_DELAY_TIMER))
-      .subscribe(result => {
-        this.studentOldName = [student.FirstName, student.LastName];
-        this.closeEditStudentModal();
-      },
-        (e: HttpErrorResponse) => {
-          this.printErrorMessageToConsole(e);
+    if (this.isInputRedundant === false) {
+      this.isRequestProcessing = true;
+      this.dataService.updateItem<Student>(this.API_STUDENT_PATH, student.Id, student)
+        .pipe(delay(this.RESPONSE_DELAY_TIMER))
+        .subscribe(result => {
+          this.studentOldName = [student.FirstName, student.LastName];
+          this.closeEditStudentModal();
         },
-        () => {
-          this.isRequestProcessing = false;
-        });
-  }
-
-  goBack(): void {
-    this.location.back();
+          (e: HttpErrorResponse) => {
+            this.printErrorMessageToConsole(e);
+          },
+          () => {
+            this.isRequestProcessing = false;
+          });
+    } else {
+      this.closeEditStudentModal();
+    }
   }
 
   openEditStudentModal(modal): void {
@@ -109,6 +110,14 @@ export class StudentDetailComponent implements OnInit {
   closeEditStudentModal(): void {
     this.editStudentModalInstance.dismiss();
     [this.student.FirstName, this.student.LastName] = this.studentOldName;
+  }
+
+  goToCourseDetails(course: Course): void {
+    this.router.navigate(["app/courses", course.Id]);
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   private createEditStudentFormGroup(): void {
