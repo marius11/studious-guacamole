@@ -2,7 +2,7 @@
   <div>
     <app-inline-edit style="display: inline-block" [(ngModel)]="course.Name" (onSave)="updateCourseName(course)" [disabled]="isRequestProcessing">
     </app-inline-edit>
-    <span [ngClass]="getBadgeCssClass()" style="display: inline-block" >{{savingInfo.text}}</span>
+    <span [ngClass]="getBadgeCssClass()" style="display: inline-block">{{savingInfo.text}}</span>
   </div>
   <div class="btn-toolbar mb-2 mb-md-0">
     <button class="btn btn-danger" type="button" [disabled]="isRequestProcessing" (click)="deleteCourse(course.Id)">
@@ -31,6 +31,4 @@
     <strong>There are no students assigned to this course!</strong>
   </span>
 </div>
-<div class="btn-goto-previous-page">
-  <button class="btn btn-default" type="button" (click)="goBack()">Back to courses</button>
-</div>
+<button class="btn btn-default" type="button" (click)="goBack()">Back</button>
