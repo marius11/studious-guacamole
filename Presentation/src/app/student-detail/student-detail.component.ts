@@ -36,6 +36,7 @@ export class StudentDetailComponent implements OnInit {
   private API_STUDENT_SUB_PATH = "courses";
   private RESPONSE_DELAY_TIMER = 1000;
   private editStudentModalInstance: any;
+  private assignCourseToStudentModalInstance: any;
   editStudentFormGroup: any;
 
   student: Student = new Student("", "");
@@ -110,6 +111,14 @@ export class StudentDetailComponent implements OnInit {
   closeEditStudentModal(): void {
     this.editStudentModalInstance.dismiss();
     [this.student.FirstName, this.student.LastName] = this.studentOldName;
+  }
+
+  openAssignCourseToStudentModal(modal): void {
+    this.assignCourseToStudentModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
+  }
+
+  closeAssignCourseToStudentModal(): void {
+    this.assignCourseToStudentModalInstance.dismiss();
   }
 
   goToCourseDetails(course: Course): void {
