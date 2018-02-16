@@ -85,15 +85,11 @@ export class CourseDetailComponent implements OnInit {
           this.printErrorMessageToConsole(e);
           this.course.Name = this.previousCourseName;
           this.savingInfo = { status: SAVING_STATE.FAILURE, text: "ERROR!" };
-          setTimeout(() => {
-            this.savingInfo = { status: SAVING_STATE.FINISHED, text: "" };
-          }, this.BADGE_DELAY_TIMER);
+          this.hideStatusBadge();
         },
         () => {
           this.isRequestProcessing = false;
-          setTimeout(() => {
-            this.savingInfo = { status: SAVING_STATE.FINISHED, text: "" };
-          }, this.BADGE_DELAY_TIMER);
+          this.hideStatusBadge();
         });
   }
 
@@ -131,6 +127,12 @@ export class CourseDetailComponent implements OnInit {
     } else if (this.savingInfo.status === SAVING_STATE.NOT_STARTED || this.savingInfo.status === SAVING_STATE.FINISHED) {
       return "";
     }
+  }
+
+  private hideStatusBadge(): void {
+    setTimeout(() => {
+      this.savingInfo = { status: SAVING_STATE.FINISHED, text: "" };
+    }, this.BADGE_DELAY_TIMER);
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
