@@ -84,6 +84,6 @@
   <div class="modal-body">
   </div>
   <div class="modal-footer">
-    <button class="btn btn-default" type="button" (click)="closeAssignCourseToStudentModal()">CLOSE</button>
+    <button class="btn btn-default" type="button" [disabled]="isRequestProcessing" (click)="closeAssignCourseToStudentModal()">CLOSE</button>
   </div>
 </ng-template>
