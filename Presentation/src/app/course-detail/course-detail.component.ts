@@ -63,7 +63,7 @@ export class CourseDetailComponent implements OnInit {
         this.course = result;
         this.students = result.Students;
         this.isRequestProcessing = false;
-        this.previousCourseName = this.course.Name;
+        this.retrievePreviousName();
       },
         (e: HttpErrorResponse) => {
           this.printErrorMessageToConsole(e);
@@ -78,13 +78,13 @@ export class CourseDetailComponent implements OnInit {
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.savingInfo = { status: SAVING_STATE.SUCCESSFUL, text: "SAVED!" };
-        this.previousCourseName = this.course.Name;
+        this.retrievePreviousName();
       },
         (e: HttpErrorResponse) => {
           this.isRequestProcessing = false;
-          this.printErrorMessageToConsole(e);
-          this.course.Name = this.previousCourseName;
           this.savingInfo = { status: SAVING_STATE.FAILURE, text: "ERROR!" };
+          this.printErrorMessageToConsole(e);
+          this.restorePreviousName();
           this.hideStatusBadge();
         },
         () => {
@@ -133,6 +133,14 @@ export class CourseDetailComponent implements OnInit {
     setTimeout(() => {
       this.savingInfo = { status: SAVING_STATE.FINISHED, text: "" };
     }, this.BADGE_DELAY_TIMER);
+  }
+
+  private restorePreviousName(): void {
+    this.course.Name = this.previousCourseName;
+  }
+
+  private retrievePreviousName(): void {
+    this.previousCourseName = this.course.Name;
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {

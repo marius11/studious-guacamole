@@ -72,7 +72,7 @@ export class StudentDetailComponent implements OnInit {
         .subscribe(result => {
           this.student = result[MODEL_DATA.STUDENT];
           this.courses = result[MODEL_DATA.COURSE];
-          this.studentOldName = [this.student.FirstName, this.student.LastName];
+          this.retrieveCurrentName();
         },
           (e: HttpErrorResponse) => {
             this.printErrorMessageToConsole(e);
@@ -89,7 +89,7 @@ export class StudentDetailComponent implements OnInit {
       this.dataService.updateItem<Student>(this.API_STUDENT_PATH, student.Id, student)
         .pipe(delay(this.RESPONSE_DELAY_TIMER))
         .subscribe(result => {
-          this.studentOldName = [student.FirstName, student.LastName];
+          this.retrieveCurrentName();
           this.closeEditStudentModal();
         },
           (e: HttpErrorResponse) => {
@@ -105,12 +105,12 @@ export class StudentDetailComponent implements OnInit {
 
   openEditStudentModal(modal): void {
     this.editStudentModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
-    this.studentOldName = [this.student.FirstName, this.student.LastName];
+    this.retrieveCurrentName();
   }
 
   closeEditStudentModal(): void {
     this.editStudentModalInstance.dismiss();
-    [this.student.FirstName, this.student.LastName] = this.studentOldName;
+    this.restoreToPreviousName();
   }
 
   openAssignCourseToStudentModal(modal): void {
@@ -140,6 +140,14 @@ export class StudentDetailComponent implements OnInit {
         this.studentOldName[STUDENT_DATA.FIRST_NAME] === data.FirstName
           && this.studentOldName[STUDENT_DATA.LAST_NAME] === data.LastName ? true : false;
     });
+  }
+
+  private retrieveCurrentName(): void {
+    this.studentOldName = [this.student.FirstName, this.student.LastName];
+  }
+
+  private restoreToPreviousName(): void {
+    [this.student.FirstName, this.student.LastName] = this.studentOldName;
   }
 
   private printErrorMessageToConsole(e: HttpErrorResponse): void {
