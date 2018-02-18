@@ -1,12 +1,13 @@
-﻿using ApiService.Models;
-using DataAccess;
-using System;
+﻿using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+
+using DataAccess;
+using ApiService.Models;
 
 namespace Service.Controllers
 {
@@ -202,6 +203,35 @@ namespace Service.Controllers
                     await db.SaveChangesAsync();
 
                     httpResponse = Request.CreateResponse(HttpStatusCode.Created, student);
+                }
+            }
+            catch (Exception e)
+            {
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+            return httpResponse;
+        }
+
+        [HttpPost]
+        [Route("{id:int}/courses")]
+        public async Task<HttpResponseMessage> AssignCourseToStudent(int id, [FromBody] CourseDTO courseDTO)
+        {
+            HttpResponseMessage httpResponse;
+
+            try
+            {
+                using (AppDbContext db = new AppDbContext())
+                {
+                    var student = new Student { Id = id };
+                    db.Students.Attach(student);
+
+                    var course = new Course { Id = courseDTO.Id };
+                    db.Courses.Attach(course);
+
+                    student.Courses.Add(course);
+                    await db.SaveChangesAsync();
+
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK);
                 }
             }
             catch (Exception e)
