@@ -1,0 +1,10 @@
+﻿CREATE PROCEDURE [dbo].[sp_GetCourseById]
+	@Id INT
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT Id, Name
+	FROM Courses
+	WHERE Id = @Id
+END
