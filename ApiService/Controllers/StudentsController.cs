@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Data;
 using System.Data.Entity;
-using System.Linq;
+using System.Data.SqlClient;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace Service.Controllers
     [RoutePrefix("api/students")]
     public class StudentsController : ApiController
     {
+        private const int MAX_SEARCH_QUERY_LENGTH = 64;
+
         [HttpGet]
         [Route("")]
         public async Task<HttpResponseMessage> GetAllStudents()
@@ -24,14 +27,7 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var students = await
-                        (from s in db.Students
-                         select new StudentDTO
-                         {
-                             Id = s.Id,
-                             FirstName = s.FirstName,
-                             LastName = s.LastName
-                         }).ToListAsync();
+                    var students = await db.Database.SqlQuery<StudentDTO>("sp_GetAllStudents").ToListAsync();
 
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK, students);
                 }
@@ -47,23 +43,24 @@ namespace Service.Controllers
         [Route("")]
         public async Task<HttpResponseMessage> GetStudentsPaged([FromUri] int? page, [FromUri] int? per_page)
         {
+            HttpResponseMessage httpResponse;
+
             int pageNumber = page - 1 ?? 0;
             int pageSize = per_page ?? 10;
 
-            HttpResponseMessage httpResponse;
+            var pagedStudentsParams = new[]
+            {
+                new SqlParameter("@page_number", SqlDbType.Int) { Value = pageNumber },
+                new SqlParameter("@page_size", SqlDbType.Int) { Value = pageSize }
+            };
 
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var students = await
-                        (from s in db.Students
-                         select new StudentDTO
-                         {
-                             Id = s.Id,
-                             FirstName = s.FirstName,
-                             LastName = s.LastName
-                         }).OrderBy(i => i.Id).Skip(pageNumber * pageSize).Take(pageSize).ToListAsync();
+                    var students = await db.Database
+                        .SqlQuery<StudentDTO>("sp_GetStudentsPaged @page_number, @page_size", pagedStudentsParams)
+                        .ToListAsync();
 
                     var pagedResponse = new PagingModel<StudentDTO>
                     {
@@ -86,20 +83,15 @@ namespace Service.Controllers
         public async Task<HttpResponseMessage> GetStudentById(int id)
         {
             HttpResponseMessage httpResponse;
+            var studentIdParam = new SqlParameter("@Id", SqlDbType.Int) { Value = id };
 
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var student = await
-                        (from s in db.Students
-                         where s.Id == id
-                         select new StudentDTO
-                         {
-                             Id = s.Id,
-                             FirstName = s.FirstName,
-                             LastName = s.LastName
-                         }).SingleAsync();
+                    var student = await db.Database
+                        .SqlQuery<StudentDTO>("sp_GetStudentById @Id", studentIdParam)
+                        .SingleAsync();
 
                     httpResponse = student != null ?
                         Request.CreateResponse(HttpStatusCode.OK, student) :
@@ -118,20 +110,15 @@ namespace Service.Controllers
         public async Task<HttpResponseMessage> GetCoursesByStudentId(int id)
         {
             HttpResponseMessage httpResponse;
+            var studentIdParam = new SqlParameter("@Id", SqlDbType.Int) { Value = id };
 
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var courses = await
-                        (from s in db.Students
-                         from c in s.Courses
-                         where s.Id == id
-                         select new CourseDTO
-                         {
-                             Id = c.Id,
-                             Name = c.Name
-                         }).ToListAsync();
+                    var courses = await db.Database
+                        .SqlQuery<CourseDTO>("sp_GetCoursesByStudentId @Id", studentIdParam)
+                        .ToListAsync();
 
                     httpResponse = courses != null ?
                         Request.CreateResponse(HttpStatusCode.OK, courses) :
@@ -149,23 +136,22 @@ namespace Service.Controllers
         [Route("")]
         public async Task<HttpResponseMessage> GetStudentsFiltered([FromUri] string search_term, [FromUri] int? per_page)
         {
+            HttpResponseMessage httpResponse;
             int pageSize = per_page ?? 10;
 
-            HttpResponseMessage httpResponse;
+            var filteredStudentsParams = new[]
+            {
+                new SqlParameter("@search_query", SqlDbType.NVarChar, MAX_SEARCH_QUERY_LENGTH) { Value = search_term },
+                new SqlParameter("@per_page", SqlDbType.Int) { Value = pageSize }
+            };
 
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var students = await
-                        (from s in db.Students
-                         where s.FirstName.Contains(search_term) || s.LastName.Contains(search_term)
-                         select new StudentDTO
-                         {
-                             Id = s.Id,
-                             FirstName = s.FirstName,
-                             LastName = s.LastName
-                         }).Take(pageSize).ToListAsync();
+                    var students = await db.Database
+                        .SqlQuery<StudentDTO>("sp_GetStudentsFiltered @search_query, @per_page", filteredStudentsParams)
+                        .ToListAsync();
 
                     var pagedResponse = new PagingModel<StudentDTO>
                     {
