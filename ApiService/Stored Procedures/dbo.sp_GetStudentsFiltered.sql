@@ -7,5 +7,5 @@ BEGIN
 
 	SELECT TOP (@per_page) Id, FirstName, LastName
 	FROM Students
-	WHERE FirstName LIKE '%' + @search_query + '%' OR LastName LIKE '$' + @search_query + '$'
+	WHERE FirstName LIKE '%' + @search_query + '%' OR LastName LIKE '%' + @search_query + '%'
 END
