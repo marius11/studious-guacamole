@@ -1,0 +1,11 @@
+﻿CREATE PROCEDURE [dbo].[sp_InsertCourse]
+	@Name NVARCHAR(128)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	INSERT INTO Courses (Name)
+	VALUES (@Name)
+
+	SELECT SCOPE_IDENTITY() AS Id
+END
