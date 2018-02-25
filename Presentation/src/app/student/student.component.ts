@@ -24,6 +24,9 @@ export class StudentComponent implements OnInit {
   private API_STUDENT_PATH = "students";
   private RESPONSE_DELAY_TIMER = 0;
   private DEBOUNCE_TIMER = 500;
+  private NAME_MIN_LENGTH = 2;
+  private NAME_MAX_LENGTH = 64;
+
   private addStudentModalInstance: any;
 
   student: Student = new Student("", "");
@@ -113,8 +116,16 @@ export class StudentComponent implements OnInit {
 
   private createAddStudentFormGroup(): void {
     this.addStudentFormGroup = this.formBuilder.group({
-      FirstName: new FormControl("", [Validators.required, Validators.minLength(2)]),
-      LastName: new FormControl("", [Validators.required, Validators.minLength(2)])
+      FirstName: new FormControl("", [
+        Validators.required,
+        Validators.minLength(this.NAME_MIN_LENGTH),
+        Validators.maxLength(this.NAME_MAX_LENGTH)
+      ]),
+      LastName: new FormControl("", [
+        Validators.required,
+        Validators.minLength(this.NAME_MIN_LENGTH),
+        Validators.maxLength(this.NAME_MAX_LENGTH)
+      ])
     });
   }
   get FirstName() { return this.addStudentFormGroup.get("FirstName"); }

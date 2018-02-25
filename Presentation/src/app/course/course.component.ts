@@ -24,6 +24,9 @@ export class CourseComponent implements OnInit {
   private API_COURSE_PATH = "courses";
   private RESPONSE_DELAY_TIMER = 0;
   private DEBOUNCE_TIMER = 500;
+  private COURSE_NAME_MIN_LENGTH = 3;
+  private COURSE_NAME_MAX_LENGTH = 128;
+
   private addCourseModalInstance: any;
 
   course: Course = new Course("");
@@ -112,7 +115,11 @@ export class CourseComponent implements OnInit {
 
   private createAddCourseFormGroup(): void {
     this.addCourseFormGroup = this.formBuilder.group({
-      Name: new FormControl("", [Validators.required, Validators.minLength(3)])
+      Name: new FormControl("", [
+        Validators.required,
+        Validators.minLength(this.COURSE_NAME_MIN_LENGTH),
+        Validators.maxLength(this.COURSE_NAME_MAX_LENGTH)
+      ])
     });
   }
 
