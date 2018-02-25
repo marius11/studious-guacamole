@@ -8,10 +8,8 @@ namespace ApiService
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
             config.EnableCors(new EnableCorsAttribute("http://localhost:4200", "*", "*"));
 
-            // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
@@ -20,13 +18,6 @@ namespace ApiService
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Routes.MapHttpRoute(
-                name: "ApiV2",
-                routeTemplate: "api/v2/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
-
-            // Return JSON text instead of XML
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(
                 new MediaTypeHeaderValue("text/html"));
         }
