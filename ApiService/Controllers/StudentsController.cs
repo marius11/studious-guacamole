@@ -15,8 +15,6 @@ namespace Service.Controllers
     [RoutePrefix("api/students")]
     public class StudentsController : ApiController
     {
-        private const int MAX_SEARCH_QUERY_LENGTH = 64;
-
         [HttpGet]
         [Route("")]
         public async Task<HttpResponseMessage> GetAllStudents()
@@ -28,7 +26,6 @@ namespace Service.Controllers
                 using (AppDbContext db = new AppDbContext())
                 {
                     var students = await db.Database.SqlQuery<StudentDTO>("sp_GetAllStudents").ToListAsync();
-
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK, students);
                 }
             }
@@ -141,7 +138,7 @@ namespace Service.Controllers
 
             var filteredStudentsParams = new[]
             {
-                new SqlParameter("@search_query", SqlDbType.NVarChar, MAX_SEARCH_QUERY_LENGTH) { Value = search_term },
+                new SqlParameter("@search_query", SqlDbType.NVarChar, search_term.Length) { Value = search_term },
                 new SqlParameter("@per_page", SqlDbType.Int) { Value = pageSize }
             };
 
@@ -175,18 +172,25 @@ namespace Service.Controllers
         {
             HttpResponseMessage httpResponse;
 
+            var insertStudentParams = new[]
+            {
+                new SqlParameter("@FirstName", SqlDbType.NVarChar, studentDTO.FirstName.Length)
+                {
+                    Value = studentDTO.FirstName
+                },
+                new SqlParameter("@LastName", SqlDbType.NVarChar, studentDTO.LastName.Length)
+                {
+                    Value = studentDTO.LastName
+                }
+            };
+
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var student = new Student
-                    {
-                        FirstName = studentDTO.FirstName,
-                        LastName = studentDTO.LastName
-                    };
-
-                    db.Students.Add(student);
-                    await db.SaveChangesAsync();
+                    var student = await db.Database
+                        .SqlQuery<StudentDTO>("sp_InsertStudent @FirstName, @LastName", insertStudentParams)
+                        .SingleAsync();
 
                     httpResponse = Request.CreateResponse(HttpStatusCode.Created, student);
                 }
@@ -204,19 +208,17 @@ namespace Service.Controllers
         {
             HttpResponseMessage httpResponse;
 
+            var assignCourseParams = new[]
+            {
+                new SqlParameter("@CourseId", SqlDbType.Int) { Value = courseDTO.Id },
+                new SqlParameter("@StudentId", SqlDbType.Int) { Value = id }
+            };
+
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var student = new Student { Id = id };
-                    db.Students.Attach(student);
-
-                    var course = new Course { Id = courseDTO.Id };
-                    db.Courses.Attach(course);
-
-                    student.Courses.Add(course);
-                    await db.SaveChangesAsync();
-
+                    await db.Database.ExecuteSqlCommandAsync("sp_AssignCourseToStudent @CourseId, @StudentId", assignCourseParams);
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK);
                 }
             }
@@ -264,17 +266,13 @@ namespace Service.Controllers
         public async Task<HttpResponseMessage> DeleteStudent(int id)
         {
             HttpResponseMessage httpResponse;
+            var deleteStudentParam = new SqlParameter("@Id", SqlDbType.Int) { Value = id };
 
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var student = new Student() { Id = id };
-
-                    db.Students.Attach(student);
-                    db.Entry(student).State = EntityState.Deleted;
-                    await db.SaveChangesAsync();
-
+                    await db.Database.ExecuteSqlCommandAsync("sp_DeleteStudentById @Id", deleteStudentParam);
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK);
                 }
             }

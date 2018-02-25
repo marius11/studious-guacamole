@@ -15,8 +15,6 @@ namespace Service.Controllers
     [RoutePrefix("api/courses")]
     public class CoursesController : ApiController
     {
-        private const int MAX_SEARCH_QUERY_LENGTH = 64;
-
         [HttpGet]
         [Route("")]
         public async Task<HttpResponseMessage> GetAllCourses()
@@ -28,7 +26,6 @@ namespace Service.Controllers
                 using (AppDbContext db = new AppDbContext())
                 {
                     var courses = await db.Database.SqlQuery<CourseDTO>("sp_GetAllCourses").ToListAsync();
-
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK, courses);
                 }
             }
@@ -141,7 +138,7 @@ namespace Service.Controllers
 
             var filteredCoursesParams = new[]
             {
-                new SqlParameter("@search_query", SqlDbType.NVarChar, MAX_SEARCH_QUERY_LENGTH) { Value = search_term },
+                new SqlParameter("@search_query", SqlDbType.NVarChar, search_term.Length) { Value = search_term },
                 new SqlParameter("@per_page", SqlDbType.Int) { Value = pageSize }
             };
 
@@ -158,7 +155,7 @@ namespace Service.Controllers
                         Data = courses,
                         Count = courses.Count
                     };
-
+                    
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK, pagedResponse);
                 }
             }
@@ -174,18 +171,18 @@ namespace Service.Controllers
         public async Task<HttpResponseMessage> AddCourse([FromBody] CourseDTO courseDTO)
         {
             HttpResponseMessage httpResponse;
+            var insertCourseParam = new SqlParameter("@Name", SqlDbType.NVarChar, courseDTO.Name.Length)
+            {
+                Value = courseDTO.Name
+            };
 
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var course = new Course
-                    {
-                        Name = courseDTO.Name
-                    };
-
-                    db.Courses.Add(course);
-                    await db.SaveChangesAsync();
+                    var course = await db.Database
+                        .SqlQuery<CourseDTO>("sp_InsertCourse @Name", insertCourseParam)
+                        .SingleAsync();
 
                     httpResponse = Request.CreateResponse(HttpStatusCode.Created, course);
                 }
@@ -228,17 +225,13 @@ namespace Service.Controllers
         public async Task<HttpResponseMessage> DeleteCourse(int id)
         {
             HttpResponseMessage httpResponse;
+            var deleteCourseParam = new SqlParameter("@Id", SqlDbType.Int) { Value = id };
 
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var course = new Course() { Id = id };
-
-                    db.Courses.Attach(course);
-                    db.Entry(course).State = EntityState.Deleted;
-                    await db.SaveChangesAsync();
-
+                    await db.Database.ExecuteSqlCommandAsync("sp_DeleteCourseById @Id", deleteCourseParam);
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK);
                 }
             }
