@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[sp_GetAllCourses]
+﻿CREATE PROCEDURE [dbo].[GetAllCourses]
 AS
 BEGIN
 	SET NOCOUNT ON;

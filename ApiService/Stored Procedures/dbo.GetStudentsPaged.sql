@@ -1,12 +1,12 @@
-﻿CREATE PROCEDURE [dbo].[sp_GetCoursesPaged]
+﻿CREATE PROCEDURE [dbo].[GetStudentsPaged]
 	@page_number INT,
 	@page_size INT
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT Id, Name
-	FROM Courses
+	SELECT Id, FirstName, LastName
+	FROM Students
 	ORDER BY Id
 	OFFSET @page_number * @page_size ROWS
 	FETCH NEXT @page_size ROWS ONLY

@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[sp_AssignCourseToStudent]
+﻿CREATE PROCEDURE [dbo].[AssignCourseToStudent]
 	@CourseId INT,
 	@StudentId INT
 AS

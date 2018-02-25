@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[sp_InsertCourse]
+﻿CREATE PROCEDURE [dbo].[InsertCourse]
 	@Name NVARCHAR(128)
 AS
 BEGIN
@@ -7,5 +7,5 @@ BEGIN
 	INSERT INTO Courses (Name)
 	VALUES (@Name)
 
-	SELECT SCOPE_IDENTITY() AS Id
+	SELECT CAST(SCOPE_IDENTITY() AS INT) AS Id
 END

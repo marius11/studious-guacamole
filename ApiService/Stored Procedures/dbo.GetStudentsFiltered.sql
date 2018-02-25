@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[sp_GetStudentsFiltered]
+﻿CREATE PROCEDURE [dbo].[GetStudentsFiltered]
 	@search_query NVARCHAR(64),
 	@per_page INT
 AS

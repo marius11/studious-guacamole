@@ -1,10 +1,8 @@
-﻿CREATE PROCEDURE [dbo].[sp_GetStudentById]
-	@Id INT
+﻿CREATE PROCEDURE [dbo].[GetAllStudents]
 AS
 BEGIN
 	SET NOCOUNT ON;
 
 	SELECT Id, FirstName, LastName
 	FROM Students
-	WHERE Id = @Id
 END

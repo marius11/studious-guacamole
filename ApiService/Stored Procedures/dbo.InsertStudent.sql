@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[sp_InsertStudent]
+﻿CREATE PROCEDURE [dbo].[InsertStudent]
 	@FirstName NVARCHAR(64),
 	@LastName NVARCHAR(64)
 AS
@@ -8,5 +8,5 @@ BEGIN
 	INSERT INTO Students (FirstName, LastName)
 	VALUES (@FirstName, @LastName)
 
-	SELECT SCOPE_IDENTITY() AS Id
+	SELECT CAST(SCOPE_IDENTITY() AS INT) AS Id
 END

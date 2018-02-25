@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[sp_GetCourseById]
+﻿CREATE PROCEDURE [dbo].[GetCourseById]
 	@Id INT
 AS
 BEGIN

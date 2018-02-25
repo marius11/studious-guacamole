@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[sp_DeleteStudentById]
+﻿CREATE PROCEDURE [dbo].[DeleteStudentById]
 	@Id INT
 AS
 BEGIN

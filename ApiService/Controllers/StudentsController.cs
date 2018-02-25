@@ -25,7 +25,7 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var students = await db.Database.SqlQuery<StudentDTO>("sp_GetAllStudents").ToListAsync();
+                    var students = await db.Database.SqlQuery<StudentDTO>("GetAllStudents").ToListAsync();
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK, students);
                 }
             }
@@ -56,7 +56,7 @@ namespace Service.Controllers
                 using (AppDbContext db = new AppDbContext())
                 {
                     var students = await db.Database
-                        .SqlQuery<StudentDTO>("sp_GetStudentsPaged @page_number, @page_size", pagedStudentsParams)
+                        .SqlQuery<StudentDTO>("GetStudentsPaged @page_number, @page_size", pagedStudentsParams)
                         .ToListAsync();
 
                     var pagedResponse = new PagingModel<StudentDTO>
@@ -87,7 +87,7 @@ namespace Service.Controllers
                 using (AppDbContext db = new AppDbContext())
                 {
                     var student = await db.Database
-                        .SqlQuery<StudentDTO>("sp_GetStudentById @Id", studentIdParam)
+                        .SqlQuery<StudentDTO>("GetStudentById @Id", studentIdParam)
                         .SingleAsync();
 
                     httpResponse = student != null ?
@@ -114,7 +114,7 @@ namespace Service.Controllers
                 using (AppDbContext db = new AppDbContext())
                 {
                     var courses = await db.Database
-                        .SqlQuery<CourseDTO>("sp_GetCoursesByStudentId @Id", studentIdParam)
+                        .SqlQuery<CourseDTO>("GetCoursesByStudentId @Id", studentIdParam)
                         .ToListAsync();
 
                     httpResponse = courses != null ?
@@ -147,7 +147,7 @@ namespace Service.Controllers
                 using (AppDbContext db = new AppDbContext())
                 {
                     var students = await db.Database
-                        .SqlQuery<StudentDTO>("sp_GetStudentsFiltered @search_query, @per_page", filteredStudentsParams)
+                        .SqlQuery<StudentDTO>("GetStudentsFiltered @search_query, @per_page", filteredStudentsParams)
                         .ToListAsync();
 
                     var pagedResponse = new PagingModel<StudentDTO>
@@ -189,7 +189,7 @@ namespace Service.Controllers
                 using (AppDbContext db = new AppDbContext())
                 {
                     var student = await db.Database
-                        .SqlQuery<StudentDTO>("sp_InsertStudent @FirstName, @LastName", insertStudentParams)
+                        .SqlQuery<StudentDTO>("InsertStudent @FirstName, @LastName", insertStudentParams)
                         .SingleAsync();
 
                     httpResponse = Request.CreateResponse(HttpStatusCode.Created, student);
@@ -218,7 +218,7 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    await db.Database.ExecuteSqlCommandAsync("sp_AssignCourseToStudent @CourseId, @StudentId", assignCourseParams);
+                    await db.Database.ExecuteSqlCommandAsync("AssignCourseToStudent @CourseId, @StudentId", assignCourseParams);
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK);
                 }
             }
@@ -272,7 +272,7 @@ namespace Service.Controllers
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    await db.Database.ExecuteSqlCommandAsync("sp_DeleteStudentById @Id", deleteStudentParam);
+                    await db.Database.ExecuteSqlCommandAsync("DeleteStudentById @Id", deleteStudentParam);
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK);
                 }
             }
