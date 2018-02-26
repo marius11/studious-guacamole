@@ -76,7 +76,7 @@ export class CourseComponent implements OnInit {
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.closeAddCourseModal();
-        this.router.navigate(["app/courses", result.Id]);
+        this.goToCourseDetails(result);
       },
       (e: HttpErrorResponse) => {
         this.printErrorMessageToConsole(e);
