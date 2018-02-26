@@ -235,22 +235,19 @@ namespace Service.Controllers
         {
             HttpResponseMessage httpResponse;
 
+            var updateStudentParams = new[]
+            {
+                new SqlParameter("@Id", SqlDbType.Int) { Value = id },
+                new SqlParameter("@FirstName", SqlDbType.NVarChar, studentDTO.FirstName.Length) { Value = studentDTO.FirstName },
+                new SqlParameter("@LastName", SqlDbType.NVarChar, studentDTO.LastName.Length) { Value = studentDTO.LastName }
+            };
+
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var student = new Student()
-                    {
-                        Id = studentDTO.Id,
-                        FirstName = studentDTO.FirstName,
-                        LastName = studentDTO.LastName
-                    };
-
-                    db.Students.Attach(student);
-                    db.Entry(student).State = EntityState.Modified;
-                    await db.SaveChangesAsync();
-
-                    httpResponse = Request.CreateResponse(HttpStatusCode.OK, student);
+                    await db.Database.ExecuteSqlCommandAsync("UpdateStudent @Id, @FirstName, @LastName", updateStudentParams);
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK);
 
                 }
             }

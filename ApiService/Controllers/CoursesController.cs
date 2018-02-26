@@ -41,7 +41,7 @@ namespace Service.Controllers
         public async Task<HttpResponseMessage> GetCoursesPaged([FromUri] int? page, [FromUri] int? per_page)
         {
             HttpResponseMessage httpResponse;
-
+            
             int pageNumber = page - 1 ?? 0;
             int pageSize = per_page ?? 10;
 
@@ -155,7 +155,7 @@ namespace Service.Controllers
                         Data = courses,
                         Count = courses.Count
                     };
-                    
+
                     httpResponse = Request.CreateResponse(HttpStatusCode.OK, pagedResponse);
                 }
             }
@@ -200,17 +200,18 @@ namespace Service.Controllers
         {
             HttpResponseMessage httpResponse;
 
+            var updateCourseParams = new[]
+            {
+                new SqlParameter("@Id", SqlDbType.Int) { Value = id },
+                new SqlParameter("@Name", SqlDbType.NVarChar, courseDTO.Name.Length) { Value = courseDTO.Name }
+            };
+
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
-                    var course = new Course() { Id = courseDTO.Id, Name = courseDTO.Name };
-
-                    db.Courses.Attach(course);
-                    db.Entry(course).Property(p => p.Name).IsModified = true;
-                    await db.SaveChangesAsync();
-
-                    httpResponse = Request.CreateResponse(HttpStatusCode.OK, course);
+                    await db.Database.ExecuteSqlCommandAsync("UpdateCourse @Id, @Name", updateCourseParams);
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK);
                 }
             }
             catch (Exception e)
