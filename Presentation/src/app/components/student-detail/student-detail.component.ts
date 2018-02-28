@@ -35,6 +35,9 @@ export class StudentDetailComponent implements OnInit {
   private API_STUDENT_PATH = "students";
   private API_STUDENT_SUB_PATH = "courses";
   private RESPONSE_DELAY_TIMER = 1000;
+  private NAME_MIN_LENGTH = 2;
+  private NAME_MAX_LENGTH = 64;
+
   private editStudentModalInstance: any;
   private assignCourseToStudentModalInstance: any;
   editStudentFormGroup: any;
@@ -131,8 +134,16 @@ export class StudentDetailComponent implements OnInit {
 
   private createEditStudentFormGroup(): void {
     this.editStudentFormGroup = this.formBuilder.group({
-      FirstName: new FormControl("", [Validators.required, Validators.minLength(2)]),
-      LastName: new FormControl("", [Validators.required, Validators.minLength(2)])
+      FirstName: new FormControl("", [
+        Validators.required,
+        Validators.minLength(this.NAME_MIN_LENGTH),
+        Validators.maxLength(this.NAME_MAX_LENGTH)
+      ]),
+      LastName: new FormControl("", [
+        Validators.required,
+        Validators.minLength(this.NAME_MIN_LENGTH),
+        Validators.maxLength(this.NAME_MAX_LENGTH)
+      ])
     });
 
     this.editStudentFormGroup.valueChanges.subscribe(data => {
