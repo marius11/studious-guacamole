@@ -104,17 +104,23 @@ namespace Service.Controllers
 
         [HttpGet]
         [Route("{id:int}/courses")]
-        public async Task<HttpResponseMessage> GetCoursesByStudentId(int id)
+        public async Task<HttpResponseMessage> GetCoursesByStudentId(int id, [FromUri] bool? enrolled)
         {
             HttpResponseMessage httpResponse;
-            var studentIdParam = new SqlParameter("@Id", SqlDbType.Int) { Value = id };
+            bool studentEnrollemt = enrolled ?? true;
+
+            var studentParams = new[]
+            {
+                new SqlParameter("@Id", SqlDbType.Int) { Value = id },
+                new SqlParameter("@Enrolled", SqlDbType.Bit) { Value = studentEnrollemt }
+            };
 
             try
             {
                 using (AppDbContext db = new AppDbContext())
                 {
                     var courses = await db.Database
-                        .SqlQuery<CourseDTO>("GetCoursesByStudentId @Id", studentIdParam)
+                        .SqlQuery<CourseDTO>("GetCoursesByStudentId @Id, @Enrolled", studentParams)
                         .ToListAsync();
 
                     httpResponse = courses != null ?

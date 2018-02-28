@@ -1,12 +1,29 @@
 ﻿CREATE PROCEDURE [dbo].[GetCoursesByStudentId]
-	@Id int
+	@Id INT,
+	@Enrolled BIT = NULL
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT course.Id, course.Name
-	FROM Students student
-	INNER JOIN StudentCourses studentcourse ON studentcourse.Student_Id = student.Id
-	INNER JOIN Courses course ON course.Id = studentcourse.Course_Id
-	WHERE student.Id = @Id
+	IF @Enrolled = 'TRUE' OR @Enrolled IS NULL
+	BEGIN
+		SELECT course.Id, course.Name
+		FROM Courses course
+		INNER JOIN StudentCourses studentcourse ON studentcourse.Course_Id = course.Id
+		INNER JOIN Students student ON student.Id = studentcourse.Student_Id
+		WHERE student.Id = @Id
+	END
+	ELSE
+	BEGIN
+		SELECT Id, Name
+		FROM Courses
+		WHERE Id NOT IN
+		(
+			SELECT course.Id
+			FROM Courses course
+			LEFT JOIN StudentCourses studentcourse ON studentcourse.Course_Id = course.Id
+			LEFT JOIN Students student ON student.Id = studentcourse.Student_Id 
+			WHERE student.Id = @Id
+		)
+	END
 END
