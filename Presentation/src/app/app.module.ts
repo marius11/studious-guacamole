@@ -12,6 +12,8 @@ import { AutofocusDirective } from "app/directives/autofocus.directive";
 import { InlineEditComponent } from "app/components/inline-edit/inline-edit.component";
 
 import { DataService } from "app/services/data.service";
+import { StudentService } from "app/services/student.service";
+import { CourseService } from "app/services/course.service";
 import { SearchService } from "app/services/search.service";
 
 import { StudentComponent } from "app/components/student/student.component";
@@ -38,7 +40,7 @@ import { CourseDetailComponent } from "app/components/course-detail/course-detai
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [DataService, SearchService],
+  providers: [DataService, SearchService, StudentService, CourseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
