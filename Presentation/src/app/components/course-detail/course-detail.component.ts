@@ -6,7 +6,7 @@ import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Course } from "app/models/course";
 import { Student } from "app/models/student";
 import { DataService } from "app/services/data.service";
-import { InlineEditComponent } from "app/inline-edit/inline-edit.component";
+import { InlineEditComponent } from "app/components/inline-edit/inline-edit.component";
 
 import { delay, switchMap } from "rxjs/operators";
 
