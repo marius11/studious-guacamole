@@ -5,9 +5,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms"
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
+import { StudentService } from "app/services/student.service";
 import { Student } from "app/models/student";
 import { DataModel } from "app/models/data-model";
-import { DataService } from "app/services/data.service";
 import { SearchService } from "app/services/search.service";
 
 import { Subject } from "rxjs/Subject";
@@ -44,7 +44,7 @@ export class StudentComponent implements OnInit {
   addStudentFormGroup: FormGroup;
 
   constructor(
-    private router: Router, private dataService: DataService, private searchService: SearchService,
+    private router: Router, private studentService: StudentService, private searchService: SearchService,
     private modalService: NgbModal, private formBuilder: FormBuilder) {
     this.searchTerm
       .pipe(debounceTime(this.DEBOUNCE_TIMER), distinctUntilChanged())
@@ -58,7 +58,7 @@ export class StudentComponent implements OnInit {
 
   getStudentsPaged(page: number, per_page: number): void {
     this.isRequestProcessing = true;
-    this.dataService.getItemsPaged<Student[]>(this.API_STUDENT_PATH, page, per_page)
+    this.studentService.getStudentsPaged(page, per_page)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.students = result;
@@ -73,7 +73,7 @@ export class StudentComponent implements OnInit {
 
   addStudent(student: Student): void {
     this.isRequestProcessing = true;
-    this.dataService.createItem<Student>(this.API_STUDENT_PATH, student)
+    this.studentService.createStudent(student)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.closeAddStudentModal();

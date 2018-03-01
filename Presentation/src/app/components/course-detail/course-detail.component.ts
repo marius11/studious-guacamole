@@ -3,9 +3,9 @@ import { Component, OnInit } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 
+import { CourseService } from "app/services/course.service";
 import { Course } from "app/models/course";
 import { Student } from "app/models/student";
-import { DataService } from "app/services/data.service";
 import { InlineEditComponent } from "app/components/inline-edit/inline-edit.component";
 
 import { delay, switchMap } from "rxjs/operators";
@@ -31,7 +31,6 @@ type SAVING_INFORMATION = {
 
 export class CourseDetailComponent implements OnInit {
 
-  private API_COURSE_PATH = "courses";
   private RESPONSE_DELAY_TIMER = 1000;
   private BADGE_DELAY_TIMER = 2000;
 
@@ -46,7 +45,7 @@ export class CourseDetailComponent implements OnInit {
   savingInfo: SAVING_INFORMATION = { status: SAVING_STATE.NOT_STARTED, text: "" };
   previousCourseName: string = "";
 
-  constructor(private dataService: DataService, private route: ActivatedRoute, private location: Location,
+  constructor(private courseService: CourseService, private route: ActivatedRoute, private location: Location,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -57,7 +56,7 @@ export class CourseDetailComponent implements OnInit {
     this.isRequestProcessing = true;
     this.route.params
       .pipe(
-        switchMap((params: Params) => this.dataService.getItemById<Course>(this.API_COURSE_PATH, +params["id"])),
+        switchMap((params: Params) => this.courseService.getCourseById(+params["id"])),
         delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.course = result;
@@ -74,7 +73,7 @@ export class CourseDetailComponent implements OnInit {
   updateCourseName(course: Course): void {
     this.savingInfo = { status: SAVING_STATE.PENDING, text: "SAVING..." };
     this.isRequestProcessing = true;
-    this.dataService.updateItem<Course>(this.API_COURSE_PATH, course.Id, course)
+    this.courseService.updateCourse(course.Id, course)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.savingInfo = { status: SAVING_STATE.SUCCESSFUL, text: "SAVED!" };
@@ -98,7 +97,7 @@ export class CourseDetailComponent implements OnInit {
 
     if (confirmation === true) {
       this.isRequestProcessing = true;
-      this.dataService.deleteItem<Course>(this.API_COURSE_PATH, id)
+      this.courseService.deleteCourse(id)
         .subscribe(data => {
           this.router.navigate(["app/courses"]);
         },

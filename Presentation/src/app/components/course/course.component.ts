@@ -7,7 +7,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 import { Course } from "app/models/course";
 import { DataModel } from "app/models/data-model";
-import { DataService } from "app/services/data.service";
+import { CourseService } from "app/services/course.service";
 import { SearchService } from "app/services/search.service";
 
 import { Subject } from "rxjs/Subject";
@@ -43,7 +43,7 @@ export class CourseComponent implements OnInit {
   addCourseFormGroup: FormGroup;
 
   constructor(
-    private router: Router, private dataService: DataService, private searchService: SearchService,
+    private router: Router, private courseService: CourseService, private searchService: SearchService,
     private modalService: NgbModal, private formBuilder: FormBuilder) {
     this.searchTerm
       .pipe(debounceTime(this.DEBOUNCE_TIMER), distinctUntilChanged())
@@ -57,7 +57,7 @@ export class CourseComponent implements OnInit {
 
   getCoursesPaged(page: number, per_page: number): void {
     this.isRequestProcessing = true;
-    this.dataService.getItemsPaged<Course[]>(this.API_COURSE_PATH, page, per_page)
+    this.courseService.getCoursesPaged(page, per_page)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.courses = result;
@@ -72,7 +72,7 @@ export class CourseComponent implements OnInit {
 
   addCourse(course: Course): void {
     this.isRequestProcessing = true;
-    this.dataService.createItem<Course>(this.API_COURSE_PATH, course)
+    this.courseService.createCourse(course)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.closeAddCourseModal();
