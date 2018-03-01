@@ -6,9 +6,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from "@angular/forms"
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
+import { StudentService } from "app/services/student.service";
 import { Course } from "app/models/course";
 import { Student } from "app/models/student";
-import { DataService } from "app/services/data.service";
 
 import { Observable } from "rxjs/Observable";
 import { delay } from "rxjs/operators";
@@ -44,6 +44,7 @@ export class StudentDetailComponent implements OnInit {
 
   student: Student = new Student("", "");
   courses: Course[] = [];
+  availableCourses: Course[] = [];
   courseTableColumns = [
     { title: "#" },
     { title: "Name" },
@@ -52,23 +53,23 @@ export class StudentDetailComponent implements OnInit {
   studentOldName = ["", ""];
   private isInputRedundant = false;
   isRequestProcessing = false;
+  studentEnrollment = true;
 
   constructor(
-    private dataService: DataService, private route: ActivatedRoute, private modalService: NgbModal,
+    private studentService: StudentService, private route: ActivatedRoute, private modalService: NgbModal,
     private formBuilder: FormBuilder, private router: Router, private location: Location) {
     this.createEditStudentFormGroup();
   }
 
   ngOnInit(): void {
-    this.getStudentDetails();
+    this.getStudentDetails(this.studentEnrollment);
   }
 
-  getStudentDetails(): void {
+  getStudentDetails(enrolled: boolean): void {
     this.isRequestProcessing = true;
     this.route.params.subscribe(params => {
-      let studentApiCall = this.dataService.getItemById<Student>(this.API_STUDENT_PATH, +params["id"]);
-      let studentCoursesApiCall = this.dataService.getSubItemByItemId<Course[]>(
-        this.API_STUDENT_PATH, +params["id"], this.API_STUDENT_SUB_PATH);
+      let studentApiCall = this.studentService.getStudentById(+params["id"]);
+      let studentCoursesApiCall = this.studentService.getStudentCoursesById(+params["id"], this.studentEnrollment);
 
       Observable.forkJoin([studentApiCall, studentCoursesApiCall])
         .pipe(delay(this.RESPONSE_DELAY_TIMER))
@@ -89,7 +90,7 @@ export class StudentDetailComponent implements OnInit {
   updateStudent(student: Student): void {
     if (this.isInputRedundant === false) {
       this.isRequestProcessing = true;
-      this.dataService.updateItem<Student>(this.API_STUDENT_PATH, student.Id, student)
+      this.studentService.updateStudent(student.Id, student)
         .pipe(delay(this.RESPONSE_DELAY_TIMER))
         .subscribe(result => {
           this.retrieveCurrentName();
@@ -106,6 +107,21 @@ export class StudentDetailComponent implements OnInit {
     }
   }
 
+  private getStudentAvailableCourses(id: number): void {
+    this.isRequestProcessing = true;
+    this.studentService.getStudentCoursesById(id, !this.studentEnrollment)
+      .pipe(delay(this.RESPONSE_DELAY_TIMER))
+      .subscribe(result => {
+        this.availableCourses = result;
+      },
+      (e: HttpErrorResponse) => {
+        this.printErrorMessageToConsole(e);
+      },
+      () => {
+        this.isRequestProcessing = false;
+      });
+  }
+
   openEditStudentModal(modal): void {
     this.editStudentModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
     this.retrieveCurrentName();
@@ -118,6 +134,7 @@ export class StudentDetailComponent implements OnInit {
 
   openAssignCourseToStudentModal(modal): void {
     this.assignCourseToStudentModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
+    this.getStudentAvailableCourses(this.student.Id);
   }
 
   closeAssignCourseToStudentModal(): void {
