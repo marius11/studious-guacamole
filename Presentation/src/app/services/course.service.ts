@@ -9,29 +9,35 @@ import { Course } from "app/models/course";
 @Injectable()
 export class CourseService extends DataService {
 
-  private API_COURSE_PATH = "courses";
+  private COURSE_API_RESOURCE = "courses";
+  private COURSE_API_SUB_RESOURCE = "students";
+  private BASE_API_PATH = `http://localhost:54617/api/${this.COURSE_API_RESOURCE}`;
 
   constructor(http: HttpClient) {
     super(http);
   }
 
   getCoursesPaged(page: number, per_page: number): Observable<DataModel<Course[]>> {
-    return this.getItemsPaged(this.API_COURSE_PATH, page, per_page);
+    return this.getItemsPaged(this.COURSE_API_RESOURCE, page, per_page);
   }
 
   getCourseById(id: number): Observable<Course> {
-    return this.getItemById(this.API_COURSE_PATH, id);
+    return this.getItemById(this.COURSE_API_RESOURCE, id);
+  }
+
+  getStudentsByCourseId(id: number) {
+    return this.http.get(`${this.BASE_API_PATH}/${id}/${this.COURSE_API_SUB_RESOURCE}`);
   }
 
   createCourse(course: Course): Observable<Course> {
-    return this.createItem(this.API_COURSE_PATH, course);
+    return this.createItem(this.COURSE_API_RESOURCE, course);
   }
 
   updateCourse(id: number, course: Course): Observable<Course> {
-    return this.updateItem(this.API_COURSE_PATH, id, course);
+    return this.updateItem(this.COURSE_API_RESOURCE, id, course);
   }
 
   deleteCourse(id: number): Observable<Course> {
-    return this.deleteItem(this.API_COURSE_PATH, id);
+    return this.deleteItem(this.COURSE_API_RESOURCE, id);
   }
 }

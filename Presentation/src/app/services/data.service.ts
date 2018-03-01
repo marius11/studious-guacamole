@@ -8,7 +8,7 @@ export class DataService {
 
   private API_BASE_URL = "http://localhost:54617/api";
 
-  constructor(private http: HttpClient) { }
+  constructor(protected http: HttpClient) { }
 
   getItemsPaged<T>(path: string, page: number, per_page: number): Observable<DataModel<T>> {
     return this.http.get<DataModel<T>>(`${this.API_BASE_URL}/${path}`, {
