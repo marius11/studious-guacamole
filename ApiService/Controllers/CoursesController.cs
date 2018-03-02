@@ -114,7 +114,7 @@ namespace Service.Controllers
                 using (AppDbContext db = new AppDbContext())
                 {
                     var students = await db.Database
-                        .SqlQuery<CourseDTO>("GetStudentsByCourseId @Id", courseIdParam)
+                        .SqlQuery<StudentDTO>("GetStudentsByCourseId @Id", courseIdParam)
                         .ToListAsync();
 
                     httpResponse = students != null ?

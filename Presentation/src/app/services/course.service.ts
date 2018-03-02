@@ -2,9 +2,10 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
-import { DataService } from "./data.service";
+import { DataService } from "app/services/data.service";
 import { DataModel } from "app/models/data-model";
 import { Course } from "app/models/course";
+import { Student } from "app/models/student";
 
 @Injectable()
 export class CourseService extends DataService {
@@ -26,7 +27,7 @@ export class CourseService extends DataService {
   }
 
   getStudentsByCourseId(id: number) {
-    return this.http.get(`${this.BASE_API_PATH}/${id}/${this.COURSE_API_SUB_RESOURCE}`);
+    return this.http.get<Student[]>(`${this.BASE_API_PATH}/${id}/${this.COURSE_API_SUB_RESOURCE}`);
   }
 
   createCourse(course: Course): Observable<Course> {
