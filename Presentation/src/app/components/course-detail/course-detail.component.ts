@@ -9,6 +9,8 @@ import { Student } from "app/models/student";
 import { InlineEditComponent } from "app/components/inline-edit/inline-edit.component";
 
 import { delay, switchMap } from "rxjs/operators";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/forkJoin";
 
 enum SAVING_STATE {
   NOT_STARTED,
@@ -22,6 +24,11 @@ type SAVING_INFORMATION = {
   status: SAVING_STATE,
   text: string
 };
+
+enum MODEL_DATA {
+  COURSE,
+  STUDENT
+}
 
 @Component({
   selector: "app-course-detail",
@@ -54,20 +61,21 @@ export class CourseDetailComponent implements OnInit {
 
   getCourseDetails(): void {
     this.isRequestProcessing = true;
-    this.route.params
-      .pipe(
-        switchMap((params: Params) => this.courseService.getCourseById(+params["id"])),
-        delay(this.RESPONSE_DELAY_TIMER))
-      .subscribe(result => {
-        this.course = result;
-        this.students = result.Students;
-        this.isRequestProcessing = false;
+    this.route.params.subscribe(params => {
+      let courseApiCall = this.courseService.getCourseById(+params["id"]);
+      let courseStudentsApiCall = this.courseService.getStudentsByCourseId(+params["id"]);
+
+      Observable.forkJoin([courseApiCall, courseStudentsApiCall]).subscribe(result => {
+        this.course = result[MODEL_DATA.COURSE];
+        this.students = result[MODEL_DATA.STUDENT];
         this.retrievePreviousName();
+        this.isRequestProcessing = false;
       },
-        (e: HttpErrorResponse) => {
-          this.printErrorMessageToConsole(e);
-          this.isRequestProcessing = false;
-        });
+      (e: HttpErrorResponse) => {
+        this.printErrorMessageToConsole(e);
+        this.isRequestProcessing = false;
+      });
+    });
   }
 
   updateCourseName(course: Course): void {
