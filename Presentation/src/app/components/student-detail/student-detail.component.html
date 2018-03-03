@@ -82,12 +82,16 @@
     <h4>Assign a course</h4>
   </div>
   <div class="modal-body">
-    <h6>Select a course</h6>
     <ul class="list-group">
-      <li class="list-group-item" *ngFor="let course of availableCourses">#{{course.Id}} {{course.Name}}</li>
+      <div class="input-group input-group-lg">
+        <input type="text" class="form-control" [disabled]="isProcessRequesting" [(ngModel)]="searchResult" [ngbTypeahead]="filterCourses"
+          [inputFormatter]="formatter" [resultFormatter]="formatter">
+      </div>
+      <small class="form-text text-muted">Type at least 2 characters in order to display your search results</small>      
     </ul>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-default" type="button" [disabled]="isRequestProcessing" (click)="closeAssignCourseToStudentModal()">CLOSE</button>
+    <button class="btn btn-primary" type="button" [disabled]="isRequestProcessing || !searchResult.Id">SUBMIT</button>
+    <button class="btn btn-default" type="button" (click)="closeAssignCourseToStudentModal()">CLOSE</button>
   </div>
 </ng-template>

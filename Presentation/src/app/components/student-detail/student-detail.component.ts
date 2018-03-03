@@ -11,7 +11,7 @@ import { Course } from "app/models/course";
 import { Student } from "app/models/student";
 
 import { Observable } from "rxjs/Observable";
-import { delay } from "rxjs/operators";
+import { delay, debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 import "rxjs/add/observable/forkJoin";
 
 enum MODEL_DATA {
@@ -45,6 +45,7 @@ export class StudentDetailComponent implements OnInit {
   student: Student = new Student("", "");
   courses: Course[] = [];
   availableCourses: Course[] = [];
+  searchResult: any;
   courseTableColumns = [
     { title: "#" },
     { title: "Name" },
@@ -54,6 +55,17 @@ export class StudentDetailComponent implements OnInit {
   private isInputRedundant = false;
   isRequestProcessing = false;
   studentEnrollment = true;
+
+  filterCourses = (term: Observable<string>) => term.pipe(
+    debounceTime(250),
+    distinctUntilChanged(),
+    map(c => c.length < 2 ? [] : this.availableCourses
+      .filter(v => v.Name.toLowerCase()
+        .indexOf(c.toLowerCase()) > -1)
+      .slice(0, 10)
+    )
+  )
+  formatter = (x: { Name: string }) => x.Name;
 
   constructor(
     private studentService: StudentService, private route: ActivatedRoute, private modalService: NgbModal,
@@ -114,12 +126,12 @@ export class StudentDetailComponent implements OnInit {
       .subscribe(result => {
         this.availableCourses = result;
       },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-      },
-      () => {
-        this.isRequestProcessing = false;
-      });
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+        },
+        () => {
+          this.isRequestProcessing = false;
+        });
   }
 
   openEditStudentModal(modal): void {
