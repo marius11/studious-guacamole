@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
 import { DataModel } from "app/models/data-model";
@@ -34,6 +34,12 @@ export class StudentService extends DataService {
 
   createStudent(student: Student): Observable<Student> {
     return this.createItem(this.STUDENT_API_RESOURCE, student);
+  }
+
+  addCourseToStudent(course: Course, studentId: number) {
+    return this.http.post<Course>(`${this.BASE_API_PATH}/${studentId}/${this.STUDENT_API_SUB_RESOURCE}`, JSON.stringify(course), {
+      headers: new HttpHeaders().set("Content-Type", "application/json")
+    });
   }
 
   updateStudent(id: number, student: Student): Observable<Student> {

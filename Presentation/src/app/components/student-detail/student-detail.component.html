@@ -84,14 +84,14 @@
   <div class="modal-body">
     <ul class="list-group">
       <div class="input-group input-group-lg">
-        <input type="text" class="form-control" [disabled]="isProcessRequesting" [(ngModel)]="searchResult" [ngbTypeahead]="filterCourses"
+        <input type="text" class="form-control" [disabled]="isProcessRequesting" [(ngModel)]="selectedCourse" [ngbTypeahead]="filterCourses"
           [inputFormatter]="formatter" [resultFormatter]="formatter">
       </div>
-      <small class="form-text text-muted">Type at least 2 characters in order to display your search results</small>      
+      <small class="form-text text-muted">Type at least 2 characters in order to display your search results</small>
     </ul>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" type="button" [disabled]="isRequestProcessing || !searchResult.Id">SUBMIT</button>
+    <button class="btn btn-primary" type="button" [disabled]="isRequestProcessing || !selectedCourse?.Id" (click)="addCourseToStudent(selectedCourse, student)">SUBMIT</button>
     <button class="btn btn-default" type="button" (click)="closeAssignCourseToStudentModal()">CLOSE</button>
   </div>
 </ng-template>

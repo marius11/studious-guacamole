@@ -45,7 +45,7 @@ export class StudentDetailComponent implements OnInit {
   student: Student = new Student("", "");
   courses: Course[] = [];
   availableCourses: Course[] = [];
-  searchResult: any;
+  selectedCourse: Course;
   courseTableColumns = [
     { title: "#" },
     { title: "Name" },
@@ -119,6 +119,25 @@ export class StudentDetailComponent implements OnInit {
     }
   }
 
+  addCourseToStudent(course: Course, student: Student): void {
+    this.isRequestProcessing = true;
+    this.studentService.addCourseToStudent(course, student.Id)
+      .pipe(delay(this.RESPONSE_DELAY_TIMER))
+      .subscribe(result => {
+        this.closeAssignCourseToStudentModal();
+        this.getStudentCoursesById(student.Id);
+        this.isRequestProcessing = false;
+      },
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+          this.isRequestProcessing = false;
+        },
+        () => {
+          this.isRequestProcessing = false;
+        }
+      );
+  }
+
   private getStudentAvailableCourses(id: number): void {
     this.isRequestProcessing = true;
     this.studentService.getStudentCoursesById(id, !this.studentEnrollment)
@@ -128,6 +147,23 @@ export class StudentDetailComponent implements OnInit {
       },
         (e: HttpErrorResponse) => {
           this.printErrorMessageToConsole(e);
+        },
+        () => {
+          this.isRequestProcessing = false;
+        });
+  }
+
+  private getStudentCoursesById(id: number): void {
+    this.isRequestProcessing = true;
+    this.studentService.getStudentCoursesById(id, this.studentEnrollment)
+      .pipe(delay(this.RESPONSE_DELAY_TIMER))
+      .subscribe(result => {
+        this.courses = result;
+        this.isRequestProcessing = false;
+      },
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+          this.isRequestProcessing = false;
         },
         () => {
           this.isRequestProcessing = false;
