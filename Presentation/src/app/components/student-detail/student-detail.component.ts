@@ -65,7 +65,8 @@ export class StudentDetailComponent implements OnInit {
       .slice(0, 10)
     )
   )
-  formatter = (x: { Name: string }) => x.Name;
+  resultFormatter = (x: { Id: number, Name: string }) => `#${x.Id} ${x.Name}`;
+  inputFormatter = (x: { Name: string }) => x.Name;
 
   constructor(
     private studentService: StudentService, private route: ActivatedRoute, private modalService: NgbModal,
