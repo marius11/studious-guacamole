@@ -24,7 +24,7 @@ export class DataService {
     return this.http.get<T>(`${this.API_BASE_URL}/${path}/${id}/${sub_path}`);
   }
 
-  createItem<T>(path: string, item: T): Observable<T> {
+  addItem<T>(path: string, item: T): Observable<T> {
     return this.http.post<T>(`${this.API_BASE_URL}/${path}`, JSON.stringify(item), {
       headers: new HttpHeaders().set("Content-Type", "application/json")
     });

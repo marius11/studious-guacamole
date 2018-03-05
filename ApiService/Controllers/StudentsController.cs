@@ -210,7 +210,7 @@ namespace Service.Controllers
 
         [HttpPost]
         [Route("{id:int}/courses")]
-        public async Task<HttpResponseMessage> AssignCourseToStudent(int id, [FromBody] CourseDTO courseDTO)
+        public async Task<HttpResponseMessage> AddCourseToStudent(int id, [FromBody] CourseDTO courseDTO)
         {
             HttpResponseMessage httpResponse;
 

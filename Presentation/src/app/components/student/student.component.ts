@@ -73,7 +73,7 @@ export class StudentComponent implements OnInit {
 
   addStudent(student: Student): void {
     this.isRequestProcessing = true;
-    this.studentService.createStudent(student)
+    this.studentService.addStudent(student)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.closeAddStudentModal();

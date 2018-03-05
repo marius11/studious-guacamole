@@ -72,7 +72,7 @@ export class CourseComponent implements OnInit {
 
   addCourse(course: Course): void {
     this.isRequestProcessing = true;
-    this.courseService.createCourse(course)
+    this.courseService.addCourse(course)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.closeAddCourseModal();

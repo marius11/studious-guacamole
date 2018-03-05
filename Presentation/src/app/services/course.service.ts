@@ -30,8 +30,8 @@ export class CourseService extends DataService {
     return this.http.get<Student[]>(`${this.BASE_API_PATH}/${id}/${this.COURSE_API_SUB_RESOURCE}`);
   }
 
-  createCourse(course: Course): Observable<Course> {
-    return this.createItem(this.COURSE_API_RESOURCE, course);
+  addCourse(course: Course): Observable<Course> {
+    return this.addItem(this.COURSE_API_RESOURCE, course);
   }
 
   updateCourse(id: number, course: Course): Observable<Course> {

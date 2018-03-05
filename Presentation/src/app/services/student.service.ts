@@ -32,8 +32,8 @@ export class StudentService extends DataService {
     });
   }
 
-  createStudent(student: Student): Observable<Student> {
-    return this.createItem(this.STUDENT_API_RESOURCE, student);
+  addStudent(student: Student): Observable<Student> {
+    return this.addItem(this.STUDENT_API_RESOURCE, student);
   }
 
   addCourseToStudent(course: Course, studentId: number) {
