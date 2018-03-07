@@ -49,4 +49,9 @@ export class StudentService extends DataService {
   deleteStudent(id: number): Observable<Student> {
     return this.deleteItem(this.STUDENT_API_RESOURCE, id);
   }
+
+  deleteCourseFromStudent(course: Course, studentId: number): Observable<Course> {
+    return this.http.request<Course>("DELETE", `${this.BASE_API_PATH}/${studentId}/${this.STUDENT_API_SUB_RESOURCE}`,
+      { body: JSON.stringify(course), headers: new HttpHeaders().set("Content-Type", "application/json") });
+  }
 }

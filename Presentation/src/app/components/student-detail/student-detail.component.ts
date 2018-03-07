@@ -171,6 +171,23 @@ export class StudentDetailComponent implements OnInit {
         });
   }
 
+  deleteCourseFromStudent(course: Course, studentId: number) {
+    this.isRequestProcessing = true;
+    this.studentService.deleteCourseFromStudent(course, studentId)
+      .pipe(delay(this.RESPONSE_DELAY_TIMER))
+      .subscribe(result => {
+        this.isRequestProcessing = false;
+        this.getStudentCoursesById(studentId);
+      },
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+          this.isRequestProcessing = false;
+        },
+        () => {
+          this.isRequestProcessing = false;
+        });
+  }
+
   openEditStudentModal(modal): void {
     this.editStudentModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
     this.retrieveCurrentName();

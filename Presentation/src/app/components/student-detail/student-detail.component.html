@@ -31,10 +31,10 @@
         <td>{{course.Name}}</td>
         <td>
           <div class="btn-group btn-group-sm">
-            <button class="btn btn-outline-primary btn-sm" (click)="goToCourseDetails(course)" placement="top" ngbTooltip="View details">
+            <button class="btn btn-outline-primary btn-sm" [disabled]="isRequestProcessing" (click)="goToCourseDetails(course)" placement="top" ngbTooltip="View details">
               <i class="fa fa-info fa-xs"></i>
             </button>
-            <button class="btn btn-outline-danger btn-sm" placement="right" ngbTooltip="Remove course from the student's study plan">
+            <button class="btn btn-outline-danger btn-sm" [disabled]="isRequestProcessing" (click)="deleteCourseFromStudent(course, student.Id)" placement="right" ngbTooltip="Remove course from the student's study plan">
               <i class="fa fa-eraser fa-xs"></i>
             </button>
           </div>
