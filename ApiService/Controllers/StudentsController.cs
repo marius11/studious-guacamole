@@ -285,5 +285,32 @@ namespace Service.Controllers
             }
             return httpResponse;
         }
+		
+		[HttpDelete]
+        [Route("{id:int}/courses")]
+        public async Task<HttpResponseMessage> DeleteCourseFromStudent(int id, [FromBody] CourseDTO courseDTO)
+        {
+            HttpResponseMessage httpResponse;
+
+            var deleteCourseParams = new[]
+            {
+                new SqlParameter("@CourseId", SqlDbType.Int) { Value = courseDTO.Id },
+                new SqlParameter("@StudentId", SqlDbType.Int) { Value = id }
+            };
+
+            try
+            {
+                using (AppDbContext db = new AppDbContext())
+                {
+                    await db.Database.ExecuteSqlCommandAsync("DeleteCourseFromStudent @CourseId, @StudentId", deleteCourseParams);
+                    httpResponse = Request.CreateResponse(HttpStatusCode.OK);
+                }
+            }
+            catch (Exception e)
+            {
+                httpResponse = Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+            return httpResponse;
+        }
     }
 }
