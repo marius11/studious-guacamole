@@ -6,4 +6,7 @@ BEGIN
 
 	DELETE FROM Students
 	WHERE Id = @Id
+
+	DELETE FROM StudentCourses
+	WHERE Student_Id = @id
 END
