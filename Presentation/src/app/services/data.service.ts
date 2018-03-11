@@ -20,18 +20,8 @@ export class DataService {
     return this.http.get<T>(`${this.API_BASE_URL}/${path}/${id}`);
   }
 
-  getSubItemByItemId<T>(path: string, id: number, sub_path: string): Observable<T> {
-    return this.http.get<T>(`${this.API_BASE_URL}/${path}/${id}/${sub_path}`);
-  }
-
   addItem<T>(path: string, item: T): Observable<T> {
     return this.http.post<T>(`${this.API_BASE_URL}/${path}`, JSON.stringify(item), {
-      headers: new HttpHeaders().set("Content-Type", "application/json")
-    });
-  }
-
-  assignItem<T>(path: string, sub_path: string, id: number, item: any): Observable<T> {
-    return this.http.post<T>(`${this.API_BASE_URL}/${path}/${id}/${sub_path}`, JSON.stringify(item), {
       headers: new HttpHeaders().set("Content-Type", "application/json")
     });
   }
