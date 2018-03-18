@@ -38,6 +38,7 @@ export class StudentDetailComponent implements OnInit {
   private NAME_MIN_LENGTH = 2;
   private NAME_MAX_LENGTH = 64;
 
+  private isInputRedundant = false;
   private editStudentModalInstance: any;
   private assignCourseToStudentModalInstance: any;
   editStudentFormGroup: any;
@@ -52,7 +53,6 @@ export class StudentDetailComponent implements OnInit {
     { title: "Actions" }
   ];
   studentOldName = ["", ""];
-  private isInputRedundant = false;
   isRequestProcessing = false;
   studentEnrollment = true;
 
@@ -205,6 +205,7 @@ export class StudentDetailComponent implements OnInit {
 
   closeAssignCourseToStudentModal(): void {
     this.assignCourseToStudentModalInstance.dismiss();
+    this.selectedCourse = null;
   }
 
   goToCourseDetails(course: Course): void {
