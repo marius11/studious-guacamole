@@ -26,7 +26,7 @@ export class StudentService extends DataService {
     return this.getItemById(this.STUDENT_API_RESOURCE, id);
   }
 
-  getStudentCoursesById(id: number, enrolled: boolean) {
+  getCoursesByStudentId(id: number, enrolled: boolean) {
     return this.http.get<Course[]>(`${this.BASE_API_PATH}/${id}/${this.STUDENT_API_SUB_RESOURCE}`, {
       params: new HttpParams().set("enrolled", `${enrolled}`)
     });

@@ -82,7 +82,7 @@ export class StudentDetailComponent implements OnInit {
     this.isRequestProcessing = true;
     this.route.params.subscribe(params => {
       let studentApiCall = this.studentService.getStudentById(+params["id"]);
-      let studentCoursesApiCall = this.studentService.getStudentCoursesById(+params["id"], this.studentEnrollment);
+      let studentCoursesApiCall = this.studentService.getCoursesByStudentId(+params["id"], this.studentEnrollment);
 
       Observable.forkJoin([studentApiCall, studentCoursesApiCall])
         .pipe(delay(this.RESPONSE_DELAY_TIMER))
@@ -90,9 +90,11 @@ export class StudentDetailComponent implements OnInit {
           this.student = result[MODEL_DATA.STUDENT];
           this.courses = result[MODEL_DATA.COURSE];
           this.retrieveCurrentName();
+          this.isRequestProcessing = false;
         },
           (e: HttpErrorResponse) => {
             this.printErrorMessageToConsole(e);
+            this.isRequestProcessing = false;
           },
           () => {
             this.isRequestProcessing = false;
@@ -141,7 +143,7 @@ export class StudentDetailComponent implements OnInit {
 
   private getStudentAvailableCourses(id: number): void {
     this.isRequestProcessing = true;
-    this.studentService.getStudentCoursesById(id, !this.studentEnrollment)
+    this.studentService.getCoursesByStudentId(id, !this.studentEnrollment)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.availableCourses = result;
@@ -156,7 +158,7 @@ export class StudentDetailComponent implements OnInit {
 
   private getStudentCoursesById(id: number): void {
     this.isRequestProcessing = true;
-    this.studentService.getStudentCoursesById(id, this.studentEnrollment)
+    this.studentService.getCoursesByStudentId(id, this.studentEnrollment)
       .pipe(delay(this.RESPONSE_DELAY_TIMER))
       .subscribe(result => {
         this.courses = result;
