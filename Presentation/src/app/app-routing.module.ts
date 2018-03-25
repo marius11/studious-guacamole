@@ -7,11 +7,11 @@ import { CourseComponent } from "app/components/course/course.component";
 import { CourseDetailComponent } from "app/components/course-detail/course-detail.component";
 
 const routes: Routes = [
-  { path: "", redirectTo: "", pathMatch: "full" },
-  { path: "app/students", component: StudentComponent },
-  { path: "app/students/:id", component: StudentDetailComponent },
-  { path: "app/courses", component: CourseComponent },
-  { path: "app/courses/:id", component: CourseDetailComponent }
+  { path: "", redirectTo: "app", pathMatch: "full" },
+  { path: "students", component: StudentComponent },
+  { path: "students/:id", component: StudentDetailComponent },
+  { path: "courses", component: CourseComponent },
+  { path: "courses/:id", component: CourseDetailComponent },
 ];
 
 @NgModule({

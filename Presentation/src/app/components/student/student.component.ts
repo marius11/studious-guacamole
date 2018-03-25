@@ -88,7 +88,7 @@ export class StudentComponent implements OnInit {
   }
 
   goToStudentDetails(student: Student): void {
-    this.router.navigate(["app/students", student.Id]);
+    this.router.navigate(["students", student.Id]);
   }
 
   private searchStudents(term: string): void {

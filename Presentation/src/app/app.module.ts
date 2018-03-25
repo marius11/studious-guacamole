@@ -35,10 +35,10 @@ import { CourseDetailComponent } from "app/components/course-detail/course-detai
   imports: [
     NgbModule.forRoot(),
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    AppRoutingModule,
   ],
   providers: [DataService, SearchService, StudentService, CourseService],
   bootstrap: [AppComponent]
