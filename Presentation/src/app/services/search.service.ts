@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs/Observable";
 
 import { DataModel } from "app/models/data-model";
-
-import { Observable } from "rxjs/Observable";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class SearchService {
 
-  private API_BASE_URL = "http://localhost:54617/api";
+  private API_BASE_URL = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 

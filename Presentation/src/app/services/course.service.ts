@@ -7,12 +7,14 @@ import { DataModel } from "app/models/data-model";
 import { Course } from "app/models/course";
 import { Student } from "app/models/student";
 
+import { environment } from "../../environments/environment";
+
 @Injectable()
 export class CourseService extends DataService {
 
   private COURSE_API_RESOURCE = "courses";
   private COURSE_API_SUB_RESOURCE = "students";
-  private BASE_API_PATH = `http://localhost:54617/api/${this.COURSE_API_RESOURCE}`;
+  private BASE_API_PATH = `${environment.apiUrl}/${this.COURSE_API_RESOURCE}`;
 
   constructor(http: HttpClient) {
     super(http);
