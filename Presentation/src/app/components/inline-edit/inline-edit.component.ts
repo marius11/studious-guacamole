@@ -27,7 +27,7 @@ export class InlineEditComponent implements ControlValueAccessor, OnInit {
 
   private currentValue = "";
   private previousValue = "";
-  private editing = false;
+  editing = false;
 
   public onChange: any = Function.prototype;
   public onTouched: any = Function.prototype;
