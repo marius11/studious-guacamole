@@ -3,7 +3,7 @@
     #{{student?.Id}} {{student?.FirstName}} {{student?.LastName}}
   </span>
   <span class="h2" *ngIf="!student?.Id">
-    Loading...
+    <i class="fa fa-spin fa-spinner"></i> Loading...
   </span>
   <div class="btn-toolbar">
     <div class="btn-group mr-1">
