@@ -1,4 +1,3 @@
-import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ActivatedRoute, Params, Router } from "@angular/router";
@@ -70,7 +69,7 @@ export class StudentDetailComponent implements OnInit {
 
   constructor(
     private studentService: StudentService, private route: ActivatedRoute, private modalService: NgbModal,
-    private formBuilder: FormBuilder, private router: Router, private location: Location) {
+    private formBuilder: FormBuilder, private router: Router) {
     this.createEditStudentFormGroup();
   }
 
@@ -211,11 +210,11 @@ export class StudentDetailComponent implements OnInit {
   }
 
   goToCourseDetails(course: Course): void {
-    this.router.navigate(["app/courses", course.Id]);
+    this.router.navigate(["courses", course.Id]);
   }
 
-  goBack(): void {
-    this.location.back();
+  goToListOfStudents(): void {
+    this.router.navigate(["students"]);
   }
 
   private createEditStudentFormGroup(): void {

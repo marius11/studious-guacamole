@@ -1,4 +1,3 @@
-import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ActivatedRoute, Params, Router } from "@angular/router";
@@ -52,8 +51,7 @@ export class CourseDetailComponent implements OnInit {
   savingInfo: SAVING_INFORMATION = { status: SAVING_STATE.NOT_STARTED, text: "" };
   previousCourseName: string = "";
 
-  constructor(private courseService: CourseService, private route: ActivatedRoute, private location: Location,
-    private router: Router) { }
+  constructor(private courseService: CourseService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.getCourseDetails();
@@ -107,7 +105,7 @@ export class CourseDetailComponent implements OnInit {
       this.isRequestProcessing = true;
       this.courseService.deleteCourse(id)
         .subscribe(data => {
-          this.router.navigate(["app/courses"]);
+          this.goToListOfCourses();
         },
           (e: HttpErrorResponse) => {
             this.printErrorMessageToConsole(e);
@@ -120,8 +118,8 @@ export class CourseDetailComponent implements OnInit {
     }
   }
 
-  goBack(): void {
-    this.location.back();
+  goToListOfCourses(): void {
+    this.router.navigate(["courses"]);
   }
 
   getBadgeCssClass(): string {
