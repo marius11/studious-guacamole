@@ -8,7 +8,7 @@ namespace ApiService
     {
         public static void Register(HttpConfiguration config)
         {
-            config.EnableCors(new EnableCorsAttribute("http://localhost:4200,https://www.mariusmoldovan.eu", "*", "*"));
+            config.EnableCors(new EnableCorsAttribute("http://localhost:4200,https://www.wellspring.ro", "*", "*"));
 
             config.MapHttpAttributeRoutes();
 
