@@ -31,12 +31,10 @@
         <td>{{course.Name}}</td>
         <td>
           <div class="btn-group btn-group-sm">
-            <button class="btn btn-outline-primary btn-sm" [disabled]="isRequestProcessing" (click)="goToCourseDetails(course)" placement="top"
-              ngbTooltip="View details">
+            <button class="btn btn-outline-primary btn-sm" [disabled]="isRequestProcessing" (click)="goToCourseDetails(course)">
               <i class="fa fa-info fa-xs"></i>
             </button>
-            <button class="btn btn-outline-danger btn-sm" [disabled]="isRequestProcessing" (click)="deleteCourseFromStudent(course, student.Id)"
-              placement="right" ngbTooltip="Remove course from the student's study plan">
+            <button class="btn btn-outline-danger btn-sm" [disabled]="isRequestProcessing" (click)="deleteCourseFromStudent(course, student.Id)">
               <i class="fa fa-eraser fa-xs"></i>
             </button>
           </div>
@@ -84,13 +82,13 @@
     <h4>Assign a course</h4>
   </div>
   <div class="modal-body">
-    <ul class="list-group" *ngIf="!isRequestProcessing">
-      <div class="input-group input-group-lg">
-        <input type="text" class="form-control" [(ngModel)]="selectedCourse" [ngbTypeahead]="filterCourses" [inputFormatter]="inputFormatter"
+    <div class="form-group" *ngIf="!isRequestProcessing">
+      <div class="input-group">
+        <input type="text" class="form-control form-control-lg" [(ngModel)]="selectedCourse" [ngbTypeahead]="filterCourses" [inputFormatter]="inputFormatter"
           [resultFormatter]="resultFormatter">
       </div>
       <small class="form-text text-muted">Type at least 2 characters in order to display your search results</small>
-    </ul>
+    </div>
     <div class="loading" *ngIf="isRequestProcessing">
       <div class="loading-bar"></div>
       <div class="loading-bar"></div>
