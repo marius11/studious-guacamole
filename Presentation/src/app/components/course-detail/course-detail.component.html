@@ -1,5 +1,10 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2">
-  <div>
+  <div class="btn-toolbar" role="toolbar">
+    <div class="btn-group mr-2" role="group">
+      <a class="h2" (click)="goToListOfCourses()">
+        <i class="fa fa-angle-left"></i>
+      </a>
+    </div>
     <app-inline-edit style="display: inline-block" [(ngModel)]="course.Name" (onSave)="updateCourseName(course)" [disabled]="isRequestProcessing">
     </app-inline-edit>
     <span [ngClass]="getBadgeCssClass()" style="display: inline-block">{{savingInfo.text}}</span>
@@ -31,4 +36,3 @@
     <strong>There are no students assigned to this course!</strong>
   </span>
 </div>
-<button class="btn btn-default" type="button" (click)="goToListOfCourses()">List of courses</button>
