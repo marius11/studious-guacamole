@@ -9,7 +9,7 @@
     </app-inline-edit>
     <span [ngClass]="getBadgeCssClass()" style="display: inline-block">{{savingInfo.text}}</span>
   </div>
-  <div class="btn-toolbar mb-2 mb-md-0">
+  <div class="btn-toolbar mb-2 mb-md-0" role="toolbar">
     <button class="btn btn-danger" type="button" [disabled]="isRequestProcessing" (click)="deleteCourse(course.Id)">
       <i class="fa fa-trash fa-lg"></i> DELETE
     </button>

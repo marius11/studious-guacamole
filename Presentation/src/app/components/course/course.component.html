@@ -3,7 +3,7 @@
   <form class="input-group col-lg-4">
     <input class="form-control" type="text" placeholder="Search courses..." (input)="searchTerm.next($event.target.value)">
   </form>
-  <div class="btn-toolbar mb-2 mb-md-0">
+  <div class="btn-toolbar mb-2 mb-md-0" role="toolbar">
     <button class="btn btn-success" type="button" [disabled]="isRequestProcessing" (click)="openAddCourseModal(addCourseModal)">
       <i class="fa fa-plus"></i> ADD COURSE
     </button>
