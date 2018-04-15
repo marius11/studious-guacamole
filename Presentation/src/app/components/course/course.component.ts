@@ -62,12 +62,13 @@ export class CourseComponent implements OnInit {
       .subscribe(result => {
         this.courses = result;
       },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-      },
-      () => {
-        this.isRequestProcessing = false;
-      });
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+          this.isRequestProcessing = false;
+        },
+        () => {
+          this.isRequestProcessing = false;
+        });
   }
 
   addCourse(course: Course): void {
@@ -78,12 +79,13 @@ export class CourseComponent implements OnInit {
         this.closeAddCourseModal();
         this.goToCourseDetails(result);
       },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-      },
-      () => {
-        this.isRequestProcessing = false;
-      });
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+          this.isRequestProcessing = false;
+        },
+        () => {
+          this.isRequestProcessing = false;
+        });
   }
 
   private searchCourses(term: string): void {
@@ -93,9 +95,13 @@ export class CourseComponent implements OnInit {
           this.courses = result;
           this.page = 1;
         },
-        (e: HttpErrorResponse) => {
-          this.printErrorMessageToConsole(e);
-        });
+          (e: HttpErrorResponse) => {
+            this.printErrorMessageToConsole(e);
+            this.isRequestProcessing = false;
+          },
+          () => {
+            this.isRequestProcessing = false;
+          });
     } else {
       this.getCoursesPaged(this.page, this.perPage);
     }

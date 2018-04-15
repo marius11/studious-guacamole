@@ -63,12 +63,13 @@ export class StudentComponent implements OnInit {
       .subscribe(result => {
         this.students = result;
       },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-      },
-      () => {
-        this.isRequestProcessing = false;
-      });
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+          this.isRequestProcessing = false;
+        },
+        () => {
+          this.isRequestProcessing = false;
+        });
   }
 
   addStudent(student: Student): void {
@@ -79,12 +80,13 @@ export class StudentComponent implements OnInit {
         this.closeAddStudentModal();
         this.router.navigate(["app/students", result.Id]);
       },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-      },
-      () => {
-        this.isRequestProcessing = false;
-      });
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+          this.isRequestProcessing = false;
+        },
+        () => {
+          this.isRequestProcessing = false;
+        });
   }
 
   goToStudentDetails(student: Student): void {
@@ -98,9 +100,13 @@ export class StudentComponent implements OnInit {
           this.students = result;
           this.page = 1;
         },
-        (e: HttpErrorResponse) => {
-          this.printErrorMessageToConsole(e);
-        });
+          (e: HttpErrorResponse) => {
+            this.printErrorMessageToConsole(e);
+            this.isRequestProcessing = false;
+          },
+          () => {
+            this.isRequestProcessing = false;
+          });
     } else {
       this.getStudentsPaged(this.page, this.perPage);
     }

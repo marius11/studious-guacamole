@@ -69,10 +69,13 @@ export class CourseDetailComponent implements OnInit {
         this.retrievePreviousName();
         this.isRequestProcessing = false;
       },
-      (e: HttpErrorResponse) => {
-        this.printErrorMessageToConsole(e);
-        this.isRequestProcessing = false;
-      });
+        (e: HttpErrorResponse) => {
+          this.printErrorMessageToConsole(e);
+          this.isRequestProcessing = false;
+        },
+        () => {
+          this.isRequestProcessing = false;
+        });
     });
   }
 
@@ -109,6 +112,7 @@ export class CourseDetailComponent implements OnInit {
         },
           (e: HttpErrorResponse) => {
             this.printErrorMessageToConsole(e);
+            this.isRequestProcessing = false;
           },
           () => {
             this.isRequestProcessing = false;
