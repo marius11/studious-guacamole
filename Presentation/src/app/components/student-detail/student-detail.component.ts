@@ -190,7 +190,9 @@ export class StudentDetailComponent implements OnInit {
   }
 
   openEditStudentModal(modal): void {
-    this.editStudentModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
+    this.editStudentModalInstance = this.modalService.open(modal,
+      { size: "lg", backdrop: "static", keyboard: false });
+
     this.retrieveCurrentName();
   }
 
@@ -200,7 +202,9 @@ export class StudentDetailComponent implements OnInit {
   }
 
   openAssignCourseToStudentModal(modal): void {
-    this.assignCourseToStudentModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
+    this.assignCourseToStudentModalInstance = this.modalService.open(modal,
+      { size: "lg", backdrop: "static", keyboard: false });
+
     this.getStudentAvailableCourses(this.student.Id);
   }
 

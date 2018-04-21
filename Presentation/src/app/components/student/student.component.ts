@@ -113,7 +113,8 @@ export class StudentComponent implements OnInit {
   }
 
   openAddStudentModal(modal): void {
-    this.addStudentModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
+    this.addStudentModalInstance = this.modalService.open(modal,
+      { size: "lg", backdrop: "static", keyboard: false });
   }
 
   private closeAddStudentModal(): void {

@@ -112,7 +112,8 @@ export class CourseComponent implements OnInit {
   }
 
   openAddCourseModal(modal): void {
-    this.addCourseModalInstance = this.modalService.open(modal, { size: "lg", backdrop: "static" });
+    this.addCourseModalInstance = this.modalService.open(modal,
+      { size: "lg", backdrop: "static", keyboard: false });
   }
 
   private closeAddCourseModal(): void {
