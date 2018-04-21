@@ -127,12 +127,13 @@ export class CourseDetailComponent implements OnInit {
   }
 
   getBadgeCssClass(): string {
+    let alignBadge = "mr-auto";
     if (this.savingInfo.status === SAVING_STATE.PENDING) {
-      return "badge badge-primary";
+      return `badge badge-primary ${alignBadge}`;
     } else if (this.savingInfo.status === SAVING_STATE.SUCCESSFUL) {
-      return "badge badge-success";
+      return `badge badge-success ${alignBadge}`;
     } else if (this.savingInfo.status === SAVING_STATE.FAILURE) {
-      return "badge badge-danger";
+      return `badge badge-danger ${alignBadge}`;
     } else if (this.savingInfo.status === SAVING_STATE.NOT_STARTED || this.savingInfo.status === SAVING_STATE.FINISHED) {
       return "";
     }

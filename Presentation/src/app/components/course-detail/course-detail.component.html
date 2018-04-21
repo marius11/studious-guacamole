@@ -1,14 +1,19 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-2">
   <div class="btn-toolbar" role="toolbar">
     <div class="btn-group mr-2" role="group">
-      <a class="h2" (click)="goToListOfCourses()">
-        <i class="fa fa-angle-left"></i>
-      </a>
+      <span class="h2">
+        <a (click)="goToListOfCourses()">
+          <i class="fa fa-angle-left"></i>
+        </a>
+      </span>
     </div>
-    <app-inline-edit style="display: inline-block" [(ngModel)]="course.Name" (onSave)="updateCourseName(course)" [disabled]="isRequestProcessing">
-    </app-inline-edit>
-    <span [ngClass]="getBadgeCssClass()" style="display: inline-block">{{savingInfo.text}}</span>
+    <div class="btn-group mr-2" role="group">
+      <app-inline-edit [(ngModel)]="course.Name" style="display: inline-block" (onSave)="updateCourseName(course)" [disabled]="isRequestProcessing">
+      </app-inline-edit>
+    </div>
   </div>
+  <span [ngClass]="getBadgeCssClass()" style="display: inline-block">{{savingInfo.text}}</span>
+
   <div class="btn-toolbar mb-2 mb-md-0" role="toolbar">
     <button class="btn btn-danger" type="button" [disabled]="isRequestProcessing" (click)="deleteCourse(course.Id)">
       <i class="fa fa-trash fa-lg"></i> DELETE
