@@ -9,9 +9,8 @@ import { StudentService } from "app/services/student.service";
 import { Course } from "app/models/course";
 import { Student } from "app/models/student";
 
-import { Observable } from "rxjs/Observable";
+import { forkJoin as observableForkJoin, Observable } from "rxjs";
 import { delay, debounceTime, distinctUntilChanged, map } from "rxjs/operators";
-import "rxjs/add/observable/forkJoin";
 
 enum MODEL_DATA {
   STUDENT,
@@ -83,7 +82,7 @@ export class StudentDetailComponent implements OnInit {
       let studentApiCall = this.studentService.getStudentById(+params["id"]);
       let studentCoursesApiCall = this.studentService.getCoursesByStudentId(+params["id"], this.studentEnrollment);
 
-      Observable.forkJoin([studentApiCall, studentCoursesApiCall])
+      observableForkJoin([studentApiCall, studentCoursesApiCall])
         .pipe(delay(this.RESPONSE_DELAY_TIMER))
         .subscribe(result => {
           this.student = result[MODEL_DATA.STUDENT];

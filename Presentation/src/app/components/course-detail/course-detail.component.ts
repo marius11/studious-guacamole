@@ -7,9 +7,8 @@ import { Course } from "app/models/course";
 import { Student } from "app/models/student";
 import { InlineEditComponent } from "app/components/inline-edit/inline-edit.component";
 
+import { forkJoin as observableForkJoin, Observable } from "rxjs";
 import { delay, switchMap } from "rxjs/operators";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/forkJoin";
 
 enum SAVING_STATE {
   NOT_STARTED,
@@ -63,7 +62,7 @@ export class CourseDetailComponent implements OnInit {
       let courseApiCall = this.courseService.getCourseById(+params["id"]);
       let courseStudentsApiCall = this.courseService.getStudentsByCourseId(+params["id"]);
 
-      Observable.forkJoin([courseApiCall, courseStudentsApiCall]).subscribe(result => {
+      observableForkJoin([courseApiCall, courseStudentsApiCall]).subscribe(result => {
         this.course = result[MODEL_DATA.COURSE];
         this.students = result[MODEL_DATA.STUDENT];
         this.retrievePreviousName();

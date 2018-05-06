@@ -10,7 +10,7 @@ import { Student } from "app/models/student";
 import { DataModel } from "app/models/data-model";
 import { SearchService } from "app/services/search.service";
 
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 import { delay, debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 @Component({
